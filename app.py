@@ -1,0 +1,671 @@
+import os
+import uuid
+import zipfile
+import subprocess
+
+ALLOWED_EXTENSIONS = {
+    "pdf", "docx", "doc", "xlsx", "xls", "pptx", "ppt",
+    "jpg", "jpeg", "png", "txt"
+}
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def generate_safe_filename(filename):
+    ext = filename.rsplit(".", 1)[1].lower()
+    safe_name = secure_filename(filename.rsplit(".", 1)[0])[:50]
+    return f"{uuid.uuid4().hex}_{safe_name}.{ext}"
+
+from pathlib import Path
+from datetime import datetime, timedelta
+from threading import Thread
+
+from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for, flash, abort
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_bcrypt import Bcrypt
+from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+from flask_wtf.csrf import CSRFProtect
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_talisman import Talisman
+
+# --- PDF Manipulation Libraries ---
+import fitz  # PyMuPDF
+from PyPDF2 import PdfReader, PdfWriter, PdfMerger
+from pdf2docx import Converter
+from docx2pdf import convert as docx2pdf_convert
+from PIL import Image
+import pandas as pd
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+import pytesseract
+from pdf2image import convert_from_path
+import pdfkit
+from pptx import Presentation
+from pptx.util import Inches
+import pdfplumber
+
+# AI Libraries
+import openai
+
+# Signatures
+try:
+    from pyhanko.sign import signers
+    from pyhanko.pdf_utils.writer import copy_into_new_writer
+    from pyhanko.pdf_utils.reader import PdfFileReader
+except ImportError:
+    pass
+
+# Load environment
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+app = Flask(__name__)
+# 🔐 SECURITY CONFIG
+load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent
+INSTANCE_DIR = BASE_DIR / "instance"
+PRIVATE_UPLOAD_DIR = INSTANCE_DIR / "private_uploads"
+PRIVATE_OUTPUT_DIR = INSTANCE_DIR / "private_outputs"
+
+INSTANCE_DIR.mkdir(exist_ok=True)
+PRIVATE_UPLOAD_DIR.mkdir(exist_ok=True)
+PRIVATE_OUTPUT_DIR.mkdir(exist_ok=True)
+
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-insecure-change-me")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///app.db")
+
+max_upload_mb = int(os.getenv("MAX_UPLOAD_MB", "16"))
+app.config["MAX_CONTENT_LENGTH"] = max_upload_mb * 1024 * 1024
+
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["REMEMBER_COOKIE_HTTPONLY"] = True
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
+
+is_production = os.getenv("FLASK_ENV", "development").lower() == "production"
+app.config["SESSION_COOKIE_SECURE"] = is_production
+app.config["REMEMBER_COOKIE_SECURE"] = is_production
+
+app.config["WTF_CSRF_TIME_LIMIT"] = 3600
+
+csrf = CSRFProtect(app)
+
+limiter = Limiter(
+    key_func=get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+)
+
+csp = {
+    "default-src": "'self'",
+    "img-src": ["'self'", "data:"],
+    "style-src": ["'self'", "'unsafe-inline'"],
+    "script-src": ["'self'", "'unsafe-inline'"],
+}
+
+Talisman(
+    app,
+    force_https=is_production,
+    strict_transport_security=is_production,
+    content_security_policy=csp,
+    frame_options="DENY",
+)
+
+ALLOWED_EXTENSIONS = {
+    "pdf", "docx", "doc", "xlsx", "xls", "pptx", "ppt",
+    "jpg", "jpeg", "png", "txt"
+}
+
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['OUTPUT_FOLDER'] = 'outputs'
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB max
+
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
+
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+with app.app_context():
+    db.create_all()
+
+# --- Models ---
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+    files = db.relationship("UserFile", backref="owner", lazy=True)
+class UserFile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    original_name = db.Column(db.String(255), nullable=False)
+    stored_name = db.Column(db.String(255), nullable=False, unique=True)
+    stored_path = db.Column(db.String(500), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)    
+
+class ConversionHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    original_filename = db.Column(db.String(100), nullable=False)
+    converted_filename = db.Column(db.String(100), nullable=True)
+    conversion_type = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# --- Helpers ---
+def save_uploaded_files(files):
+    saved_paths = []
+
+    for f in files:
+        if not f or not f.filename:
+            continue
+
+        if not allowed_file(f.filename):
+            raise Exception(f"File type not allowed: {f.filename}")
+
+        safe_name = generate_safe_filename(f.filename)
+        path = os.path.join(app.config['UPLOAD_FOLDER'], safe_name)
+
+        f.save(path)
+        saved_paths.append((path, f.filename))
+
+    return saved_paths
+
+def log_history(original, converted, type_name):
+    if current_user.is_authenticated:
+        db.session.add(ConversionHistory(original_filename=original, converted_filename=converted, conversion_type=type_name, user_id=current_user.id))
+        db.session.commit()
+
+# ======================================================================
+# 1. ORGANIZE PDF FUNCTIONS
+# ======================================================================
+def merge_pdf_func(files_list, out_path):
+    merger = PdfMerger()
+    for fp in files_list:
+        merger.append(fp)
+    merger.write(out_path)
+    merger.close()
+
+def split_pdf_func(in_path, out_zip):
+    doc = fitz.open(in_path)
+    with zipfile.ZipFile(out_zip, 'w') as zf:
+        for i in range(len(doc)):
+            ndoc = fitz.open()
+            ndoc.insert_pdf(doc, from_page=i, to_page=i)
+            tpath = out_zip.replace('.zip', f'_pg{i+1}.pdf')
+            ndoc.save(tpath)
+            zf.write(tpath, f'page_{i+1}.pdf')
+            os.remove(tpath)
+
+def remove_pages_func(in_path, out_path, pages_str):
+    doc = fitz.open(in_path)
+    # Ex: "1,3,5" -> convert to 0-indexed [0, 2, 4]
+    try:
+        pgs = [int(p.strip())-1 for p in pages_str.split(',')]
+        # Delete reverse order to avoid index shifts
+        for p in sorted(pgs, reverse=True):
+            if 0 <= p < len(doc):
+                doc.delete_page(p)
+    except:
+        raise Exception("Invalid page range format. Use e.g. '1,3,5'")
+    doc.save(out_path)
+
+def extract_pages_func(in_path, out_path, pages_str):
+    doc = fitz.open(in_path)
+    try:
+        pgs = [int(p.strip())-1 for p in pages_str.split(',')]
+        doc.select(pgs)
+    except:
+        raise Exception("Invalid page format.")
+    doc.save(out_path)
+
+def organize_pdf_func(in_path, out_path, order_str):
+    doc = fitz.open(in_path)
+    try:
+        pgs = [int(p.strip())-1 for p in order_str.split(',')]
+        doc.select(pgs)
+    except:
+        raise Exception("Invalid page order format.")
+    doc.save(out_path)
+
+def scan_to_pdf_func(image_paths, out_path):
+    images = [Image.open(fp).convert('RGB') for fp in image_paths]
+    if images:
+        images[0].save(out_path, save_all=True, append_images=images[1:])
+
+# ======================================================================
+# 2. OPTIMIZE PDF FUNCTIONS
+# ======================================================================
+def compress_pdf_func(in_path, out_path):
+    doc = fitz.open(in_path)
+    doc.save(out_path, garbage=4, deflate=True)
+
+def repair_pdf_func(in_path, out_path):
+    # fitz will rewrite broken xref tables automatically stringently
+    doc = fitz.open(in_path)
+    doc.save(out_path, clean=True)
+
+def ocr_pdf_func(in_path, out_txt):
+    imgs = convert_from_path(in_path, poppler_path=r"C:\poppler\Library\bin")
+    text = "\n".join([pytesseract.image_to_string(i) for i in imgs])
+    with open(out_txt, 'w', encoding='utf-8') as f:
+        f.write(text)
+
+# ======================================================================
+# 3. CONVERT TO PDF FUNCTIONS
+# ======================================================================
+def jpg_to_pdf_func(image_paths, out_path):
+    scan_to_pdf_func(image_paths, out_path)
+
+def word_to_pdf_func(in_path, out_path):
+    docx2pdf_convert(os.path.abspath(in_path), os.path.abspath(out_path))
+
+def powerpoint_to_pdf_func(in_path, out_path):
+    # Requires comtypes (Windows only + MS Office installed)
+    try:
+        import comtypes.client
+        powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
+        powerpoint.Visible = 1
+        deck = powerpoint.Presentations.Open(os.path.abspath(in_path))
+        deck.SaveAs(os.path.abspath(out_path), 32) # formatType = 32 for pdf
+        deck.Close()
+        powerpoint.Quit()
+    except Exception as e:
+        raise Exception("PowerPoint to PDF failed. Ensure MS PowerPoint is installed on this Windows server. " + str(e))
+
+def excel_to_pdf_func(in_path, out_path):
+    df = pd.read_excel(in_path)
+    doc = SimpleDocTemplate(out_path, pagesize=letter)
+    data = [df.columns.values.tolist()] + df.values.tolist()
+    d_str = [[str(item) for item in row] for row in data]
+    t = Table(d_str)
+    t.setStyle(TableStyle([('BACKGROUND', (0,0), (-1,0), colors.grey), ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke), ('GRID', (0,0), (-1,-1), 1, colors.black)]))
+    doc.build([t])
+
+def html_to_pdf_func(in_path, out_path):
+    # Note: Requires system wkhtmltopdf
+    try:
+        pdfkit.from_file(in_path, out_path)
+    except OSError:
+        raise Exception("HTML to PDF requires wkhtmltopdf installed on the system.")
+
+# ======================================================================
+# 4. CONVERT FROM PDF FUNCTIONS
+# ======================================================================
+def pdf_to_jpg_func(in_path, out_zip):
+   imgs = convert_from_path(in_path, poppler_path=r"C:\poppler\Library\bin")
+   with zipfile.ZipFile(out_zip, 'w') as zf:
+        for idx, img in enumerate(imgs):
+            tmp = out_zip.replace('.zip', f'_{idx}.jpg')
+            img.save(tmp, 'JPEG')
+            zf.write(tmp, f'page_{idx+1}.jpg')
+            os.remove(tmp)
+
+def pdf_to_word_func(in_path, out_path):
+    cv = Converter(in_path)
+    cv.convert(out_path)
+    cv.close()
+
+def pdf_to_powerpoint_func(in_path, out_path):
+    # Convert PDF pages to images then embed in PPTX
+    imgs = convert_from_path(in_path, poppler_path=r"C:\poppler\Library\bin")
+    prs = Presentation()
+    for img in imgs:
+        tmp = out_path.replace('.pptx', '_tmp.jpg')
+        img.save(tmp)
+        blank_slide_layout = prs.slide_layouts[6]
+        slide = prs.slides.add_slide(blank_slide_layout)
+        slide.shapes.add_picture(tmp, 0, 0, width=prs.slide_width, height=prs.slide_height)
+        os.remove(tmp)
+    prs.save(out_path)
+
+def pdf_to_excel_func(in_path, out_path):
+    tables_data = []
+    with pdfplumber.open(in_path) as pdf:
+        for page in pdf.pages:
+            tabs = page.extract_tables()
+            for t in tabs:
+                tables_data.extend(t)
+    if not tables_data:
+        raise Exception("No tables found in PDF.")
+    df = pd.DataFrame(tables_data[1:], columns=tables_data[0])
+    df.to_excel(out_path, index=False)
+
+def pdf_to_pdfa_func(in_path, out_path):
+    # Fallback Ghostscript invocation or error
+    try:
+        cmd = ['gs', '-dPDFA', '-dBATCH', '-dNOPAUSE', '-sProcessColorModel=DeviceRGB', '-sDEVICE=pdfwrite', f'-sOutputFile={out_path}', in_path]
+        subprocess.run(cmd, check=True)
+    except FileNotFoundError:
+        raise Exception("Ghostscript (gs) is required for PDF/A conversion.")
+
+# ======================================================================
+# 5. EDIT PDF FUNCTIONS
+# ======================================================================
+def rotate_pdf_func(in_path, out_path, angle):
+    doc = fitz.open(in_path)
+    for p in doc:
+        p.set_rotation(int(angle))
+    doc.save(out_path)
+
+def add_page_numbers_func(in_path, out_path):
+    doc = fitz.open(in_path)
+    for i, p in enumerate(doc):
+        p.insert_text(fitz.Point(300, 800), str(i+1), fontsize=12)
+    doc.save(out_path)
+
+def add_watermark_func(in_path, out_path, text):
+    doc = fitz.open(in_path)
+    for p in doc:
+        p.insert_text(fitz.Point(100, 400), text, fontsize=30, color=(1, 0, 0))
+    doc.save(out_path)
+
+def crop_pdf_func(in_path, out_path):
+    doc = fitz.open(in_path)
+    for p in doc:
+        r = p.rect
+        r.x0 += 50; r.y0 += 50; r.x1 -= 50; r.y1 -= 50 # simple 50pt crop
+        p.set_cropbox(r)
+    doc.save(out_path)
+
+def edit_pdf_func(in_path, out_path, append_text):
+    doc = fitz.open(in_path)
+    if len(doc) > 0:
+        doc[0].insert_text(fitz.Point(50, 50), append_text, fontsize=14, color=(0,0,1))
+    doc.save(out_path)
+
+# ======================================================================
+# 6. SECURITY FUNCTIONS
+# ======================================================================
+def unlock_pdf_func(in_path, out_path, pwd):
+    doc = fitz.open(in_path)
+    doc.authenticate(pwd)
+    doc.save(out_path)
+
+def protect_pdf_func(in_path, out_path, pwd):
+    doc = fitz.open(in_path)
+    doc.save(out_path, encryption=fitz.PDF_ENCRYPT_AES_256, user_pw=pwd)
+
+def sign_pdf_func(in_path, out_path, pfx_path, pfx_pass):
+    signer = signers.SimpleSigner.load_pkcs12(pfx_path, pfx_pass.encode())
+    with open(in_path, 'rb') as f:
+        w = copy_into_new_writer(PdfFileReader(f))
+        signers.sign_pdf(w, signers.PdfSignatureMetadata(field_name='Signature1'), signer=signer, in_place=True, out_file=open(out_path, 'wb'))
+
+def redact_pdf_func(in_path, out_path, txt_to_redact):
+    doc = fitz.open(in_path)
+    for p in doc:
+        inst = p.search_for(txt_to_redact)
+        for i in inst:
+            p.add_redact_annot(i, fill=(0,0,0))
+        p.apply_redactions()
+    doc.save(out_path)
+
+def compare_pdf_func(in1, in2, out_txt):
+    t1 = "".join([p.get_text() for p in fitz.open(in1)])
+    t2 = "".join([p.get_text() for p in fitz.open(in2)])
+    with open(out_txt, 'w', encoding='utf-8') as f:
+        f.write("Differences found." if t1 != t2 else "Documents are identical textually.")
+
+# ======================================================================
+# 7. AI FUNCTIONS
+# ======================================================================
+def ai_summarize_func(in_path):
+    t = "".join([p.get_text() for p in fitz.open(in_path)])
+    r = openai.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Summarize: " + t[:10000]}])
+    return r.choices[0].message.content
+
+def translate_pdf_func(in_path, lang):
+    t = "".join([p.get_text() for p in fitz.open(in_path)])
+    r = openai.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": f"Translate to {lang}: " + t[:4000]}])
+    return r.choices[0].message.content
+
+def chat_with_pdf_func(in_path, q):
+    t = "".join([p.get_text() for p in fitz.open(in_path)])
+    r = openai.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": f"Context: {t[:8000]}\nQuestion: {q}"}])
+    return r.choices[0].message.content
+
+
+# ======================================================================
+# FLASK SINGLE-FILE ROUTER BINDINGS
+# ======================================================================
+
+def process_wrapper(func, ext=".pdf", multi=False, is_text=False):
+    files = request.files.getlist('files[]')
+    if not files: return jsonify({'error': 'No file provided'}), 400
+    paths = save_uploaded_files(files)
+    
+    out_name = f"{uuid.uuid4().hex}{ext}"
+    out_path = os.path.join(app.config['OUTPUT_FOLDER'], out_name)
+    
+    try:
+        # Some endpoints return pure text
+        if is_text:
+            ans = func(paths[0][0])
+            log_history(paths[0][1], "AI_TXT", request.path)
+            return jsonify({'success': True, 'text_result': ans})
+            
+        if multi:
+            func([p[0] for p in paths], out_path)
+        else:
+            func(paths[0][0], out_path)
+        log_history(paths[0][1], out_name, request.path)
+        return jsonify({'success': True, 'download_url': url_for('download_file', filename=out_name)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# API Routes
+@app.route('/api/merge', methods=['POST'])
+@csrf.exempt
+def route_merge(): return process_wrapper(lambda in_paths, out_path: merge_pdf_func(in_paths, out_path), multi=True)
+
+@app.route('/api/split', methods=['POST'])
+@csrf.exempt
+def route_split(): return process_wrapper(lambda inp, out: split_pdf_func(inp, out), ext="_split.zip")
+
+@app.route('/api/remove-pages', methods=['POST'])
+@csrf.exempt
+def route_rem(): return process_wrapper(lambda inp, out: remove_pages_func(inp, out, request.form.get('pages', '')))
+
+@app.route('/api/extract-pages', methods=['POST'])
+@csrf.exempt
+def route_ext(): return process_wrapper(lambda inp, out: extract_pages_func(inp, out, request.form.get('pages', '')))
+
+@app.route('/api/organize', methods=['POST'])
+@csrf.exempt
+def route_org(): return process_wrapper(lambda inp, out: organize_pdf_func(inp, out, request.form.get('pages', '')))
+
+@app.route('/api/scan-to-pdf', methods=['POST'])
+@csrf.exempt
+def route_scan(): return process_wrapper(lambda inp, out: scan_to_pdf_func(inp, out), multi=True)
+
+@app.route('/api/compress', methods=['POST'])
+@csrf.exempt
+def route_comp(): return process_wrapper(lambda inp, out: compress_pdf_func(inp, out))
+
+@app.route('/api/repair', methods=['POST'])
+@csrf.exempt
+def route_rep(): return process_wrapper(lambda inp, out: repair_pdf_func(inp, out))
+
+@app.route('/api/ocr', methods=['POST'])
+@csrf.exempt
+def route_ocr(): return process_wrapper(lambda inp, out: ocr_pdf_func(inp, out), ext=".txt")
+
+@app.route('/api/jpg-to-pdf', methods=['POST'])
+@csrf.exempt
+def route_j2p(): return process_wrapper(lambda inp, out: jpg_to_pdf_func(inp, out), multi=True)
+
+@app.route('/api/word-to-pdf', methods=['POST'])
+@csrf.exempt
+def route_w2p(): return process_wrapper(lambda inp, out: word_to_pdf_func(inp, out))
+
+@app.route('/api/powerpoint-to-pdf', methods=['POST'])
+@csrf.exempt
+def route_p2p(): return process_wrapper(lambda inp, out: powerpoint_to_pdf_func(inp, out))
+
+@app.route('/api/excel-to-pdf', methods=['POST'])
+@csrf.exempt
+def route_e2p(): return process_wrapper(lambda inp, out: excel_to_pdf_func(inp, out))
+
+@app.route('/api/html-to-pdf', methods=['POST'])
+@csrf.exempt
+def route_h2p(): return process_wrapper(lambda inp, out: html_to_pdf_func(inp, out))
+
+@app.route('/api/pdf-to-jpg', methods=['POST'])
+@csrf.exempt
+def route_p2j(): return process_wrapper(lambda inp, out: pdf_to_jpg_func(inp, out), ext=".zip")
+
+@app.route('/api/pdf-to-word', methods=['POST'])
+@csrf.exempt
+def route_p2w(): return process_wrapper(lambda inp, out: pdf_to_word_func(inp, out), ext=".docx")
+
+@app.route('/api/pdf-to-powerpoint', methods=['POST'])
+@csrf.exempt
+def route_p2pptx(): return process_wrapper(lambda inp, out: pdf_to_powerpoint_func(inp, out), ext=".pptx")
+
+@app.route('/api/pdf-to-excel', methods=['POST'])
+@csrf.exempt
+def route_p2x(): return process_wrapper(lambda inp, out: pdf_to_excel_func(inp, out), ext=".xlsx")
+
+@app.route('/api/pdf-to-pdfa', methods=['POST'])
+@csrf.exempt
+def route_p2a(): return process_wrapper(lambda inp, out: pdf_to_pdfa_func(inp, out))
+
+@app.route('/api/rotate', methods=['POST'])
+@csrf.exempt
+def route_rot(): return process_wrapper(lambda inp, out: rotate_pdf_func(inp, out, request.form.get('angle', '90')))
+
+@app.route('/api/add-page-numbers', methods=['POST'])
+@csrf.exempt
+def route_pn(): return process_wrapper(lambda inp, out: add_page_numbers_func(inp, out))
+
+@app.route('/api/add-watermark', methods=['POST'])
+@csrf.exempt
+def route_wm(): return process_wrapper(lambda inp, out: add_watermark_func(inp, out, request.form.get('text', 'WATERMARK')))
+
+@app.route('/api/crop', methods=['POST'])
+@csrf.exempt
+def route_crop(): return process_wrapper(lambda inp, out: crop_pdf_func(inp, out))
+
+@app.route('/api/edit-pdf', methods=['POST'])
+@csrf.exempt
+def route_edit(): return process_wrapper(lambda inp, out: edit_pdf_func(inp, out, request.form.get('text', '')))
+
+@app.route('/api/unlock', methods=['POST'])
+@csrf.exempt
+def route_unl(): return process_wrapper(lambda inp, out: unlock_pdf_func(inp, out, request.form.get('password', '')))
+
+@app.route('/api/protect', methods=['POST'])
+@csrf.exempt
+def route_prot(): return process_wrapper(lambda inp, out: protect_pdf_func(inp, out, request.form.get('password', '')))
+
+@app.route('/api/sign', methods=['POST'])
+@csrf.exempt
+def route_sign(): return process_wrapper(lambda inp, out: sign_pdf_func(inp, out, request.form.get('pfx'), request.form.get('password', '')))
+
+@app.route('/api/redact', methods=['POST'])
+@csrf.exempt
+def route_redact(): return process_wrapper(lambda inp, out: redact_pdf_func(inp, out, request.form.get('text', '')))
+
+@app.route('/api/compare', methods=['POST'])
+@csrf.exempt
+def route_comp_pdf(): 
+    f = save_uploaded_files(request.files.getlist('files[]'))
+    if len(f)<2: return jsonify({'error': 'Needs 2 files'}), 400
+    out_name = f"{uuid.uuid4().hex}.txt"
+    compare_pdf_func(f[0][0], f[1][0], os.path.join(app.config['OUTPUT_FOLDER'], out_name))
+    return jsonify({'success':True, 'download_url': url_for('download_file', filename=out_name)})
+
+@app.route('/api/summarize', methods=['POST'])
+@csrf.exempt
+def route_sum(): return process_wrapper(lambda inp: ai_summarize_func(inp), is_text=True)
+
+@app.route('/api/translate', methods=['POST'])
+@csrf.exempt
+def route_trans(): return process_wrapper(lambda inp: translate_pdf_func(inp, request.form.get('language', 'Spanish')), is_text=True)
+
+@app.route('/api/chat', methods=['POST'])
+@csrf.exempt
+def route_chat(): return process_wrapper(lambda inp: chat_with_pdf_func(inp, request.form.get('question', 'What is this document about?')), is_text=True)
+
+# Main web routes
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+@csrf.exempt
+@limiter.limit("5 per minute")
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+@csrf.exempt
+@limiter.limit("3 per minute")
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        user = User(username=username, password=hashed_password)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash('Your account has been created! You can now log in.', 'success')
+            return redirect(url_for('login'))
+        except:
+            flash('Username already exists. Please choose a different one.', 'danger')
+    return render_template('register.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/history')
+@login_required
+def history():
+    user_history = ConversionHistory.query.filter_by(user_id=current_user.id).order_by(ConversionHistory.id.desc()).all()
+    return render_template('history.html', history=user_history)
+@app.route('/download/<filename>')
+@login_required
+def download_file(filename):
+    safe_filename = secure_filename(filename)
+    file_path = os.path.join(app.config['OUTPUT_FOLDER'], safe_filename)
+
+    if not os.path.exists(file_path):
+        return jsonify({"error": "File not found"}), 404
+
+    return send_from_directory(app.config['OUTPUT_FOLDER'], safe_filename, as_attachment=True)
+if __name__ == '__main__':
+    with app.app_context(): db.create_all()
+    app.run(debug=True, port=5000)

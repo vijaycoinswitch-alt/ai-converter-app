@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Login",
+    "pass": true
+  },
+  {
+    "name": "Merge PDF",
+    "endpoint": "http://127.0.0.1:5000/api/merge",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Split PDF",
+    "endpoint": "http://127.0.0.1:5000/api/split",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Compress PDF",
+    "endpoint": "http://127.0.0.1:5000/api/compress",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "JPG to PDF",
+    "endpoint": "http://127.0.0.1:5000/api/jpg-to-pdf",
+    "status_code": null,
+    "pass": false,
+    "details": "Missing test file: test_files\\sample.jpg"
+  },
+  {
+    "name": "PDF to Word",
+    "endpoint": "http://127.0.0.1:5000/api/pdf-to-word",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Word to PDF",
+    "endpoint": "http://127.0.0.1:5000/api/word-to-pdf",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Excel to PDF",
+    "endpoint": "http://127.0.0.1:5000/api/excel-to-pdf",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "PDF to JPG",
+    "endpoint": "http://127.0.0.1:5000/api/pdf-to-jpg",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Remove Pages",
+    "endpoint": "http://127.0.0.1:5000/api/remove-pages",
+    "status_code": 500,
+    "pass": false,
+    "details": "HTTP 500: {\n  \"error\": \"cannot save with zero pages\"\n}\n"
+  },
+  {
+    "name": "Extract Pages",
+    "endpoint": "http://127.0.0.1:5000/api/extract-pages",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Rotate PDF",
+    "endpoint": "http://127.0.0.1:5000/api/rotate",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Add Watermark",
+    "endpoint": "http://127.0.0.1:5000/api/add-watermark",
+    "status_code": 500,
+    "pass": false,
+    "details": "HTTP 500: {\n  \"error\": \"bad rotate value\"\n}\n"
+  },
+  {
+    "name": "Protect PDF",
+    "endpoint": "http://127.0.0.1:5000/api/protect",
+    "status_code": 200,
+    "pass": true,
+    "details": "Downloaded OK (4080 bytes, text/html; charset=utf-8)"
+  },
+  {
+    "name": "Logout",
+    "pass": true
+  }
+]

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="background-color: var(--card-bg); padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow);">
+    <h2 style="margin-bottom: 1.5rem;">Your Conversion History</h2>
+    
+    {% if history %}
+    <div style="overflow-x: auto;">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Original File</th>
+                    <th>Converted File</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>{{ item.original_filename }}</td>
+                    <td>{{ item.converted_filename }}</td>
+                    <td><span style="background-color: var(--primary); color: white; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.8rem;">{{ item.conversion_type }}</span></td>
+                    <td>{{ item.date_posted.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td><a href="{{ url_for('download_file', filename=item.converted_filename) }}" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;"><i class="fas fa-download"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>You haven't converted any files yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
