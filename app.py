@@ -36,7 +36,10 @@ from flask_talisman import Talisman
 import fitz  # PyMuPDF
 from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from pdf2docx import Converter
-from docx2pdf import convert as docx2pdf_convert
+try:
+    from docx2pdf import convert as docx2pdf_convert
+except ImportError:
+    docx2pdf_convert = None
 from PIL import Image
 import pandas as pd
 from reportlab.lib.pagesizes import letter
@@ -273,6 +276,8 @@ def jpg_to_pdf_func(image_paths, out_path):
     scan_to_pdf_func(image_paths, out_path)
 
 def word_to_pdf_func(in_path, out_path):
+    if docx2pdf_convert is None:
+        raise Exception("Word to PDF is not available on this server.")
     docx2pdf_convert(os.path.abspath(in_path), os.path.abspath(out_path))
 
 def powerpoint_to_pdf_func(in_path, out_path):
