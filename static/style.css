@@ -264,7 +264,7 @@ p { color: var(--text-muted); }
 
 /* AI Cards */
 .ai-card::before { background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6); }
-.ai-card .tool-icon { background: linear-gradient(135deg, #ec4899, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.ai-card .tool-icon { background: linear-gradient(135deg, #ec4899, #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .badge-pro { position: absolute; top: 1rem; right: 1rem; background-color: #ec4899; color: white; font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 1rem; letter-spacing: 1px; }
 
 /* Workspace UI */
@@ -687,4 +687,49 @@ body {
     .btn {
         text-align: center;
     }
+}
+body.dark {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+body.dark .topbar,
+body.dark .workspace-card,
+body.dark .tool-card,
+body.dark .stat-card,
+body.dark .pricing-card {
+    background: #1e293b;
+    color: #e5e7eb;
+    border-color: #334155;
+}
+
+body.dark .tool-card h4,
+body.dark .category-title,
+body.dark .topbar h2,
+body.dark .pricing-section h2 {
+    color: #f8fafc;
+}
+
+body.dark .tool-card p,
+body.dark .topbar p,
+body.dark .stat-card p,
+body.dark .pricing-card ul li {
+    color: #cbd5e1;
+}
+
+body.dark #toolSearch,
+body.dark .upload-area {
+    background: #0f172a;
+    color: #e5e7eb;
+    border-color: #475569;
+}
+
+body.dark .btn-outline {
+    background: #1e293b;
+    color: #fff;
+    border: 1px solid #475569;
+}
+
+body.dark .hero-banner {
+    background: linear-gradient(135deg, #1d4ed8, #6d28d9);
 }

@@ -11,6 +11,8 @@
         </div>
 
         <div class="topbar-actions">
+            <button id="themeToggle" class="btn btn-outline">🌙 Dark Mode</button>
+
             {% if current_user.is_authenticated %}
                 <span class="user-badge">Hi, {{ current_user.username }}</span>
                 <a href="{{ url_for('history') }}" class="btn btn-secondary">History</a>
@@ -346,6 +348,32 @@ document.addEventListener("DOMContentLoaded", function () {
                     card.style.display = "none";
                 }
             });
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("themeToggle");
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        if (toggle) toggle.innerText = "☀️ Light Mode";
+    }
+
+    if (toggle) {
+        toggle.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+
+            if (document.body.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+                toggle.innerText = "☀️ Light Mode";
+            } else {
+                localStorage.setItem("theme", "light");
+                toggle.innerText = "🌙 Dark Mode";
+            }
         });
     }
 });
