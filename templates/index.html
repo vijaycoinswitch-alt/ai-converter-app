@@ -1,197 +1,302 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- Welcome Hero -->
 <section id="module-dashboard" class="module-section active">
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding:15px 20px; background:#1e1e2f; border-radius:12px; color:white;">
-    <div>
-        <h2 style="margin:0;">Advanced PDF Toolkit</h2>
-        <p style="margin:5px 0 0; color:#bbb;">Use the tools instantly. Login only when you want to save history and downloads.</p>
+
+    <!-- Top Welcome Bar -->
+    <div class="topbar">
+        <div>
+            <h2>Convertify Dashboard</h2>
+            <p>Convert, compress, edit and secure your files in one place.</p>
+        </div>
+
+        <div class="topbar-actions">
+            {% if current_user.is_authenticated %}
+                <span class="user-badge">Hi, {{ current_user.username }}</span>
+                <a href="{{ url_for('history') }}" class="btn btn-secondary">History</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-success">Register</a>
+            {% endif %}
+        </div>
     </div>
 
-    <div style="display:flex; gap:10px;">
-        {% if current_user.is_authenticated %}
-            <span style="padding:10px 14px; background:#374151; border-radius:8px;">
-                Welcome, {{ current_user.username }}
-            </span>
-            <a href="{{ url_for('history') }}" style="background:#4f46e5; color:white; padding:10px 16px; border-radius:8px; text-decoration:none;">
-                History
-            </a>
-            <a href="{{ url_for('logout') }}" style="background:#dc2626; color:white; padding:10px 16px; border-radius:8px; text-decoration:none;">
-                Logout
-            </a>
-        {% else %}
-            <a href="{{ url_for('login') }}" style="background:#2563eb; color:white; padding:10px 16px; border-radius:8px; text-decoration:none;">
-                Login
-            </a>
-            <a href="{{ url_for('register') }}" style="background:#16a34a; color:white; padding:10px 16px; border-radius:8px; text-decoration:none;">
-                Register
-            </a>
-        {% endif %}
-    </div>
-</div>    <div style="display:flex; justify-content:flex-end; padding:10px;">
-         <a href="{{ url_for('logout') }}" 
-            style="background:red; color:white; padding:8px 15px; border-radius:5px; text-decoration:none;">
-             Logout
-        </a>
-    </div>
-
-    <div class="hero rounded-box">
+    <!-- Hero -->
+    <div class="hero-banner">
         <h1>Advanced PDF Toolkit</h1>
-        <p>Every tool you need to work with PDFs in one place. Categorized, scalable, and intelligent.</p>
+        <p>Every tool you need to work with PDFs in one place. Fast, modern, and easy to use.</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-layer-group"></i>
+            <h3>25+ Tools</h3>
+            <p>All major PDF operations</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Fast Processing</h3>
+            <p>Upload and convert quickly</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-lock"></i>
+            <h3>Secure</h3>
+            <p>Protect and redact documents</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-robot"></i>
+            <h3>AI Tools</h3>
+            <p>Summarize, translate, chat</p>
+        </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="tool-search-wrap">
+        <input type="text" id="toolSearch" placeholder="Search tools like Merge PDF, OCR, Protect PDF...">
     </div>
 
     <div class="modules-container">
-        
+
         <!-- Organize -->
         <h3 id="cat-organize" class="category-title"><i class="fas fa-copy"></i> Organize PDF</h3>
         <div class="tools-grid">
-            <div class="tool-card" data-module="organize" data-action="merge">
-                <i class="fas fa-object-group tool-icon"></i><h4>Merge PDF</h4><p>Combine multiple PDFs.</p>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="merge" data-name="merge pdf combine multiple pdfs">
+                <div class="tool-icon-box"><i class="fas fa-object-group tool-icon"></i></div>
+                <h4>Merge PDF</h4>
+                <p>Combine multiple PDFs into one file.</p>
             </div>
-            <div class="tool-card" data-module="organize" data-action="split">
-                <i class="fas fa-cut tool-icon"></i><h4>Split PDF</h4><p>Separate pages.</p>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="split" data-name="split pdf separate pages">
+                <div class="tool-icon-box"><i class="fas fa-cut tool-icon"></i></div>
+                <h4>Split PDF</h4>
+                <p>Separate a PDF into multiple pages.</p>
             </div>
-            <div class="tool-card" data-module="organize" data-action="remove-pages">
-                <i class="fas fa-eraser tool-icon"></i><h4>Remove Pages</h4><p>Delete unwanted pages.</p>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="remove-pages" data-name="remove pages delete unwanted pages">
+                <div class="tool-icon-box"><i class="fas fa-eraser tool-icon"></i></div>
+                <h4>Remove Pages</h4>
+                <p>Delete unwanted pages from your PDF.</p>
             </div>
-            <div class="tool-card" data-module="organize" data-action="extract-pages">
-                <i class="fas fa-sign-out-alt tool-icon"></i><h4>Extract Pages</h4><p>Pull specific pages out.</p>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="extract-pages" data-name="extract pages select pages">
+                <div class="tool-icon-box"><i class="fas fa-file-export tool-icon"></i></div>
+                <h4>Extract Pages</h4>
+                <p>Pull selected pages into a new file.</p>
             </div>
-            <div class="tool-card" data-module="organize" data-action="organize">
-                <i class="fas fa-sort-numeric-down tool-icon"></i><h4>Organize PDF</h4><p>Rearrange page orders.</p>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="organize" data-name="organize pdf rearrange pages">
+                <div class="tool-icon-box"><i class="fas fa-sort-numeric-down tool-icon"></i></div>
+                <h4>Organize PDF</h4>
+                <p>Rearrange PDF page order easily.</p>
             </div>
-            <div class="tool-card" data-module="organize" data-action="scan-to-pdf">
-                <i class="fas fa-scanner tool-icon"></i><h4>Scan to PDF</h4><p>Images into a single PDF.</p>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="scan-to-pdf" data-name="scan to pdf images into pdf">
+                <div class="tool-icon-box"><i class="fas fa-scanner tool-icon"></i></div>
+                <h4>Scan to PDF</h4>
+                <p>Convert images into a single PDF.</p>
             </div>
         </div>
 
         <!-- Optimize -->
-        <h3 id="cat-optimize" class="category-title mt-4"><i class="fas fa-compress-arrows-alt"></i> Optimize PDF</h3>
+        <h3 id="cat-optimize" class="category-title"><i class="fas fa-compress-arrows-alt"></i> Optimize PDF</h3>
         <div class="tools-grid">
-            <div class="tool-card" data-module="optimize" data-action="compress">
-                <i class="fas fa-compress tool-icon"></i><h4>Compress PDF</h4><p>Reduce file size.</p>
+            <div class="tool-card searchable-tool" data-module="optimize" data-action="compress" data-name="compress pdf reduce size">
+                <div class="tool-icon-box"><i class="fas fa-compress tool-icon"></i></div>
+                <h4>Compress PDF</h4>
+                <p>Reduce PDF size while keeping quality.</p>
             </div>
-            <div class="tool-card" data-module="optimize" data-action="repair">
-                <i class="fas fa-wrench tool-icon"></i><h4>Repair PDF</h4><p>Fix corrupted PDFs.</p>
+
+            <div class="tool-card searchable-tool" data-module="optimize" data-action="repair" data-name="repair pdf fix corrupted pdf">
+                <div class="tool-icon-box"><i class="fas fa-wrench tool-icon"></i></div>
+                <h4>Repair PDF</h4>
+                <p>Fix broken or corrupted PDF files.</p>
             </div>
-            <div class="tool-card" data-module="optimize" data-action="ocr">
-                <i class="fas fa-search tool-icon"></i><h4>OCR PDF</h4><p>Extract searchable text.</p>
+
+            <div class="tool-card searchable-tool" data-module="optimize" data-action="ocr" data-name="ocr pdf extract text">
+                <div class="tool-icon-box"><i class="fas fa-search tool-icon"></i></div>
+                <h4>OCR PDF</h4>
+                <p>Extract searchable text from scans.</p>
             </div>
         </div>
 
-        <!-- Convert TO -->
-        <h3 id="cat-convert-to" class="category-title mt-4"><i class="fas fa-file-import"></i> Convert TO PDF</h3>
+        <!-- Convert TO PDF -->
+        <h3 id="cat-convert-to" class="category-title"><i class="fas fa-file-import"></i> Convert TO PDF</h3>
         <div class="tools-grid">
-            <div class="tool-card" data-module="convert" data-action="jpg-to-pdf">
-                <i class="fas fa-image tool-icon"></i><h4>JPG to PDF</h4><p>Images to PDF.</p>
+            <div class="tool-card searchable-tool" data-module="convert" data-action="jpg-to-pdf" data-name="jpg to pdf image to pdf">
+                <div class="tool-icon-box"><i class="fas fa-image tool-icon"></i></div>
+                <h4>JPG to PDF</h4>
+                <p>Convert images into PDF format.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="word-to-pdf">
-                <i class="fas fa-file-word tool-icon"></i><h4>Word to PDF</h4><p>DOCX to PDF.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="word-to-pdf" data-name="word to pdf docx to pdf">
+                <div class="tool-icon-box"><i class="fas fa-file-word tool-icon"></i></div>
+                <h4>Word to PDF</h4>
+                <p>Convert DOCX files into PDF.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="powerpoint-to-pdf">
-                <i class="fas fa-file-powerpoint tool-icon"></i><h4>PowerPoint to PDF</h4><p>PPTX to PDF.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="powerpoint-to-pdf" data-name="powerpoint to pdf pptx to pdf">
+                <div class="tool-icon-box"><i class="fas fa-file-powerpoint tool-icon"></i></div>
+                <h4>PowerPoint to PDF</h4>
+                <p>Convert presentations into PDF.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="excel-to-pdf">
-                <i class="fas fa-file-excel tool-icon"></i><h4>Excel to PDF</h4><p>XLSX to PDF.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="excel-to-pdf" data-name="excel to pdf xlsx to pdf">
+                <div class="tool-icon-box"><i class="fas fa-file-excel tool-icon"></i></div>
+                <h4>Excel to PDF</h4>
+                <p>Export spreadsheet data as PDF.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="html-to-pdf">
-                <i class="fas fa-code tool-icon"></i><h4>HTML to PDF</h4><p>Webpages to PDF.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="html-to-pdf" data-name="html to pdf webpage to pdf">
+                <div class="tool-icon-box"><i class="fas fa-code tool-icon"></i></div>
+                <h4>HTML to PDF</h4>
+                <p>Convert HTML/web pages to PDF.</p>
             </div>
         </div>
 
-        <!-- Convert FROM -->
-        <h3 id="cat-convert-from" class="category-title mt-4"><i class="fas fa-file-export"></i> Convert FROM PDF</h3>
+        <!-- Convert FROM PDF -->
+        <h3 id="cat-convert-from" class="category-title"><i class="fas fa-file-export"></i> Convert FROM PDF</h3>
         <div class="tools-grid">
-            <div class="tool-card" data-module="convert" data-action="pdf-to-jpg">
-                <i class="fas fa-file-image tool-icon"></i><h4>PDF to JPG</h4><p>Extract images.</p>
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-jpg" data-name="pdf to jpg extract images">
+                <div class="tool-icon-box"><i class="fas fa-file-image tool-icon"></i></div>
+                <h4>PDF to JPG</h4>
+                <p>Convert PDF pages into JPG images.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="pdf-to-word">
-                <i class="fas fa-file-word tool-icon"></i><h4>PDF to Word</h4><p>Editable DOCX.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-word" data-name="pdf to word editable docx">
+                <div class="tool-icon-box"><i class="fas fa-file-word tool-icon"></i></div>
+                <h4>PDF to Word</h4>
+                <p>Convert PDF into editable DOCX.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="pdf-to-powerpoint">
-                <i class="fas fa-file-powerpoint tool-icon"></i><h4>PDF to PowerPoint</h4><p>Presentations from PDF.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-powerpoint" data-name="pdf to powerpoint pptx">
+                <div class="tool-icon-box"><i class="fas fa-file-powerpoint tool-icon"></i></div>
+                <h4>PDF to PowerPoint</h4>
+                <p>Convert PDF into presentation slides.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="pdf-to-excel">
-                <i class="fas fa-table tool-icon"></i><h4>PDF to Excel</h4><p>Extract tables.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-excel" data-name="pdf to excel extract tables">
+                <div class="tool-icon-box"><i class="fas fa-table tool-icon"></i></div>
+                <h4>PDF to Excel</h4>
+                <p>Extract tables into Excel sheets.</p>
             </div>
-            <div class="tool-card" data-module="convert" data-action="pdf-to-pdfa">
-                <i class="fas fa-archive tool-icon"></i><h4>PDF to PDF/A</h4><p>Archival standard.</p>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-pdfa" data-name="pdf to pdfa archive standard">
+                <div class="tool-icon-box"><i class="fas fa-archive tool-icon"></i></div>
+                <h4>PDF to PDF/A</h4>
+                <p>Convert to archival PDF/A format.</p>
             </div>
         </div>
 
-        <!-- Edit PDF -->
-        <h3 id="cat-edit" class="category-title mt-4"><i class="fas fa-edit"></i> Edit PDF</h3>
+        <!-- Edit -->
+        <h3 id="cat-edit" class="category-title"><i class="fas fa-edit"></i> Edit PDF</h3>
         <div class="tools-grid">
-            <div class="tool-card" data-module="edit" data-action="rotate">
-                <i class="fas fa-redo tool-icon"></i><h4>Rotate PDF</h4><p>Rotate pages 90 deg.</p>
+            <div class="tool-card searchable-tool" data-module="edit" data-action="rotate" data-name="rotate pdf rotate pages">
+                <div class="tool-icon-box"><i class="fas fa-redo tool-icon"></i></div>
+                <h4>Rotate PDF</h4>
+                <p>Rotate pages in your PDF.</p>
             </div>
-            <div class="tool-card" data-module="edit" data-action="add-page-numbers">
-                <i class="fas fa-list-ol tool-icon"></i><h4>Add Page Numbers</h4><p>Stamp numbers on pages.</p>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="add-page-numbers" data-name="add page numbers">
+                <div class="tool-icon-box"><i class="fas fa-list-ol tool-icon"></i></div>
+                <h4>Add Page Numbers</h4>
+                <p>Stamp page numbers on your document.</p>
             </div>
-            <div class="tool-card" data-module="edit" data-action="add-watermark">
-                <i class="fas fa-stamp tool-icon"></i><h4>Add Watermark</h4><p>Overlay custom text.</p>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="add-watermark" data-name="add watermark pdf">
+                <div class="tool-icon-box"><i class="fas fa-stamp tool-icon"></i></div>
+                <h4>Add Watermark</h4>
+                <p>Overlay custom watermark text.</p>
             </div>
-            <div class="tool-card" data-module="edit" data-action="crop">
-                <i class="fas fa-crop-alt tool-icon"></i><h4>Crop PDF</h4><p>Trim the edges.</p>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="crop" data-name="crop pdf trim edges">
+                <div class="tool-icon-box"><i class="fas fa-crop-alt tool-icon"></i></div>
+                <h4>Crop PDF</h4>
+                <p>Trim the edges of your pages.</p>
             </div>
-            <div class="tool-card" data-module="edit" data-action="edit-pdf">
-                <i class="fas fa-i-cursor tool-icon"></i><h4>Edit PDF</h4><p>Append text.</p>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="edit-pdf" data-name="edit pdf append text">
+                <div class="tool-icon-box"><i class="fas fa-i-cursor tool-icon"></i></div>
+                <h4>Edit PDF</h4>
+                <p>Append custom text to your PDF.</p>
             </div>
         </div>
 
         <!-- Security -->
-        <h3 id="cat-security" class="category-title mt-4"><i class="fas fa-shield-alt"></i> PDF Security</h3>
+        <h3 id="cat-security" class="category-title"><i class="fas fa-shield-alt"></i> PDF Security</h3>
         <div class="tools-grid">
-            <div class="tool-card" data-module="security" data-action="unlock">
-                <i class="fas fa-unlock tool-icon"></i><h4>Unlock PDF</h4><p>Remove passwords.</p>
+            <div class="tool-card searchable-tool" data-module="security" data-action="unlock" data-name="unlock pdf remove password">
+                <div class="tool-icon-box"><i class="fas fa-unlock tool-icon"></i></div>
+                <h4>Unlock PDF</h4>
+                <p>Remove PDF passwords securely.</p>
             </div>
-            <div class="tool-card" data-module="security" data-action="protect">
-                <i class="fas fa-lock tool-icon"></i><h4>Protect PDF</h4><p>Encrypt with password.</p>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="protect" data-name="protect pdf encrypt password">
+                <div class="tool-icon-box"><i class="fas fa-lock tool-icon"></i></div>
+                <h4>Protect PDF</h4>
+                <p>Encrypt PDF using password.</p>
             </div>
-            <div class="tool-card" data-module="security" data-action="sign">
-                <i class="fas fa-signature tool-icon"></i><h4>Sign PDF</h4><p>Digital PFX signing.</p>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="sign" data-name="sign pdf digital signature">
+                <div class="tool-icon-box"><i class="fas fa-signature tool-icon"></i></div>
+                <h4>Sign PDF</h4>
+                <p>Add digital PFX signature.</p>
             </div>
-            <div class="tool-card" data-module="security" data-action="redact">
-                <i class="fas fa-user-secret tool-icon"></i><h4>Redact PDF</h4><p>Censor specific words.</p>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="redact" data-name="redact pdf censor words">
+                <div class="tool-icon-box"><i class="fas fa-user-secret tool-icon"></i></div>
+                <h4>Redact PDF</h4>
+                <p>Hide sensitive words and content.</p>
             </div>
-            <div class="tool-card" data-module="security" data-action="compare">
-                <i class="fas fa-balance-scale tool-icon"></i><h4>Compare PDF</h4><p>Find differences.</p>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="compare" data-name="compare pdf difference">
+                <div class="tool-icon-box"><i class="fas fa-balance-scale tool-icon"></i></div>
+                <h4>Compare PDF</h4>
+                <p>Find differences between two PDFs.</p>
             </div>
         </div>
 
-        <!-- Intelligence -->
-        <h3 id="cat-intelligence" class="category-title mt-4"><i class="fas fa-brain"></i> PDF Intelligence (AI)</h3>
+        <!-- AI -->
+        <h3 id="cat-intelligence" class="category-title"><i class="fas fa-brain"></i> PDF Intelligence (AI)</h3>
         <div class="tools-grid">
-            <div class="tool-card ai-card" data-module="intelligence" data-action="summarize">
-                <div class="badge-pro">PRO</div>
-                <i class="fas fa-robot tool-icon"></i><h4>Summarize PDF</h4><p>AI generated summary.</p>
+            <div class="tool-card ai-card searchable-tool" data-module="intelligence" data-action="summarize" data-name="summarize pdf ai">
+                <span class="badge-pro">PRO</span>
+                <div class="tool-icon-box"><i class="fas fa-robot tool-icon"></i></div>
+                <h4>Summarize PDF</h4>
+                <p>AI-generated quick summary.</p>
             </div>
-            <div class="tool-card ai-card" data-module="intelligence" data-action="translate">
-                <div class="badge-pro">PRO</div>
-                <i class="fas fa-language tool-icon"></i><h4>Translate PDF</h4><p>AI translation.</p>
+
+            <div class="tool-card ai-card searchable-tool" data-module="intelligence" data-action="translate" data-name="translate pdf ai">
+                <span class="badge-pro">PRO</span>
+                <div class="tool-icon-box"><i class="fas fa-language tool-icon"></i></div>
+                <h4>Translate PDF</h4>
+                <p>Translate document content with AI.</p>
             </div>
-            <div class="tool-card ai-card" data-module="intelligence" data-action="chat">
-                <div class="badge-pro">PRO</div>
-                <i class="fas fa-comments tool-icon"></i><h4>Chat with PDF</h4><p>Ask AI a question.</p>
+
+            <div class="tool-card ai-card searchable-tool" data-module="intelligence" data-action="chat" data-name="chat with pdf ai ask question">
+                <span class="badge-pro">PRO</span>
+                <div class="tool-icon-box"><i class="fas fa-comments tool-icon"></i></div>
+                <h4>Chat with PDF</h4>
+                <p>Ask AI questions about your document.</p>
             </div>
         </div>
 
     </div>
 </section>
 
-<!-- Processing Workspace (Hidden by default) -->
+<!-- Processing Workspace -->
 <section id="processing-workspace" class="workspace-section" style="display: none;">
-    <button id="back-to-dash" class="btn btn-outline mb-3"><i class="fas fa-arrow-left"></i> Back to Tools</button>
-    
+    <button id="back-to-dash" class="btn btn-outline mb-3">
+        <i class="fas fa-arrow-left"></i> Back to Tools
+    </button>
+
     <div class="workspace-card rounded-box">
         <h2 id="workspace-title">Tool Name</h2>
-        <p id="workspace-desc" class="text-muted">Upload your file(s) below to begin processing.</p>
+        <p id="workspace-desc" class="text-muted">Upload your files below to begin processing.</p>
 
-        <!-- Dynamic Parameters Area -->
-        <div id="tool-parameters" class="mb-3" style="display: none;">
-            <!-- Rendered by JS -->
-        </div>
+        <div id="tool-parameters" class="mb-3" style="display: none;"></div>
 
         <div class="upload-area" id="upload-zone">
             <i class="fas fa-cloud-upload-alt fa-3x mb-2 text-primary"></i>
@@ -201,7 +306,6 @@
             <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Select Files</button>
         </div>
 
-        <!-- Progress Area -->
         <div id="progress-area" class="mt-4" style="display: none; text-align: center;">
             <div class="loader-cube"></div>
             <h4 class="mt-3">Processing your files...</h4>
@@ -211,19 +315,40 @@
             </div>
         </div>
 
-        <!-- Result Area -->
         <div id="result-area" class="mt-4 text-center" style="display: none;">
             <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
             <h3>Task Completed Successfully!</h3>
-            
+
             <div id="text-result-box" style="display: none; margin-top: 15px; padding: 15px; background: var(--bg-secondary); border-radius: 8px; text-align: left; max-height: 250px; overflow-y: auto;">
-                <!-- Text / AI Output Goes here -->
             </div>
 
-            <a href="#" id="download-btn" class="btn btn-success mt-3" style="display: none;"><i class="fas fa-download"></i> Download File</a>
+            <a href="#" id="download-btn" class="btn btn-success mt-3" style="display: none;">
+                <i class="fas fa-download"></i> Download File
+            </a>
         </div>
-        
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("toolSearch");
+    const cards = document.querySelectorAll(".searchable-tool");
+
+    if (searchInput) {
+        searchInput.addEventListener("keyup", function () {
+            const value = this.value.toLowerCase();
+
+            cards.forEach(card => {
+                const text = card.getAttribute("data-name");
+                if (text.includes(value)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    }
+});
+</script>
 
 {% endblock %}
