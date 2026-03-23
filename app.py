@@ -662,7 +662,6 @@ def history():
     user_history = ConversionHistory.query.filter_by(user_id=current_user.id).order_by(ConversionHistory.id.desc()).all()
     return render_template('history.html', history=user_history)
 @app.route('/download/<filename>')
-@login_required
 def download_file(filename):
     safe_filename = secure_filename(filename)
     file_path = os.path.join(app.config['OUTPUT_FOLDER'], safe_filename)
