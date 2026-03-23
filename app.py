@@ -657,7 +657,6 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/history')
-@login_required
 def history():
     user_history = ConversionHistory.query.filter_by(user_id=current_user.id).order_by(ConversionHistory.id.desc()).all()
     return render_template('history.html', history=user_history)
