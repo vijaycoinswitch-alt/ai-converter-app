@@ -32,6 +32,30 @@
 
     <!-- Quick Stats -->
     <div class="stats-grid">
+    <div class="stat-card">
+        <i class="fas fa-layer-group"></i>
+        <h3>{{ total_conversions if current_user.is_authenticated else '25+' }}</h3>
+        <p>{% if current_user.is_authenticated %}Total conversions{% else %}Available tools{% endif %}</p>
+    </div>
+
+    <div class="stat-card">
+        <i class="fas fa-clock"></i>
+        <h3>{{ recent_count if current_user.is_authenticated else 'Fast' }}</h3>
+        <p>{% if current_user.is_authenticated %}Recent activities{% else %}Quick processing{% endif %}</p>
+    </div>
+
+    <div class="stat-card">
+        <i class="fas fa-user-shield"></i>
+        <h3>{% if current_user.is_authenticated %}Active{% else %}Guest{% endif %}</h3>
+        <p>Account status</p>
+    </div>
+
+    <div class="stat-card">
+        <i class="fas fa-robot"></i>
+        <h3>AI</h3>
+        <p>Smart PDF tools</p>
+    </div>
+</div>
         <div class="stat-card">
             <i class="fas fa-layer-group"></i>
             <h3>25+ Tools</h3>
@@ -66,36 +90,42 @@
         <div class="tools-grid">
 
             <div class="tool-card searchable-tool" data-module="organize" data-action="merge" data-name="merge pdf combine multiple pdfs">
+                <button class="fav-btn" data-tool="merge-pdf">⭐</button>
                 <div class="tool-icon-box"><i class="fas fa-object-group tool-icon"></i></div>
                 <h4>Merge PDF</h4>
                 <p>Combine multiple PDFs into one file.</p>
             </div>
 
             <div class="tool-card searchable-tool" data-module="organize" data-action="split" data-name="split pdf separate pages">
+                <button class="fav-btn" data-tool="split-pdf">⭐</button>   
                 <div class="tool-icon-box"><i class="fas fa-cut tool-icon"></i></div>
                 <h4>Split PDF</h4>
                 <p>Separate a PDF into multiple pages.</p>
             </div>
 
             <div class="tool-card searchable-tool" data-module="organize" data-action="remove-pages" data-name="remove pages delete unwanted pages">
+                <button class="fav-btn" data-tool="remove-pages">⭐</button>
                 <div class="tool-icon-box"><i class="fas fa-eraser tool-icon"></i></div>
                 <h4>Remove Pages</h4>
                 <p>Delete unwanted pages from your PDF.</p>
             </div>
 
             <div class="tool-card searchable-tool" data-module="organize" data-action="extract-pages" data-name="extract pages select pages">
+                <button class="fav-btn" data-tool="extract-pages">⭐</button>
                 <div class="tool-icon-box"><i class="fas fa-file-export tool-icon"></i></div>
                 <h4>Extract Pages</h4>
                 <p>Pull selected pages into a new file.</p>
             </div>
 
             <div class="tool-card searchable-tool" data-module="organize" data-action="organize" data-name="organize pdf rearrange pages">
+                <button class="fav-btn" data-tool="organize-pdf">⭐</button>
                 <div class="tool-icon-box"><i class="fas fa-sort-numeric-down tool-icon"></i></div>
                 <h4>Organize PDF</h4>
                 <p>Rearrange PDF page order easily.</p>
             </div>
 
             <div class="tool-card searchable-tool" data-module="organize" data-action="scan-to-pdf" data-name="scan to pdf images into pdf">
+                <button class="fav-btn" data-tool="scan-to-pdf">⭐</button>
                 <div class="tool-icon-box"><i class="fas fa-scanner tool-icon"></i></div>
                 <h4>Scan to PDF</h4>
                 <p>Convert images into a single PDF.</p>
@@ -376,6 +406,38 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const favButtons = document.querySelectorAll(".fav-btn");
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favButtons.forEach(btn => {
+        const tool = btn.getAttribute("data-tool");
+
+        if (favorites.includes(tool)) {
+            btn.classList.add("active");
+            btn.innerText = "💛";
+        }
+
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+
+            if (favorites.includes(tool)) {
+                favorites = favorites.filter(item => item !== tool);
+                btn.classList.remove("active");
+                btn.innerText = "⭐";
+            } else {
+                favorites.push(tool);
+                btn.classList.add("active");
+                btn.innerText = "💛";
+            }
+
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        });
+    });
 });
 </script>
 

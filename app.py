@@ -611,7 +611,18 @@ def route_chat(): return process_wrapper(lambda inp: chat_with_pdf_func(inp, req
 # Main web routes
 @app.route('/')
 def index():
-    return render_template('index.html')
+    total_conversions = 0
+    recent_count = 0
+
+    if current_user.is_authenticated:
+        total_conversions = ConversionHistory.query.filter_by(user_id=current_user.id).count()
+        recent_count = ConversionHistory.query.filter_by(user_id=current_user.id).order_by(ConversionHistory.id.desc()).limit(5).count()
+
+    return render_template(
+        'index.html',
+        total_conversions=total_conversions,
+        recent_count=recent_count
+    )
 
 @app.route('/login', methods=['GET', 'POST'])
 @csrf.exempt

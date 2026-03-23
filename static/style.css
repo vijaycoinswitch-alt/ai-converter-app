@@ -541,16 +541,23 @@ body {
     gap: 18px;
 }
 
-.tool-card {
-    position: relative;
+.fav-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: none;
     background: white;
-    border-radius: 16px;
-    padding: 24px 18px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-    transition: 0.3s ease;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
     cursor: pointer;
-    border: 1px solid #eef2f7;
+    z-index: 20;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.fav-btn.active {
+    transform: scale(1.1);
 }
 
 .tool-card:hover {
@@ -732,4 +739,19 @@ body.dark .btn-outline {
 
 body.dark .hero-banner {
     background: linear-gradient(135deg, #1d4ed8, #6d28d9);
+}
+
+.fav-btn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.fav-btn.active {
+    transform: scale(1.2);
 }
