@@ -8,8 +8,17 @@ ALLOWED_EXTENSIONS = {
     "jpg", "jpeg", "png", "txt"
 }
 
+import mimetypes
+
 def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    if not ("." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS):
+        return False
+    mime_type, _ = mimetypes.guess_type(filename)
+    if not mime_type:
+        return False
+    if mime_type.startswith('application/') or mime_type.startswith('image/') or mime_type.startswith('text/'):
+        return True
+    return False
 
 def generate_safe_filename(filename):
     ext = filename.rsplit(".", 1)[1].lower()
@@ -106,14 +115,15 @@ csrf = CSRFProtect(app)
 limiter = Limiter(
     key_func=get_remote_address,
     app=app,
-    default_limits=["200 per day", "50 per hour"],
+    default_limits=["200 per day", "10 per minute"],
     storage_uri="memory://",
 )
 
 csp = {
     "default-src": "'self'",
     "img-src": ["'self'", "data:"],
-    "style-src": ["'self'", "'unsafe-inline'"],
+    "style-src": ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+    "font-src": ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
     "script-src": ["'self'", "'unsafe-inline'"],
 }
 
@@ -123,6 +133,7 @@ Talisman(
     strict_transport_security=is_production,
     content_security_policy=csp,
     frame_options="DENY",
+    referrer_policy="strict-origin-when-cross-origin"
 )
 
 ALLOWED_EXTENSIONS = {
@@ -137,6 +148,23 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB max
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
 
+import logging
+from logging.handlers import RotatingFileHandler
+if not app.debug:
+    os.makedirs('instance/logs', exist_ok=True)
+    file_handler = RotatingFileHandler('instance/logs/security.log', maxBytes=10240, backupCount=10)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Convertify secure startup')
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    app.logger.error(f"Server Error: {error}")
+    return render_template('500.html'), 500
+
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -150,6 +178,8 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    failed_logins = db.Column(db.Integer, default=0)
+    locked_until = db.Column(db.DateTime, nullable=True)
 
     files = db.relationship("UserFile", backref="owner", lazy=True)
 class UserFile(db.Model):
@@ -691,7 +721,6 @@ def index():
     )
 
 @app.route('/login', methods=['GET', 'POST'])
-@csrf.exempt
 @limiter.limit("5 per minute")
 def login():
     if current_user.is_authenticated:
@@ -700,15 +729,32 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         user = User.query.filter_by(username=username).first()
-        if user and bcrypt.check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('index'))
-        else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
+        
+        if user:
+            if user.locked_until and user.locked_until > datetime.utcnow():
+                flash('Account locked due to multiple failed login attempts. Try again later.', 'danger')
+                app.logger.warning(f'Locked login attempt for user: {username}')
+                return render_template('login.html')
+                
+            if bcrypt.check_password_hash(user.password, password):
+                user.failed_logins = 0
+                user.locked_until = None
+                db.session.commit()
+                login_user(user)
+                app.logger.info(f'Successful login for user: {username}')
+                return redirect(url_for('index'))
+            else:
+                user.failed_logins += 1
+                if user.failed_logins >= 5:
+                    user.locked_until = datetime.utcnow() + timedelta(minutes=15)
+                    app.logger.warning(f'Account locked for user: {username}')
+                db.session.commit()
+                
+        app.logger.warning(f'Failed login attempt for username: {username}')
+        flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
-@csrf.exempt
 @limiter.limit("3 per minute")
 def register():
     if current_user.is_authenticated:

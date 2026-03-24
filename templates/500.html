@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Server Error - Convertify{% endblock %}
+
+{% block content %}
+<section class="section text-center" style="min-height:60vh; display:flex; align-items:center; justify-content:center;">
+    <div class="container">
+        <h1 style="font-size:6rem; color:var(--primary); margin-bottom:0; line-height:1;">500</h1>
+        <h2 class="mb-4">Internal Server Error</h2>
+        <p class="text-muted mb-5" style="max-width:500px; margin-inline:auto;">Something went wrong on our end. We've securely logged the issue and our team is already looking into it. Your files remain safe.</p>
+        <a href="/" class="btn btn-primary btn-lg"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </div>
+</section>
+{% endblock %}

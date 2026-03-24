@@ -12,6 +12,7 @@
         </div>
         
         <form method="POST" action="{{ url_for('register') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <!-- Note: Current Flask setup uses simple username for auth -->
             <div class="form-group">
                 <label for="username" class="form-label">Username</label>
