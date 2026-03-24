@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Contact Support - Convertify{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width:800px;">
+        <h1 class="mb-2 text-center">Contact <span class="text-gradient">Support</span></h1>
+        <p class="text-muted text-center mb-5">We're here to help with any technical issues or billing questions.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+            <div class="card p-4 text-center">
+                <i class="fa-solid fa-envelope fa-2xl text-primary mb-3"></i>
+                <h3 class="mb-2">Email Us</h3>
+                <p class="text-muted">support@convertify.example.com</p>
+            </div>
+            <div class="card p-4 text-center">
+                <i class="fa-solid fa-clock fa-2xl text-primary mb-3"></i>
+                <h3 class="mb-2">Response Time</h3>
+                <p class="text-muted">Within 24 hours on business days</p>
+            </div>
+        </div>
+        
+        <div class="card p-5">
+            <h3 class="mb-4">Send us a message</h3>
+            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Message sent!');">
+                <div class="form-group mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" required placeholder="Jane Doe">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" required placeholder="jane@example.com">
+                </div>
+                <div class="form-group mb-4">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-control" rows="5" required placeholder="How can we help you?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-full">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

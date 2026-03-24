@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Convertify - Advanced PDF Toolkit{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}A premium online file conversion and PDF tools platform. Edit, merge, split, and convert PDFs seamlessly.{% endblock %}">
+    
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="{% block og_title %}Convertify - Advanced PDF Toolkit{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}A premium online file conversion and PDF tools platform.{% endblock %}">
+    <meta property="og:type" content="website">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <style>
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+            background: var(--bg-surface);
+            box-shadow: var(--shadow-sm);
+        }
+        .alert-success { border-color: var(--success); color: var(--success); }
+        .alert-danger { border-color: var(--danger); color: var(--danger); }
+        .alert-warning { border-color: var(--warning); color: var(--warning); }
+        .alert-info { border-color: var(--info); color: var(--info); }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'components/navbar.html' %}
+    
+    <main style="flex: 1;">
+        <!-- Flash messages -->
+        <div class="container mt-4">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} animate-fade-in">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+        </div>
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'components/footer.html' %}
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

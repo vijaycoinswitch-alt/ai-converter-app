@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert PDF to Word Free Online - Convertify{% endblock %}
+{% block meta_description %}Quickly turn your PDF files into editable Word documents (DOCX). High quality, fast, and secure conversion.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">PDF to Word</span>{% endblock %}
+{% block tool_desc %}Easily transform your non-editable PDFs into fully editable Word documents while keeping original styling intact.{% endblock %}
+
+{% block api_endpoint %}/api/pdf-to-word{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert PDF to Word?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Click "Select Files" or drag & drop your PDF file into the upload box.</li>
+    <li class="mb-2">Our system immediately begins extracting text, images, and formatting.</li>
+    <li class="mb-2">Wait a few seconds for our cloud servers to complete the conversion.</li>
+    <li class="mb-2">Download your freshly minted DOCX file to your device.</li>
+</ol>
+
+<h3 class="mb-3">Why use Convertify to make PDFs editable?</h3>
+<p class="text-muted mb-4">Unlike other basic converters, Convertify preserves your original fonts, layouts, tables, and images. It creates a Microsoft Word document that looks exactly like your PDF, but is completely ready for your edits. Perfect for updating resumes, contracts, and business reports.</p>
+{% endblock %}

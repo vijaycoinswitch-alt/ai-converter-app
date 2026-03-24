@@ -1,36 +1,74 @@
-{% extends "base.html" %}
+{% extends 'layouts/dashboard_base.html' %}
 
 {% block content %}
-<div style="background-color: var(--card-bg); padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow);">
-    <h2 style="margin-bottom: 1.5rem;">Your Conversion History</h2>
-    
-    {% if history %}
-    <div style="overflow-x: auto;">
-        <table class="history-table">
-            <thead>
-                <tr>
-                    <th>Original File</th>
-                    <th>Converted File</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in history %}
-                <tr>
-                    <td>{{ item.original_filename }}</td>
-                    <td>{{ item.converted_filename }}</td>
-                    <td><span style="background-color: var(--primary); color: white; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.8rem;">{{ item.conversion_type }}</span></td>
-                    <td>{{ item.date_posted.strftime('%Y-%m-%d %H:%M') }}</td>
-                    <td><a href="{{ url_for('download_file', filename=item.converted_filename) }}" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;"><i class="fas fa-download"></i></a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="d-flex justify-between items-center mb-4 flex-wrap gap-2">
+    <h2>Dashboard & History</h2>
+    <a href="/tools" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Task</a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-5">
+    <div class="card p-4 d-flex items-center gap-3" style="flex-direction:row;">
+        <div class="icon-wrapper" style="width:50px; height:50px; background:var(--bg-main); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--primary);">
+            <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div>
+            <p class="text-muted mb-0" style="font-size:0.875rem;">Total Conversions</p>
+            <h3 class="mb-0">{{ history|length }}</h3>
+        </div>
     </div>
-    {% else %}
-    <p>You haven't converted any files yet.</p>
-    {% endif %}
+    
+    <div class="card p-4 d-flex items-center gap-3" style="flex-direction:row;">
+        <div class="icon-wrapper" style="width:50px; height:50px; background:var(--bg-main); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--success);">
+            <i class="fa-solid fa-crown"></i>
+        </div>
+        <div>
+            <p class="text-muted mb-0" style="font-size:0.875rem;">Current Plan</p>
+            <h3 class="mb-0">Free Tier</h3>
+        </div>
+    </div>
+</div>
+
+<h3 class="mb-3">Recent Activity</h3>
+<div class="card p-0" style="overflow-x:auto;">
+    <table style="width:100%; text-align:left; border-collapse:collapse; min-width:600px;">
+        <thead style="background:var(--bg-main); border-bottom:1px solid var(--border-color);">
+            <tr>
+                <th style="padding:1rem; font-weight:600;">Original File</th>
+                <th style="padding:1rem; font-weight:600;">Tool Used</th>
+                <th style="padding:1rem; font-weight:600;">Output File</th>
+                <th style="padding:1rem; font-weight:600; text-align:right;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+            <tr style="border-bottom:1px solid var(--border-color); transition:var(--transition-base);" onmouseover="this.style.backgroundColor='var(--bg-surface-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                <td style="padding:1.25rem 1rem; font-weight:500;">
+                    <i class="fa-regular fa-file text-muted mr-2"></i> {{ record.original_filename }}
+                </td>
+                <td style="padding:1.25rem 1rem;">
+                    <span class="hero-badge" style="margin:0; padding:0.25rem 0.5rem; border:1px solid var(--border-color); background:transparent;">{{ record.conversion_type.replace('/api/', '') | title }}</span>
+                </td>
+                <td style="padding:1.25rem 1rem; color:var(--text-muted);">
+                    {{ record.converted_filename }}
+                </td>
+                <td style="padding:1.25rem 1rem; text-align:right;">
+                    {% if record.converted_filename and record.converted_filename != 'AI_TXT' %}
+                    <a href="{{ url_for('download_file', filename=record.converted_filename) }}" class="btn btn-outline btn-sm">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center p-5 text-muted">
+                    <i class="fa-solid fa-folder-open mb-3" style="font-size:3rem; opacity:0.5;"></i>
+                    <p style="font-size:1.125rem;">No conversions found yet.</p>
+                    <a href="/tools" class="btn btn-primary mt-2">Explore Tools</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Extract images from PDF - Convertify{% endblock %}
+{% block meta_description %}Convert your PDF pages into high-quality JPG images instantly. Extract all pictures securely.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">PDF to JPG</span>{% endblock %}
+{% block tool_desc %}Extract all pages from a PDF to generate a ZIP file of high-quality JPG images.{% endblock %}
+
+{% block api_endpoint %}/api/pdf-to-jpg{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert PDF to Image?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the PDF file you want converted to images.</li>
+    <li class="mb-2">Wait for the conversion process to rasterize the PDF pages.</li>
+    <li class="mb-2">Download a ZIP file containing the resulting JPGs.</li>
+</ol>
+
+<h3 class="mb-3">Great for web use</h3>
+<p class="text-muted mb-4">If you need to display pages of a PDF directly on a webpage, social media, or a forum, converting them to JPG is the best way to go. Our servers render your documents crystal-clear.</p>
+{% endblock %}

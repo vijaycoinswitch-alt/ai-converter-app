@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert Word to PDF Free Online - Convertify{% endblock %}
+{% block meta_description %}Turn your Word (DOC, DOCX) files into professional PDF documents. Preserves layout, fonts, and formatting perfectly.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">Word to PDF</span>{% endblock %}
+{% block tool_desc %}Make DOC and DOCX files easy to read by converting them to universally compatible PDF files.{% endblock %}
+
+{% block api_endpoint %}/api/word-to-pdf{% endblock %}
+
+{% set accept_formats = ".doc,.docx" %}
+{% set title = "Upload Word Document" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to save Word as PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Select your Microsoft Word document (DOC or DOCX) from your device.</li>
+    <li class="mb-2">Click upload to let our engine parse the layout and fonts.</li>
+    <li class="mb-2">Wait for the secure conversion process.</li>
+    <li class="mb-2">Download the fixed-layout PDF format instantly.</li>
+</ol>
+
+<h3 class="mb-3">Maximum Reliability</h3>
+<p class="text-muted mb-4">When sending invoices, resumes, or final reports, PDF is the industry standard format because it guarantees your recipients will see your document exactly as you designed it, regardless of their device or installed fonts.</p>
+{% endblock %}

@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+{{document.addEventListener('DOMContentLoaded', () => {
     // -----------------------------------------
     // Theme Toggling
     // -----------------------------------------
@@ -78,14 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentAction = '';
 
     // Clicking a Tool Card
-    document.querySelectorAll('.tool-card').forEach(card => {
-        card.addEventListener('click', () => {
-            currentModule = card.dataset.module;
-            currentAction = card.dataset.action;
-            const toolName = card.querySelector('h4').textContent;
-            openWorkspace(toolName, currentAction);
+    // document.querySelectorAll('.tool-card').forEach(card => {
+    //     card.addEventListener('click', () => {
+    //         currentModule = card.dataset.module;
+    //         currentAction = card.dataset.action;
+    //         const toolName = card.querySelector('h4').textContent;
+    //         openWorkspace(toolName, currentAction);
         });
-    });
+    };
 
     // Back button
     document.getElementById('back-to-dash').addEventListener('click', () => {
@@ -277,4 +278,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
+};

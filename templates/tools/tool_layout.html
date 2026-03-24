@@ -1,0 +1,153 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<section class="section pt-6 pb-6" style="background:var(--gradient-hero); border-bottom:1px solid var(--border-color);">
+    <div class="container text-center">
+        <h1 class="mb-2" style="font-size:2.5rem;">{% block tool_h1 %}{% endblock %}</h1>
+        <p class="text-muted mb-5" style="max-width:650px; margin-inline:auto; font-size:1.125rem;">{% block tool_desc %}{% endblock %}</p>
+        
+        <div class="mx-auto" style="max-width:750px; position:relative; z-index:10;">
+            <!-- Specific upload configurations passed via set in the child template -->
+            {% include 'components/upload_area.html' %}
+            
+            <!-- Result Area -->
+            <div id="result-area" class="mt-4 p-5 card" style="display:none; background:var(--bg-surface); animation:scaleUp 0.3s ease;">
+                <i class="fa-solid fa-circle-check text-success mb-3" style="font-size:4rem;"></i>
+                <h3 class="mb-2">Success! Your file is ready.</h3>
+                <p class="text-muted mb-4">Your file has been processed securely.</p>
+                <div class="d-flex justify-center gap-2">
+                    <a id="download-btn" href="#" class="btn btn-primary btn-lg"><i class="fa-solid fa-download"></i> Download File</a>
+                    <button id="reset-btn" class="btn btn-secondary btn-lg"><i class="fa-solid fa-rotate-right"></i> Convert Another</button>
+                </div>
+                
+                <div id="ai-result-container" class="mt-4 text-left p-4" style="display:none; background:var(--bg-main); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                    <h4 class="mb-2"><i class="fa-solid fa-robot text-primary"></i> AI Result</h4>
+                    <pre id="ai-text-result" style="white-space:pre-wrap; font-family:var(--font-sans); margin:0;"></pre>
+                </div>
+            </div>
+            
+            <!-- Error Area -->
+            <div id="error-area" class="mt-4 p-5 card" style="display:none; border-color:var(--danger); animation:shake 0.4s ease;">
+                <i class="fa-solid fa-circle-xmark text-danger mb-3" style="font-size:4rem;"></i>
+                <h3 class="mb-2 text-danger">Conversion Failed</h3>
+                <p id="error-message" class="text-muted mb-4">An unknown error occurred.</p>
+                <button id="retry-btn" class="btn btn-outline btn-lg w-full">Try Again</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SEO Content Block -->
+<section class="section" style="background:var(--bg-surface);">
+    <div class="container" style="max-width:800px;">
+        <div class="card p-5 border-0 shadow-none bg-transparent">
+            {% block seo_content %}{% endblock %}
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const apiEndpoint = "{% block api_endpoint %}{% endblock %}";
+    const dropArea = document.getElementById('drop-area');
+    const resultArea = document.getElementById('result-area');
+    const errorArea = document.getElementById('error-area');
+    const progressBar = document.getElementById('upload-progress');
+    const progressContainer = document.querySelector('.progress-bar-container');
+    const downloadBtn = document.getElementById('download-btn');
+    const uploadTitle = document.querySelector('.upload-title');
+    
+    document.addEventListener('files-selected', async (e) => {
+        const files = e.detail.files;
+        if (!files || files.length === 0) return;
+        
+        // Show progress UI immediately
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '30%';
+        dropArea.style.pointerEvents = 'none';
+        dropArea.classList.remove('highlight');
+        uploadTitle.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-primary"></i> Processing...`;
+        errorArea.style.display = 'none';
+        
+        const formData = new FormData();
+        Array.from(files).forEach(file => {
+            formData.append('files[]', file);
+        });
+        
+        // Let child templates inject form data fields directly into JS via a block
+        {% block extra_js_logic %}{% endblock %}
+        
+        try {
+            progressBar.style.width = '60%';
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            progressBar.style.width = '100%';
+            
+            setTimeout(() => {
+                dropArea.style.display = 'none';
+                if (result.success) {
+                    resultArea.style.display = 'block';
+                    if (result.download_url) {
+                        downloadBtn.href = result.download_url;
+                        downloadBtn.style.display = 'inline-flex';
+                    } else if (result.text_result) {
+                        // For AI endpoints
+                        document.getElementById('ai-text-result').textContent = result.text_result;
+                        document.getElementById('ai-result-container').style.display = 'block';
+                        downloadBtn.style.display = 'none';
+                    }
+                } else {
+                    showError(result.error || 'The server returned an error during processing.');
+                }
+                resetProgress();
+            }, 500);
+            
+        } catch (err) {
+            showError("Network connection failed. Please check your internet and try again.");
+            resetProgress();
+        }
+    });
+    
+    function showError(msg) {
+        dropArea.style.display = 'none';
+        errorArea.style.display = 'block';
+        document.getElementById('error-message').textContent = msg;
+    }
+    
+    function resetProgress() {
+        progressBar.style.width = '0%';
+        progressContainer.style.display = 'none';
+        dropArea.style.pointerEvents = 'auto';
+        dropArea.style.opacity = '1';
+    }
+    
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        dropArea.style.display = 'block';
+        uploadTitle.textContent = "{{ title|default('Choose files or drag & drop them here') }}";
+    });
+    
+    document.getElementById('retry-btn').addEventListener('click', () => {
+        errorArea.style.display = 'none';
+        dropArea.style.display = 'block';
+        uploadTitle.textContent = "{{ title|default('Choose files or drag & drop them here') }}";
+    });
+});
+</script>
+
+<style>
+@keyframes scaleUp {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+</style>
+{% endblock %}

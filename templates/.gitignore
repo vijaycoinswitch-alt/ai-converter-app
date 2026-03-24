@@ -1,9 +1,0 @@
-venv/
-__pycache__/
-*.pyc
-.env
-uploads/
-outputs/
-instance/
-*.db
-test_files/

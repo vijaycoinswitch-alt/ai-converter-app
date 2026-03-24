@@ -1,27 +1,36 @@
-{% extends "base.html" %}
+{% extends 'layouts/base.html' %}
+
+{% block title %}Log In - Convertify{% endblock %}
+{% block meta_description %}Log in to your Convertify account to access your history and professional tools.{% endblock %}
 
 {% block content %}
-<div class="auth-form">
-    <h2 style="text-align: center; margin-bottom: 2rem;">Log In</h2>
-    <form method="POST" action="">
-    
-    <!--The CSRF token is missing. then add this code. -->
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+<div class="auth-container">
+    <div class="auth-card text-center animate-slide-up">
+        <div class="mb-4">
+            <h2 class="mb-2">Welcome Back</h2>
+            <p class="text-muted">Enter your credentials to access your dashboard.</p>
         </div>
         
-        <button type="submit" class="btn" style="width: 100%;">Login</button>
-    </form>
-    <p style="text-align: center; margin-top: 1.5rem;">
-        Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--primary);">Register</a>
-    </p>
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required placeholder="john_doe" autofocus>
+            </div>
+            
+            <div class="form-group mb-4">
+                <div class="d-flex justify-between items-center mb-1">
+                    <label for="password" class="form-label mb-0">Password</label>
+                    <a href="#" class="text-muted" style="font-size:0.875rem;">Forgot password?</a>
+                </div>
+                <input type="password" id="password" name="password" class="form-control" required placeholder="••••••••">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg w-full mb-4">Log In to Account</button>
+            
+            <div class="text-muted" style="font-size:0.95rem;">
+                Don't have an account? <a href="{{ url_for('register') }}" style="font-weight:600;">Sign up for free</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

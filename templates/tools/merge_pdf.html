@@ -1,0 +1,25 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Merge PDF Files Online - Convertify{% endblock %}
+{% block meta_description %}Combine multiple PDFs into one unified document with our fast, free, and secure online PDF merger tool.{% endblock %}
+
+{% block tool_h1 %}Merge <span class="text-gradient">PDF files</span>{% endblock %}
+{% block tool_desc %}Combine multiple PDFs into a single, unified document in seconds. Simple, fast, and completely secure.{% endblock %}
+
+{% block api_endpoint %}/api/merge{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select Multiple PDFs" %}
+{% set multiple = true %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to merge PDF files?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Highlight multiple PDF files on your computer and drag them into the upload box.</li>
+    <li class="mb-2">Files are automatically processed and combined in the order you selected them.</li>
+    <li class="mb-2">Click download to grab your new, merged document.</li>
+</ol>
+
+<h3 class="mb-3">Secure PDF Merging</h3>
+<p class="text-muted mb-4">You don't need to install any software to merge PDFs. All uploads are processed via secure 256-bit encrypted connections and deleted permanently from our servers within 2 hours, ensuring your business documents stay private.</p>
+{% endblock %}

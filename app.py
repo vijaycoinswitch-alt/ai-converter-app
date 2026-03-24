@@ -67,6 +67,7 @@ except ImportError:
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+
 app = Flask(__name__)
 # 🔐 SECURITY CONFIG
 load_dotenv()
@@ -475,6 +476,71 @@ def process_wrapper(func, ext=".pdf", multi=False, is_text=False):
         return jsonify({'error': str(e)}), 500
 
 # API Routes
+
+# Display Web Routes
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.route("/tools")
+def tools():
+    return render_template("tools.html")
+
+@app.route("/pricing")
+def pricing():
+    return render_template("pricing.html")
+
+# Tool Pages
+@app.route("/pdf-to-word")
+def pdf_to_word():
+    return render_template("tools/pdf_to_word.html")
+
+@app.route("/word-to-pdf")
+def word_to_pdf():
+    return render_template("tools/word_to_pdf.html")
+
+@app.route("/jpg-to-pdf")
+def jpg_to_pdf():
+    return render_template("tools/jpg_to_pdf.html")
+
+@app.route("/pdf-to-jpg")
+def pdf_to_jpg():
+    return render_template("tools/pdf_to_jpg.html")
+
+@app.route("/merge-pdf")
+def merge_pdf():
+    return render_template("tools/merge_pdf.html")
+
+@app.route("/split-pdf")
+def split_pdf():
+    return render_template("tools/split_pdf.html")
+
+@app.route("/compress-pdf")
+def compress_pdf():
+    return render_template("tools/compress_pdf.html")
+
+# Info Pages
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy_policy.html")
+
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
 @app.route('/api/merge', methods=['POST'])
 @csrf.exempt
 def route_merge(): return process_wrapper(lambda in_paths, out_path: merge_pdf_func(in_paths, out_path), multi=True)
@@ -683,3 +749,7 @@ def download_file(filename):
 if __name__ == '__main__':
     with app.app_context(): db.create_all()
     app.run(debug=True, port=5000)
+
+    # if __name__ == "__main__":
+    #     app.run(debug=True)
+

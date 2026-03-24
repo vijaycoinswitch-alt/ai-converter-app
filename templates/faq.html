@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Frequently Asked Questions - Convertify{% endblock %}
+{% block meta_description %}Find answers to all your questions regarding file conversion, security, and subscription plans on Convertify.{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width:800px;">
+        <h1 class="mb-4 text-center">Frequently Asked <span class="text-gradient">Questions</span></h1>
+        
+        <div class="faq-list">
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">Are my files secure during conversion? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="accordion-content">
+                    <p class="pt-2 pb-2">Absolutely. We use industry standard 256-bit SSL encryption for all file transfers. Every single file is securely processed on our cloud servers and deleted automatically 2 hours after completion to ensure complete privacy.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">What happens if a conversion fails? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="accordion-content">
+                    <p class="pt-2 pb-2">If a conversion fails or times out, you can retry immediately. Rare failures are usually due to corrupted source files or heavily complex elements. Our system will notify you with an error message instead of generating a broken file.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">Can I use Convertify on my phone? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="accordion-content">
+                    <p class="pt-2 pb-2">Yes. Convertify is a cloud-based web application built with a responsive layout. It works flawlessly across iOS, Android, macOS, and Windows without any app installation required.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">What file sizes are allowed? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="accordion-content">
+                    <p class="pt-2 pb-2">Free accounts can upload files up to 10MB each. If you regularly handle larger files up to 500MB, you can upgrade to Convertify Pro which unlocks unlimited sizes and processing.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">How do I cancel my subscription? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="accordion-content">
+                    <p class="pt-2 pb-2">You can downgrade or cancel your subscription at any time directly through your dashboard settings. Your premium access will continue until the current billing cycle ends.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <p class="text-muted">Still have questions?</p>
+            <a href="/contact" class="btn btn-primary">Contact Support</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

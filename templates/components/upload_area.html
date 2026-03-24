@@ -1,0 +1,14 @@
+<div class="upload-container" id="drop-area">
+    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+    <h3 class="upload-title">{{ title | default('Choose files or drag & drop them here') }}</h3>
+    <p class="upload-subtitle">{{ subtitle | default('Supported formats vary. Max size 50MB per file.') }}</p>
+    
+    <button class="btn btn-primary btn-lg" type="button" onclick="document.getElementById('file-input').click()">
+        <i class="fa-solid fa-folder-open"></i> Select Files
+    </button>
+    <input type="file" id="file-input" name="files[]" class="file-input-hidden" {{ 'multiple' if multiple else '' }} accept="{{ accept_formats|default('*/*') }}">
+    
+    <div class="progress-bar-container" style="display:none;">
+        <div class="progress-bar" id="upload-progress"></div>
+    </div>
+</div>

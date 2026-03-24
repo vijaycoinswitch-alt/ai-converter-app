@@ -1,0 +1,41 @@
+<header class="navbar">
+    <div class="container nav-container">
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <i class="fa-solid fa-layer-group"></i> Convertify
+        </a>
+        
+        <nav class="nav-links" id="nav-links">
+            <a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a>
+            <a href="/tools" class="nav-link {% if 'tool' in request.endpoint or request.endpoint == 'tools' %}active{% endif %}">All Tools</a> 
+            <a href="/pricing" class="nav-link {% if request.endpoint == 'pricing' %}active{% endif %}">Pricing</a>
+            <a href="/faq" class="nav-link {% if request.endpoint == 'faq' %}active{% endif %}">FAQ</a>
+            
+            <div class="nav-actions-mobile">
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('history') }}" class="btn btn-outline w-full">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-ghost w-full">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-ghost w-full">Log In</a>
+                <a href="{{ url_for('register') }}" class="btn btn-primary w-full">Sign Up Free</a>
+                {% endif %}
+            </div>
+        </nav>
+        
+        <div class="nav-actions">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('history') }}" class="btn btn-outline btn-sm">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-sm">Logout</a>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-ghost btn-sm">Log In</a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-sm">Sign Up Free</a>
+            {% endif %}
+        </div>
+        
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>

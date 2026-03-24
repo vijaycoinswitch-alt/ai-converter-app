@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert JPG to PDF online - Convertify{% endblock %}
+{% block meta_description %}Easily combine your JPG and PNG images into a single PDF document. Free, easy, and secure.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">JPG to PDF</span>{% endblock %}
+{% block tool_desc %}Convert JPG images to PDF in seconds. Combine multiple photos into one document.{% endblock %}
+
+{% block api_endpoint %}/api/jpg-to-pdf{% endblock %}
+
+{% set accept_formats = "image/*" %}
+{% set title = "Select JPG/PNG images" %}
+{% set multiple = true %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert images to PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Select as many JPG, PNG, or formats as you need from your computer.</li>
+    <li class="mb-2">Drag and drop them into the upload box.</li>
+    <li class="mb-2">Our servers will combine these photos into a continuous PDF file.</li>
+    <li class="mb-2">Download your new photo album or presentation.</li>
+</ol>
+
+<h3 class="mb-3">Preserve Image Quality</h3>
+<p class="text-muted mb-4">We ensure that your photos remain crisp and clear even after conversion. The PDF format is universally accepted, making it much easier to share collections of photographs via email or professional messaging apps.</p>
+{% endblock %}

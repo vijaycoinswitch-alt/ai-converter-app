@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+{% from 'components/tool_card.html' import render_tool %}
+
+{% block title %}All PDF Tools - Convertify{% endblock %}
+{% block meta_description %}Explore our full suite of premium PDF and file conversion tools. Everything you need to manage your documents in one place.{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1>All <span class="text-gradient">PDF Tools</span></h1>
+            <p class="text-muted" style="max-width:600px; margin-inline:auto;">Below is our complete toolset. Use the search bar to find exactly what you need.</p>
+            
+            <div class="mt-4" style="max-width:500px; margin-inline:auto; position:relative;">
+                <i class="fa-solid fa-search" style="position:absolute; left:1rem; top:50%; transform:translateY(-50%); color:var(--text-muted);"></i>
+                <input type="text" id="tool-search" class="form-control hover-shadow" placeholder="Search for tools (e.g., merge, word, compress)" style="padding:1rem 1rem 1rem 2.5rem; border-radius:var(--radius-full); box-shadow:var(--shadow-sm); width:100%;">
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <h3 class="mb-3">Convert to PDF</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 tool-grid">
+                {{ render_tool('Word to PDF', 'Convert DOC and DOCX to PDF.', 'fa-solid fa-file-word', '/word-to-pdf') }}
+                {{ render_tool('JPG to PDF', 'Convert images to PDF.', 'fa-solid fa-image', '/jpg-to-pdf') }}
+                {{ render_tool('Excel to PDF', 'Make spreadsheets easy to read.', 'fa-solid fa-file-excel', '/#') }}
+                {{ render_tool('PowerPoint to PDF', 'Convert presentations to PDF.', 'fa-solid fa-file-powerpoint', '/#') }}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="mb-3">Convert from PDF</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 tool-grid">
+                {{ render_tool('PDF to Word', 'Convert PDF to editable DOCX.', 'fa-solid fa-file-word', '/pdf-to-word') }}
+                {{ render_tool('PDF to JPG', 'Extract images from PDF.', 'fa-solid fa-image', '/pdf-to-jpg') }}
+                {{ render_tool('PDF to Excel', 'Pull data straight into Excel.', 'fa-solid fa-file-excel', '/#') }}
+                {{ render_tool('PDF to PowerPoint', 'Turn PDFs into PPTX presentations.', 'fa-solid fa-file-powerpoint', '/#') }}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="mb-3">Organize & Optimize</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 tool-grid">
+                {{ render_tool('Merge PDF', 'Combine multiple files.', 'fa-solid fa-object-group', '/merge-pdf') }}
+                {{ render_tool('Split PDF', 'Separate PDF pages.', 'fa-solid fa-scissors', '/split-pdf') }}
+                {{ render_tool('Compress PDF', 'Reduce file size heavily.', 'fa-solid fa-compress', '/compress-pdf') }}
+                {{ render_tool('Remove Pages', 'Delete pages from a PDF document.', 'fa-solid fa-eraser', '/#') }}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="mb-3">Security & AI</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 tool-grid">
+                {{ render_tool('Protect PDF', 'Encrypt with password.', 'fa-solid fa-lock', '/#') }}
+                {{ render_tool('Unlock PDF', 'Remove password from PDF.', 'fa-solid fa-lock-open', '/#') }}
+                {{ render_tool('AI Summarize', 'Get a summary of your PDF.', 'fa-solid fa-robot', '/#') }}
+                {{ render_tool('Translate PDF', 'Translate text accurately.', 'fa-solid fa-language', '/#') }}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const search = document.getElementById('tool-search');
+    const cards = document.querySelectorAll('.tool-card');
+    
+    // Auto focus search field purely for UX
+    // setTimeout(() => search.focus(), 100);
+
+    search.addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase();
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if(text.includes(val)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

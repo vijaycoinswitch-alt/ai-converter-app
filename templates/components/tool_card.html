@@ -1,0 +1,9 @@
+{% macro render_tool(title, desc, icon, url) %}
+<a href="{{ url }}" class="card tool-card">
+    <div class="icon-wrapper">
+        <i class="{{ icon }}"></i>
+    </div>
+    <h3>{{ title }}</h3>
+    <p>{{ desc }}</p>
+</a>
+{% endmacro %}

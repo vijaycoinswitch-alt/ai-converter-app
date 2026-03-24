@@ -1,0 +1,25 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Compress PDF files online - Convertify{% endblock %}
+{% block meta_description %}Reduce PDF file size drastically while maintaining maximum quality. Perfect for emailing large documents.{% endblock %}
+
+{% block tool_h1 %}Compress <span class="text-gradient">PDF file</span>{% endblock %}
+{% block tool_desc %}Reduce the file size of your PDF without losing visual quality. Ideal for passing email attachment limits.{% endblock %}
+
+{% block api_endpoint %}/api/compress{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload Large PDF" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to compress a PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the bulky PDF file you want to shrink.</li>
+    <li class="mb-2">Our system automatically identifies the best compression ratio while maintaining readability.</li>
+    <li class="mb-2">Download the optimized PDF file.</li>
+</ol>
+
+<h3 class="mb-3">Smart PDF Compression</h3>
+<p class="text-muted mb-4">We use advanced optimization techniques (garbage collection, stream deflation, and image downsampling) to drastically shrink your PDFs without making text blurry or images unrecognizable.</p>
+{% endblock %}

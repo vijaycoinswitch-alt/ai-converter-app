@@ -755,3 +755,62 @@ body.dark .hero-banner {
 .fav-btn.active {
     transform: scale(1.2);
 }
+
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f8f9fb;
+    color: #222;
+}
+
+header {
+    background: #111827;
+    padding: 15px 30px;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main {
+    padding: 40px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.tools-grid div,
+.tool-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #111827;
+    color: white;
+    margin-top: 40px;
+} */
