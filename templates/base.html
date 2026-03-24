@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Convertify{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Convertify file converter tool{% endblock %}">
+    <title>{% block title %}VijayPDF{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}VijayPDF file converter tool{% endblock %}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -28,7 +28,7 @@
     </main>
 
     <footer>
-        <p>© 2026 Convertify. All rights reserved.</p>
+        <p>© 2026 VijayPDF. All rights reserved.</p>
     </footer>
 
 </body>
@@ -36,12 +36,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="/static/favicon.png">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="canonical" href="https://www.vijaypdf.com{{ request.path }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertify - Advanced PDF Toolkit</title>
+    <title>VijayPDF - Advanced PDF Toolkit</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -54,7 +53,7 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <a href="{{ url_for('index') }}" class="logo">
-                <i class="fas fa-layer-group"></i> Convertify
+                <i class="fas fa-layer-group"></i> VijayPDF
             </a>
         </div>
         <ul class="nav-list">

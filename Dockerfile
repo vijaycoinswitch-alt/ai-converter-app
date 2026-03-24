@@ -21,7 +21,11 @@ RUN mkdir -p uploads outputs
 
 COPY . .
 
+# EXPOSE is not strictly needed for Render but good for documentation. 
+# Render will map to the port gunicorn binds to.
 EXPOSE 5000
 
 # Using Gunicorn for production-grade serving
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", "--timeout", "120", "app:app"]
+# Using Gunicorn for production-grade serving. 
+# We use the shell form to allow $PORT substitution from Render.
+CMD gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 3 --timeout 120 app:app

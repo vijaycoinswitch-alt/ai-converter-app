@@ -1,5 +1,5 @@
 /**
- * Convertify - Advanced PDF Toolkit | Core JavaScript
+ * VijayPDF - Advanced PDF Toolkit | Core JavaScript
  */
 
 document.addEventListener('DOMContentLoaded', () => {

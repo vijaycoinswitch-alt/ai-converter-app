@@ -157,7 +157,7 @@ if not app.debug:
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
-    app.logger.info('Convertify secure startup')
+    app.logger.info('VijayPDF secure startup')
 
 @app.errorhandler(500)
 def internal_error(error):

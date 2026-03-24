@@ -1,4 +1,4 @@
-
+// VijayPDF - Advanced PDF Toolkit | Legacy Script
 {{document.addEventListener('DOMContentLoaded', () => {
     // -----------------------------------------
     // Theme Toggling
