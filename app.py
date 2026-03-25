@@ -40,6 +40,8 @@ from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_talisman import Talisman
+import email_service
+import secrets
 
 # --- PDF Manipulation Libraries ---
 import fitz  # PyMuPDF
@@ -177,9 +179,19 @@ with app.app_context():
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     failed_logins = db.Column(db.Integer, default=0)
     locked_until = db.Column(db.DateTime, nullable=True)
+    
+    # OTP Fields
+    otp = db.Column(db.String(6), nullable=True)
+    otp_expiry = db.Column(db.DateTime, nullable=True)
+    is_verified = db.Column(db.Boolean, default=False)
+    
+    # Password Reset Fields
+    reset_token = db.Column(db.String(100), nullable=True)
+    reset_token_expiry = db.Column(db.DateTime, nullable=True)
 
     files = db.relationship("UserFile", backref="owner", lazy=True)
 class UserFile(db.Model):
@@ -555,8 +567,24 @@ def compress_pdf():
 def about():
     return render_template("about.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+        
+        # 1. Send Internal Notification
+        subject = f"New Contact Message - {name}"
+        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        email_service.send_email(os.getenv("EMAIL_USER"), f"New Contact Message - VijayPDF", body)
+        
+        # 2. Send Auto-Reply to User
+        email_service.send_auto_reply(email, name)
+        
+        flash("Thank you for contacting VijayPDF.com. Our team will respond shortly.", "success")
+        return render_template("contact.html", success=True)
+        
     return render_template("contact.html")
 
 @app.route("/faq")
@@ -761,17 +789,101 @@ def register():
         return redirect(url_for('index'))
     if request.method == 'POST':
         username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
+        
+        if User.query.filter_by(username=username).first():
+            flash('Username already exists.', 'danger')
+            return render_template('register.html')
+            
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered.', 'danger')
+            return render_template('register.html')
+
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        user = User(username=username, password=hashed_password)
+        
+        # Generate OTP
+        otp = str(secrets.randbelow(1000000)).zfill(6)
+        otp_expiry = datetime.utcnow() + timedelta(minutes=10)
+        
+        user = User(username=username, email=email, password=hashed_password, otp=otp, otp_expiry=otp_expiry)
+        
         try:
             db.session.add(user)
             db.session.commit()
-            flash('Your account has been created! You can now log in.', 'success')
-            return redirect(url_for('login'))
-        except:
-            flash('Username already exists. Please choose a different one.', 'danger')
+            
+            # Send OTP Email
+            email_service.send_otp_email(email, otp)
+            
+            flash('Account created! Please verify your email with the OTP sent.', 'info')
+            return redirect(url_for('verify_otp', email=email))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'An error occurred: {str(e)}', 'danger')
+            
     return render_template('register.html')
+
+@app.route('/verify-otp', methods=['GET', 'POST'])
+def verify_otp():
+    email = request.args.get('email')
+    if request.method == 'POST':
+        email = request.form.get('email')
+        otp_input = request.form.get('otp')
+        user = User.query.filter_by(email=email).first()
+        
+        if user and user.otp == otp_input and user.otp_expiry > datetime.utcnow():
+            user.is_verified = True
+            user.otp = None
+            user.otp_expiry = None
+            db.session.commit()
+            flash('Email verified! You can now log in.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Invalid or expired OTP.', 'danger')
+            
+    return render_template('verify_otp.html', email=email)
+
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = secrets.token_urlsafe(32)
+            user.reset_token = token
+            user.reset_token_expiry = datetime.utcnow() + timedelta(hours=1)
+            db.session.commit()
+            email_service.send_password_reset_email(email, token)
+        
+        flash('If an account matches that email, a reset link has been sent.', 'info')
+        return redirect(url_for('login'))
+    return render_template('forgot_password.html')
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    user = User.query.filter_by(reset_token=token).first()
+    if not user or user.reset_token_expiry < datetime.utcnow():
+        flash('Invalid or expired reset token.', 'danger')
+        return redirect(url_for('forgot_password'))
+        
+    if request.method == 'POST':
+        new_password = request.form.get('password')
+        hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        user.password = hashed_password
+        user.reset_token = None
+        user.reset_token_expiry = None
+        db.session.commit()
+        flash('Password updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+        
+    return render_template('reset_password.html', token=token)
+
+@app.route('/test-email')
+def test_email_route():
+    if email_service.test_connection():
+        return "Test email sent successfully! Check your inbox (support@vijaypdf.com)."
+    else:
+        return "Failed to send test email. Check server logs and .env configuration."
 
 @app.route('/logout')
 @login_required

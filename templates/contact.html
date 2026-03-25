@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Contact Support - VijayPDF{% endblock %}
 
 {% block content %}
@@ -20,23 +20,23 @@
             </div>
         </div>
         
-        <div class="card p-5">
+        <div class="card p-5 shadow-sm border-0">
             <h3 class="mb-4">Send us a message</h3>
-            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Message sent!');">
+            <form action="{{ url_for('contact') }}" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="form-group mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" required placeholder="Jane Doe">
+                    <input type="text" name="name" class="form-control" required placeholder="Jane Doe">
                 </div>
                 <div class="form-group mb-3">
                     <label class="form-label">Email Address</label>
-                    <input type="email" class="form-control" required placeholder="jane@example.com">
+                    <input type="email" name="email" class="form-control" required placeholder="jane@example.com">
                 </div>
                 <div class="form-group mb-4">
                     <label class="form-label">Message</label>
-                    <textarea class="form-control" rows="5" required placeholder="How can we help you?"></textarea>
+                    <textarea name="message" class="form-control" rows="5" required placeholder="How can we help you?"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg w-full">Send Message</button>
+                <button type="submit" class="btn btn-primary btn-lg w-full py-3">Send Message</button>
             </form>
         </div>
     </div>

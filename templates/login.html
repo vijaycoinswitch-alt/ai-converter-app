@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Log In - VijayPDF{% endblock %}
 {% block meta_description %}Log in to your VijayPDF account to access your history and professional tools.{% endblock %}
@@ -19,9 +19,9 @@
             </div>
             
             <div class="form-group mb-4">
-                <div class="d-flex justify-between items-center mb-1">
+                <div class="d-flex justify-between items-center mb-1" style="display: flex; justify-content: space-between;">
                     <label for="password" class="form-label mb-0">Password</label>
-                    <a href="#" class="text-muted" style="font-size:0.875rem;">Forgot password?</a>
+                    <a href="{{ url_for('forgot_password') }}" class="text-muted" style="font-size:0.875rem;">Forgot password?</a>
                 </div>
                 <input type="password" id="password" name="password" class="form-control" required placeholder="••••••••">
             </div>
