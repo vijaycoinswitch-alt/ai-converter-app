@@ -4,7 +4,6 @@ WORKDIR /app
 
 # Install system dependencies for advanced PDF module bindings
 RUN apt-get update && apt-get install -y \
-    wkhtmltopdf \
     tesseract-ocr \
     poppler-utils \
     libgl1 \
