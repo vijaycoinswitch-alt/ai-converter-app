@@ -121,22 +121,22 @@ limiter = Limiter(
     storage_uri="memory://",
 )
 
-csp = {
-    "default-src": "'self'",
-    "img-src": ["'self'", "data:"],
-    "style-src": ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-    "font-src": ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
-    "script-src": ["'self'", "'unsafe-inline'"],
-}
+# csp = {
+#     "default-src": "'self'",
+#     "img-src": ["'self'", "data:"],
+#     "style-src": ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+#     "font-src": ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
+#     "script-src": ["'self'", "'unsafe-inline'"],
+# }
 
-Talisman(
-    app,
-    force_https=is_production,
-    strict_transport_security=is_production,
-    content_security_policy=csp,
-    frame_options="DENY",
-    referrer_policy="strict-origin-when-cross-origin"
-)
+# Talisman(
+#     app,
+#     force_https=is_production,
+#     strict_transport_security=is_production,
+#     content_security_policy=csp,
+#     frame_options="DENY",
+#     referrer_policy="strict-origin-when-cross-origin"
+# )
 
 ALLOWED_EXTENSIONS = {
     "pdf", "docx", "doc", "xlsx", "xls", "pptx", "ppt",
