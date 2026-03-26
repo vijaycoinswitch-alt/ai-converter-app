@@ -74,3 +74,4 @@ jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
 2026-03-27 01:32:30,880 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
 2026-03-27 01:33:48,159 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
 2026-03-27 01:44:34,774 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 02:14:17,170 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
