@@ -29,7 +29,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from threading import Thread
 
-from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for, flash, abort, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
@@ -578,6 +578,77 @@ def favicon():
         'favicon.ico',
         mimetype='image/vnd.microsoft.icon'
     )
+
+@app.route('/sitemap.xml')
+def sitemap():
+    """Serve a dynamically generated sitemap.xml for SEO."""
+
+    base = "https://www.vijaypdf.com"
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+
+    pages = [
+        # (path, priority, changefreq)
+        ("/", "1.0", "weekly"),
+        ("/tools", "0.9", "weekly"),
+        # --- PDF Tool Pages ---
+        ("/pdf-to-word", "0.8", "monthly"),
+        ("/word-to-pdf", "0.8", "monthly"),
+        ("/jpg-to-pdf", "0.8", "monthly"),
+        ("/pdf-to-jpg", "0.8", "monthly"),
+        ("/merge-pdf", "0.8", "monthly"),
+        ("/split-pdf", "0.8", "monthly"),
+        ("/compress-pdf", "0.8", "monthly"),
+        ("/pdf-preview", "0.7", "monthly"),
+        ("/unlock-pdf", "0.7", "monthly"),
+        ("/protect-pdf", "0.7", "monthly"),
+        ("/remove-pages", "0.7", "monthly"),
+        ("/extract-pages", "0.7", "monthly"),
+        ("/organize-pdf", "0.7", "monthly"),
+        ("/scan-to-pdf", "0.7", "monthly"),
+        ("/ocr-pdf", "0.7", "monthly"),
+        ("/pdf-to-excel", "0.7", "monthly"),
+        ("/excel-to-pdf", "0.7", "monthly"),
+        ("/pdf-to-powerpoint", "0.7", "monthly"),
+        ("/powerpoint-to-pdf", "0.7", "monthly"),
+        ("/pdf-to-pdfa", "0.7", "monthly"),
+        ("/rotate-pdf", "0.7", "monthly"),
+        ("/add-page-numbers", "0.7", "monthly"),
+        ("/add-watermark", "0.7", "monthly"),
+        ("/crop-pdf", "0.7", "monthly"),
+        ("/edit-pdf", "0.7", "monthly"),
+        ("/redact-pdf", "0.7", "monthly"),
+        ("/compare-pdf", "0.7", "monthly"),
+        ("/summarize-pdf", "0.7", "monthly"),
+        ("/translate-pdf", "0.7", "monthly"),
+        ("/chat-pdf", "0.7", "monthly"),
+        # --- Info Pages ---
+        ("/pricing", "0.6", "monthly"),
+        ("/about", "0.5", "monthly"),
+        ("/contact-support", "0.5", "monthly"),
+        ("/faq", "0.5", "monthly"),
+        ("/privacy", "0.4", "yearly"),
+        ("/terms", "0.4", "yearly"),
+    ]
+
+    xml_entries = []
+    for path, priority, freq in pages:
+        xml_entries.append(
+            f"  <url>\n"
+            f"    <loc>{base}{path}</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            f"    <changefreq>{freq}</changefreq>\n"
+            f"    <priority>{priority}</priority>\n"
+            f"  </url>"
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(xml_entries) + "\n"
+        '</urlset>\n'
+    )
+
+    return Response(xml, mimetype="application/xml")
 
 # API Routes
 
