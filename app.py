@@ -737,9 +737,9 @@ def contact_support():
         email_service.send_auto_reply(email, name)
         
         flash("Thank you for contacting VijayPDF.com. Our team will respond shortly.", "success")
-        return render_template("contact.html", success=True)
+        return render_template("contact_support.html", success=True)
         
-    return render_template("contact.html")
+    return render_template("contact_support.html")
 
 @app.route("/faq")
 def faq():

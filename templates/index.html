@@ -1,109 +1,478 @@
-{% extends 'layouts/base.html' %}
-{% from 'components/tool_card.html' import render_tool %}
-
-{% block title %}VijayPDF - Advanced PDF Toolkit | Edit, Merge, Convert PDF Free{% endblock %}
-{% block meta_description %}The premium online platform for all your PDF and file conversion needs. Fast, secure, and powerfully simple.{% endblock %}
+ #index.html
+{% extends 'base.html' %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero pb-6">
-    <div class="container hero-content text-center">
-        <span class="hero-badge">✨ Rated #1 Online PDF Converter</span>
-        <h1 class="mb-3">The Ultimate <span class="text-gradient">PDF Toolkit</span> for Everyone</h1>
-        <p class="mb-4 text-muted" style="max-width:650px; margin-inline:auto;">Edit, convert, merge, compress, and secure your PDFs with our premium suite of tools. No installation required. Fast, secure, and powerfully simple.</p>
-        <div class="hero-actions d-flex justify-center gap-2 flex-wrap mt-4">
-            <a href="/tools" class="btn btn-primary btn-lg">Explore All Tools</a>
-            <a href="#how-it-works" class="btn btn-secondary btn-lg">How it Works</a>
+
+<section id="module-dashboard" class="module-section active">
+
+    <!-- Top Welcome Bar -->
+    <div class="topbar">
+        <div>
+            <h2>Convertify Dashboard</h2>
+            <p>Convert, compress, edit and secure your files in one place.</p>
+        </div>
+
+        <div class="topbar-actions">
+            <button id="themeToggle" class="btn btn-outline">🌙 Dark Mode</button>
+
+            {% if current_user.is_authenticated %}
+                <span class="user-badge">Hi, {{ current_user.username }}</span>
+                <a href="{{ url_for('history') }}" class="btn btn-secondary">History</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-success">Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero-banner">
+        <h1>Advanced PDF Toolkit</h1>
+        <p>Every tool you need to work with PDFs in one place. Fast, modern, and easy to use.</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+    <div class="stat-card">
+        <i class="fas fa-layer-group"></i>
+        <h3>{{ total_conversions if current_user.is_authenticated else '25+' }}</h3>
+        <p>{% if current_user.is_authenticated %}Total conversions{% else %}Available tools{% endif %}</p>
+    </div>
+
+    <div class="stat-card">
+        <i class="fas fa-clock"></i>
+        <h3>{{ recent_count if current_user.is_authenticated else 'Fast' }}</h3>
+        <p>{% if current_user.is_authenticated %}Recent activities{% else %}Quick processing{% endif %}</p>
+    </div>
+
+    <div class="stat-card">
+        <i class="fas fa-user-shield"></i>
+        <h3>{% if current_user.is_authenticated %}Active{% else %}Guest{% endif %}</h3>
+        <p>Account status</p>
+    </div>
+
+    <div class="stat-card">
+        <i class="fas fa-robot"></i>
+        <h3>AI</h3>
+        <p>Smart PDF tools</p>
+    </div>
+</div>
+        <div class="stat-card">
+            <i class="fas fa-layer-group"></i>
+            <h3>25+ Tools</h3>
+            <p>All major PDF operations</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Fast Processing</h3>
+            <p>Upload and convert quickly</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-lock"></i>
+            <h3>Secure</h3>
+            <p>Protect and redact documents</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-robot"></i>
+            <h3>AI Tools</h3>
+            <p>Summarize, translate, chat</p>
+        </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="tool-search-wrap">
+        <input type="text" id="toolSearch" placeholder="Search tools like Merge PDF, OCR, Protect PDF...">
+    </div>
+
+    <div class="modules-container">
+
+        <!-- Organize -->
+        <h3 id="cat-organize" class="category-title"><i class="fas fa-copy"></i> Organize PDF</h3>
+        <div class="tools-grid">
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="merge" data-name="merge pdf combine multiple pdfs">
+                <button class="fav-btn" data-tool="merge-pdf">⭐</button>
+                <div class="tool-icon-box"><i class="fas fa-object-group tool-icon"></i></div>
+                <h4>Merge PDF</h4>
+                <p>Combine multiple PDFs into one file.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="split" data-name="split pdf separate pages">
+                <button class="fav-btn" data-tool="split-pdf">⭐</button>   
+                <div class="tool-icon-box"><i class="fas fa-cut tool-icon"></i></div>
+                <h4>Split PDF</h4>
+                <p>Separate a PDF into multiple pages.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="remove-pages" data-name="remove pages delete unwanted pages">
+                <button class="fav-btn" data-tool="remove-pages">⭐</button>
+                <div class="tool-icon-box"><i class="fas fa-eraser tool-icon"></i></div>
+                <h4>Remove Pages</h4>
+                <p>Delete unwanted pages from your PDF.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="extract-pages" data-name="extract pages select pages">
+                <button class="fav-btn" data-tool="extract-pages">⭐</button>
+                <div class="tool-icon-box"><i class="fas fa-file-export tool-icon"></i></div>
+                <h4>Extract Pages</h4>
+                <p>Pull selected pages into a new file.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="organize" data-name="organize pdf rearrange pages">
+                <button class="fav-btn" data-tool="organize-pdf">⭐</button>
+                <div class="tool-icon-box"><i class="fas fa-sort-numeric-down tool-icon"></i></div>
+                <h4>Organize PDF</h4>
+                <p>Rearrange PDF page order easily.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="organize" data-action="scan-to-pdf" data-name="scan to pdf images into pdf">
+                <button class="fav-btn" data-tool="scan-to-pdf">⭐</button>
+                <div class="tool-icon-box"><i class="fas fa-scanner tool-icon"></i></div>
+                <h4>Scan to PDF</h4>
+                <p>Convert images into a single PDF.</p>
+            </div>
+        </div>
+
+        <!-- Optimize -->
+        <h3 id="cat-optimize" class="category-title"><i class="fas fa-compress-arrows-alt"></i> Optimize PDF</h3>
+        <div class="tools-grid">
+            <div class="tool-card searchable-tool" data-module="optimize" data-action="compress" data-name="compress pdf reduce size">
+                <div class="tool-icon-box"><i class="fas fa-compress tool-icon"></i></div>
+                <h4>Compress PDF</h4>
+                <p>Reduce PDF size while keeping quality.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="optimize" data-action="repair" data-name="repair pdf fix corrupted pdf">
+                <div class="tool-icon-box"><i class="fas fa-wrench tool-icon"></i></div>
+                <h4>Repair PDF</h4>
+                <p>Fix broken or corrupted PDF files.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="optimize" data-action="ocr" data-name="ocr pdf extract text">
+                <div class="tool-icon-box"><i class="fas fa-search tool-icon"></i></div>
+                <h4>OCR PDF</h4>
+                <p>Extract searchable text from scans.</p>
+            </div>
+        </div>
+
+        <!-- Convert TO PDF -->
+        <h3 id="cat-convert-to" class="category-title"><i class="fas fa-file-import"></i> Convert TO PDF</h3>
+        <div class="tools-grid">
+            <div class="tool-card searchable-tool" data-module="convert" data-action="jpg-to-pdf" data-name="jpg to pdf image to pdf">
+                <div class="tool-icon-box"><i class="fas fa-image tool-icon"></i></div>
+                <h4>JPG to PDF</h4>
+                <p>Convert images into PDF format.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="word-to-pdf" data-name="word to pdf docx to pdf">
+                <div class="tool-icon-box"><i class="fas fa-file-word tool-icon"></i></div>
+                <h4>Word to PDF</h4>
+                <p>Convert DOCX files into PDF.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="powerpoint-to-pdf" data-name="powerpoint to pdf pptx to pdf">
+                <div class="tool-icon-box"><i class="fas fa-file-powerpoint tool-icon"></i></div>
+                <h4>PowerPoint to PDF</h4>
+                <p>Convert presentations into PDF.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="excel-to-pdf" data-name="excel to pdf xlsx to pdf">
+                <div class="tool-icon-box"><i class="fas fa-file-excel tool-icon"></i></div>
+                <h4>Excel to PDF</h4>
+                <p>Export spreadsheet data as PDF.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="html-to-pdf" data-name="html to pdf webpage to pdf">
+                <div class="tool-icon-box"><i class="fas fa-code tool-icon"></i></div>
+                <h4>HTML to PDF</h4>
+                <p>Convert HTML/web pages to PDF.</p>
+            </div>
+        </div>
+
+        <!-- Convert FROM PDF -->
+        <h3 id="cat-convert-from" class="category-title"><i class="fas fa-file-export"></i> Convert FROM PDF</h3>
+        <div class="tools-grid">
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-jpg" data-name="pdf to jpg extract images">
+                <div class="tool-icon-box"><i class="fas fa-file-image tool-icon"></i></div>
+                <h4>PDF to JPG</h4>
+                <p>Convert PDF pages into JPG images.</p>
+            </div>
+
+            <a href="/pdf-to-word" class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-word" data-name="pdf to word editable docx">
+                <div class="tool-icon-box"><i class="fas fa-file-word tool-icon"></i></div>
+                <h4>PDF to Word</h4>
+                <p>Convert PDF into editable DOCX.</p>
+            </a>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-powerpoint" data-name="pdf to powerpoint pptx">
+                <div class="tool-icon-box"><i class="fas fa-file-powerpoint tool-icon"></i></div>
+                <h4>PDF to PowerPoint</h4>
+                <p>Convert PDF into presentation slides.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-excel" data-name="pdf to excel extract tables">
+                <div class="tool-icon-box"><i class="fas fa-table tool-icon"></i></div>
+                <h4>PDF to Excel</h4>
+                <p>Extract tables into Excel sheets.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="convert" data-action="pdf-to-pdfa" data-name="pdf to pdfa archive standard">
+                <div class="tool-icon-box"><i class="fas fa-archive tool-icon"></i></div>
+                <h4>PDF to PDF/A</h4>
+                <p>Convert to archival PDF/A format.</p>
+            </div>
+        </div>
+
+        <!-- Edit -->
+        <h3 id="cat-edit" class="category-title"><i class="fas fa-edit"></i> Edit PDF</h3>
+        <div class="tools-grid">
+            <div class="tool-card searchable-tool" data-module="edit" data-action="rotate" data-name="rotate pdf rotate pages">
+                <div class="tool-icon-box"><i class="fas fa-redo tool-icon"></i></div>
+                <h4>Rotate PDF</h4>
+                <p>Rotate pages in your PDF.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="add-page-numbers" data-name="add page numbers">
+                <div class="tool-icon-box"><i class="fas fa-list-ol tool-icon"></i></div>
+                <h4>Add Page Numbers</h4>
+                <p>Stamp page numbers on your document.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="add-watermark" data-name="add watermark pdf">
+                <div class="tool-icon-box"><i class="fas fa-stamp tool-icon"></i></div>
+                <h4>Add Watermark</h4>
+                <p>Overlay custom watermark text.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="crop" data-name="crop pdf trim edges">
+                <div class="tool-icon-box"><i class="fas fa-crop-alt tool-icon"></i></div>
+                <h4>Crop PDF</h4>
+                <p>Trim the edges of your pages.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="edit" data-action="edit-pdf" data-name="edit pdf append text">
+                <div class="tool-icon-box"><i class="fas fa-i-cursor tool-icon"></i></div>
+                <h4>Edit PDF</h4>
+                <p>Append custom text to your PDF.</p>
+            </div>
+        </div>
+
+        <!-- Security -->
+        <h3 id="cat-security" class="category-title"><i class="fas fa-shield-alt"></i> PDF Security</h3>
+        <div class="tools-grid">
+            <div class="tool-card searchable-tool" data-module="security" data-action="unlock" data-name="unlock pdf remove password">
+                <div class="tool-icon-box"><i class="fas fa-unlock tool-icon"></i></div>
+                <h4>Unlock PDF</h4>
+                <p>Remove PDF passwords securely.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="protect" data-name="protect pdf encrypt password">
+                <div class="tool-icon-box"><i class="fas fa-lock tool-icon"></i></div>
+                <h4>Protect PDF</h4>
+                <p>Encrypt PDF using password.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="sign" data-name="sign pdf digital signature">
+                <div class="tool-icon-box"><i class="fas fa-signature tool-icon"></i></div>
+                <h4>Sign PDF</h4>
+                <p>Add digital PFX signature.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="redact" data-name="redact pdf censor words">
+                <div class="tool-icon-box"><i class="fas fa-user-secret tool-icon"></i></div>
+                <h4>Redact PDF</h4>
+                <p>Hide sensitive words and content.</p>
+            </div>
+
+            <div class="tool-card searchable-tool" data-module="security" data-action="compare" data-name="compare pdf difference">
+                <div class="tool-icon-box"><i class="fas fa-balance-scale tool-icon"></i></div>
+                <h4>Compare PDF</h4>
+                <p>Find differences between two PDFs.</p>
+            </div>
+        </div>
+
+        <!-- AI -->
+        <h3 id="cat-intelligence" class="category-title"><i class="fas fa-brain"></i> PDF Intelligence (AI)</h3>
+        <div class="tools-grid">
+            <div class="tool-card ai-card searchable-tool" data-module="intelligence" data-action="summarize" data-name="summarize pdf ai">
+                <span class="badge-pro">PRO</span>
+                <div class="tool-icon-box"><i class="fas fa-robot tool-icon"></i></div>
+                <h4>Summarize PDF</h4>
+                <p>AI-generated quick summary.</p>
+            </div>
+
+            <div class="tool-card ai-card searchable-tool" data-module="intelligence" data-action="translate" data-name="translate pdf ai">
+                <span class="badge-pro">PRO</span>
+                <div class="tool-icon-box"><i class="fas fa-language tool-icon"></i></div>
+                <h4>Translate PDF</h4>
+                <p>Translate document content with AI.</p>
+            </div>
+
+            <div class="tool-card ai-card searchable-tool" data-module="intelligence" data-action="chat" data-name="chat with pdf ai ask question">
+                <span class="badge-pro">PRO</span>
+                <div class="tool-icon-box"><i class="fas fa-comments tool-icon"></i></div>
+                <h4>Chat with PDF</h4>
+                <p>Ask AI questions about your document.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Processing Workspace -->
+<section id="processing-workspace" class="workspace-section" style="display: none;">
+    <button id="back-to-dash" class="btn btn-outline mb-3">
+        <i class="fas fa-arrow-left"></i> Back to Tools
+    </button>
+
+    <div class="workspace-card rounded-box">
+        <h2 id="workspace-title">Tool Name</h2>
+        <p id="workspace-desc" class="text-muted">Upload your files below to begin processing.</p>
+
+        <div id="tool-parameters" class="mb-3" style="display: none;"></div>
+
+        <div class="upload-area" id="upload-zone">
+            <i class="fas fa-cloud-upload-alt fa-3x mb-2 text-primary"></i>
+            <h3>Drag & Drop files here</h3>
+            <p>or</p>
+            <input type="file" id="file-input" multiple hidden>
+            <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Select Files</button>
+        </div>
+
+        <div id="progress-area" class="mt-4" style="display: none; text-align: center;">
+            <div class="loader-cube"></div>
+            <h4 class="mt-3">Processing your files...</h4>
+            <p class="text-muted">Please wait, this might take a moment.</p>
+            <div class="custom-progress mt-2">
+                <div class="custom-progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="result-area" class="mt-4 text-center" style="display: none;">
+            <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+            <h3>Task Completed Successfully!</h3>
+
+            <div id="text-result-box" style="display: none; margin-top: 15px; padding: 15px; background: var(--bg-secondary); border-radius: 8px; text-align: left; max-height: 250px; overflow-y: auto;">
+            </div>
+
+            <a href="#" id="download-btn" class="btn btn-success mt-3" style="display: none;">
+                <i class="fas fa-download"></i> Download File
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Popular Tools Section -->
-<section class="section" style="background:var(--bg-surface);">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2>Most <span class="text-gradient">Popular</span> Tools</h2>
-            <p class="text-muted">Discover the tools our users love the most.</p>
-        </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {{ render_tool('PDF to Word', 'Convert your PDF to an editable Word document with high precision.', 'fa-solid fa-file-word', '/pdf-to-word') }}
-            {{ render_tool('Merge PDF', 'Combine multiple PDFs into a single unified document easily.', 'fa-solid fa-object-group', '/merge-pdf') }}
-            {{ render_tool('Compress PDF', 'Reduce file size while optimizing for maximal PDF quality.', 'fa-solid fa-compress', '/compress-pdf') }}
-            {{ render_tool('JPG to PDF', 'Convert JPG images to PDF in seconds. Easily adjust orientation.', 'fa-solid fa-image', '/jpg-to-pdf') }}
-            
-            {{ render_tool('Split PDF', 'Separate one page or a whole set for easy conversion into independent PDF files.', 'fa-solid fa-scissors', '/split-pdf') }}
-            {{ render_tool('Word to PDF', 'Make DOC and DOCX files easy to read by converting them to PDF.', 'fa-solid fa-file-pdf', '/word-to-pdf') }}
-            {{ render_tool('AI Summarize', 'Leverage AI to read and summarize your lengthy PDFs instantly.', 'fa-solid fa-robot', '/summarize-pdf') }}
-            {{ render_tool('Protect PDF', 'Encrypt your PDF with a password to keep sensitive data confidential.', 'fa-solid fa-lock', '/protect-pdf') }}
-        </div>
-        
-        <div class="text-center mt-5">
-            <a href="/tools" class="btn btn-outline">Explore All 20+ Tools <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-    </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("toolSearch");
+    const cards = document.querySelectorAll(".searchable-tool");
+
+    if (searchInput) {
+        searchInput.addEventListener("keyup", function () {
+            const value = this.value.toLowerCase();
+
+            cards.forEach(card => {
+                const text = card.getAttribute("data-name");
+                if (text.includes(value)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("themeToggle");
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        if (toggle) toggle.innerText = "☀️ Light Mode";
+    }
+
+    if (toggle) {
+        toggle.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+
+            if (document.body.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+                toggle.innerText = "☀️ Light Mode";
+            } else {
+                localStorage.setItem("theme", "light");
+                toggle.innerText = "🌙 Dark Mode";
+            }
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const favButtons = document.querySelectorAll(".fav-btn");
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favButtons.forEach(btn => {
+        const tool = btn.getAttribute("data-tool");
+
+        if (favorites.includes(tool)) {
+            btn.classList.add("active");
+            btn.innerText = "💛";
+        }
+
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+
+            if (favorites.includes(tool)) {
+                favorites = favorites.filter(item => item !== tool);
+                btn.classList.remove("active");
+                btn.innerText = "⭐";
+            } else {
+                favorites.push(tool);
+                btn.classList.add("active");
+                btn.innerText = "💛";
+            }
+
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        });
+    });
+});
+</script>
+
+<!-- {% endblock %}
+
+{% extends "base.html" %}
+
+{% block title %}Convertify - Free Online File Converter Tools{% endblock %}
+{% block meta_description %}Convertify offers free online tools for PDF to Word, Word to PDF, JPG to PDF, Merge PDF, Split PDF and more.{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Free Online File Converter Tools</h1>
+    <p>Convert PDF, Word, JPG and more with fast and secure online tools.</p>
 </section>
 
-<!-- Why Choose Us / Features -->
-<section id="how-it-works" class="section">
-    <div class="container">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="card text-center p-4 border-0 bg-transparent shadow-none">
-                <div class="mb-3" style="font-size:3rem; color:var(--primary);"><i class="fa-solid fa-bolt"></i></div>
-                <h3 class="mb-2">Lightning Fast</h3>
-                <p class="text-muted">Our cloud servers process your files in seconds so you don't have to wait around.</p>
-            </div>
-            <div class="card text-center p-4 border-0 bg-transparent shadow-none">
-                <div class="mb-3" style="font-size:3rem; color:var(--success);"><i class="fa-solid fa-shield-halved"></i></div>
-                <h3 class="mb-2">Bank-grade Security</h3>
-                <p class="text-muted">All files are transferred over TLS 256-bit encryption and are automatically deleted after 2 hours.</p>
-            </div>
-            <div class="card text-center p-4 border-0 bg-transparent shadow-none">
-                <div class="mb-3" style="font-size:3rem; color:var(--warning);"><i class="fa-solid fa-laptop"></i></div>
-                <h3 class="mb-2">Work from Anywhere</h3>
-                <p class="text-muted">Access our Premium PDF tools on Mac, Windows, Linux, iOS, or Android seamlessly.</p>
-            </div>
-        </div>
-    </div>
+<section class="tools-grid">
+    <div><a href="/pdf-to-word">PDF to Word</a></div>
+    <div><a href="/word-to-pdf">Word to PDF</a></div>
+    <div><a href="/jpg-to-pdf">JPG to PDF</a></div>
+    <div><a href="/pdf-to-excel">PDF to Excel</a></div>
+    <div><a href="/merge-pdf">Merge PDF</a></div>
+    <div><a href="/split-pdf">Split PDF</a></div>
+    <div><a href="/compress-pdf">Compress PDF</a></div>
 </section>
 
-<!-- FAQ Preview -->
-<section class="section" style="background:var(--bg-surface);">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2>Frequently Asked <span class="text-gradient">Questions</span></h2>
-            <p class="text-muted">Got questions? We've got answers.</p>
-        </div>
-        
-        <div class="faq-list">
-            <div class="accordion-item">
-                <button class="accordion-header" aria-expanded="false">Are my files secure? <i class="fa-solid fa-chevron-down"></i></button>
-                <div class="accordion-content">
-                    <p class="pt-2 pb-2">Absolutely. We use 256-bit SSL encryption to safely upload your files. All files are automatically deleted from our servers 2 hours after processing finishes.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-header" aria-expanded="false">Is VijayPDF really free? <i class="fa-solid fa-chevron-down"></i></button>
-                <div class="accordion-content">
-                    <p class="pt-2 pb-2">Yes, the core tools are completely free to use with certain file size and daily usage limits. For unlimited access and advanced AI features, you can upgrade to Premium.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-header" aria-expanded="false">Do I need to install any software? <i class="fa-solid fa-chevron-down"></i></button>
-                <div class="accordion-content">
-                    <p class="pt-2 pb-2">None at all. VijayPDF is a 100% cloud-based SaaS platform. You just need a web browser and an internet connection.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Final CTA -->
-<section class="section text-center" style="background:var(--gradient-hero);">
-    <div class="container">
-        <h2 class="mb-3" style="font-size:2.5rem;">Ready to boost your productivity?</h2>
-        <p class="text-muted mb-4" style="max-width:600px; margin-inline:auto;">Join thousands of students, professionals, and businesses who trust VijayPDF for their daily document tasks.</p>
-        <a href="/register" class="btn btn-primary btn-lg">Create Free Account</a>
-    </div>
-</section>
-{% endblock %}
+<p>
+Try our other tools:
+<a href="/merge-pdf">Merge PDF</a> |
+<a href="/split-pdf">Split PDF</a> |
+<a href="/compress-pdf">Compress PDF</a>
+</p>
+
+
+{% endblock %} -->
