@@ -1,56 +1,75 @@
-2026-03-26 20:09:12,693 INFO: Cleaned up old file: cbdc6d93ffb545a88fc5b5ce23265669_Screenshot_2026-03-20_143517.png [in G:\AI_Converter_App\app.py:177]
-2026-03-26 20:09:12,694 INFO: Cleaned up old file: d8baa26774944a0eb5961958f3e2f38a_00e9fa6ae0744cbc9a191043602c77a1.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-26 20:09:12,694 INFO: Cleaned up old file: dc58d8ded46a4340bbe774e05ce92b35_sample1.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,970 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
-2026-03-27 01:16:33,971 INFO: Cleaned up old file: dffbaac244ff4c8486db5d0c8e013104_sample1.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,972 INFO: Cleaned up old file: e56ea7c91806433d9ccdfda921af0783_sample1.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,972 INFO: Cleaned up old file: e9be6a0ad87c4f7fb18b7695e4b8341a_merged_8c0c5d1e854845a693f347da0999b21b.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,973 INFO: Cleaned up old file: ec8b01b6c17447268634e1c50ad1b0c2_index.html [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,973 INFO: Cleaned up old file: ee5afb00b70e4236a63d09cbe0ffea8b_R.Keerthana__B.V.Jayant.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,974 INFO: Cleaned up old file: f26a98c72c744b5b84cead3aca1cdd06_Screenshot_2026-03-20_161002.png [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,974 INFO: Cleaned up old file: f3118e6dbbcc4ae8ac81aad0fac6a64d_Screenshot_2026-03-20_161002.png [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,974 INFO: Cleaned up old file: f72b5f58acd247e6954b41c542b49c07_Screenshot_2026-03-20_151555.png [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,975 INFO: Cleaned up old file: f9fc65c93ba24c0a85147a91afaa723e_sample2.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,975 INFO: Cleaned up old file: fa332b4c5f8340af8e9a1684e22c653b_sample1.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,976 INFO: Cleaned up old file: fbc18dc0e5cd41948c75d4740133489c_Screenshot_2026-03-20_152924.png [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,978 INFO: Cleaned up old file: fc46c7775b9d450792ae50ac2745d244_ce9a0724a9dc449fa08e2531d937484c.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,979 INFO: Cleaned up old file: fed8b97abb574e32b68332c676c2b1ad_Screenshot_2026-03-20_161002.png [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,979 INFO: Cleaned up old file: 00e9fa6ae0744cbc9a191043602c77a1.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,979 INFO: Cleaned up old file: 12e6d25c020b44578f378b5dde61a789_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,980 INFO: Cleaned up old file: 1d8571d96ab44d5594d0dda6fed7527c.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,980 INFO: Cleaned up old file: 2884c846863e4b70a78fa039aadff17e.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,981 INFO: Cleaned up old file: 3637c8c95768482c92204ec0488c303e.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,981 INFO: Cleaned up old file: 379d52d206b2433dbc488b19a861f622.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,981 INFO: Cleaned up old file: 40a5bafc0e5a4b2bae2caa6beb900f82.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,982 INFO: Cleaned up old file: 4294d4f7b18344e98377db617a367a22.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,982 INFO: Cleaned up old file: 4c216072098a414e8dbf5fcd06843604.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,982 INFO: Cleaned up old file: 52969d8e92ca4d469217b46e2ba1a422_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,982 INFO: Cleaned up old file: 5916904de2734e4791eb50af8bf9cf76.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,983 INFO: Cleaned up old file: 616d0eafcaf74248b0c19015b5013c23_Screenshot_2026-03-20_130135.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,984 INFO: Cleaned up old file: 6614cda0f3d94fedaa3cc90d0b4934c9.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,984 INFO: Cleaned up old file: 699e056f592348a7b02cc10d11a06921_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,984 INFO: Cleaned up old file: 6b2a21cb3e3344688118a5d5d8b4919e.docx [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,984 INFO: Cleaned up old file: 6b5b60ace2744be482b85fe52d6ae632_output.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,985 INFO: Cleaned up old file: 71ffd58c5528414c84deb9da94d21d0e.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,985 INFO: Cleaned up old file: 7667df7e09da4d2aadd0f026af0a0cc4.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,985 INFO: Cleaned up old file: 7676bf2a59c94b6cad1da70383118565.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,986 INFO: Cleaned up old file: 78d4085bcc824d5b8ed7c553f645de6b_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,986 INFO: Cleaned up old file: 87d5f84c28eb43e2a3f415bd413e562e.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,986 INFO: Cleaned up old file: 93e1219545e24061acb88c49d12aaaf6.docx [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,986 INFO: Cleaned up old file: 9bc5fc169ea64810adbf86f6ab496166.docx [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,987 INFO: Cleaned up old file: a608cd5001b44ccdad260074c17113fe.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,988 INFO: Cleaned up old file: a901098211b94cb7bc120de30f7c206d_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:33,988 INFO: Cleaned up old file: aadb6b3e1f9643a393af23a9c565b6a2.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,016 INFO: Cleaned up old file: add289f778e54edcbefb56c9b56ed032.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,016 INFO: Cleaned up old file: b9dc830509e54e97b64e8b6b7ff111ed.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,017 INFO: Cleaned up old file: c7042328a66c4b6bb6f1b1649df0066c.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,017 INFO: Cleaned up old file: c88a830c30594f80b20438abc68d2d89_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,017 INFO: Cleaned up old file: c987a8d578d843a7bd6f84f5ef9afb47_split.zip [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,018 INFO: Cleaned up old file: cd6e1d5758dd4b878ddfbac63b8b957b.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,019 INFO: Cleaned up old file: ce9a0724a9dc449fa08e2531d937484c.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,020 INFO: Cleaned up old file: efa6571719a6422c97194942a86f4c14_output.docx [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,020 INFO: Cleaned up old file: f0f34ee95345477f8645066775b88430.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,021 INFO: Cleaned up old file: f2bbeaff91d3464493b42b1ebd8402d0.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,021 INFO: Cleaned up old file: fca230b11c2e4f068e86cd6aa8af47f1_output.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,021 INFO: Cleaned up old file: fde605106e1345279463dd539a94725a.pdf [in G:\AI_Converter_App\app.py:177]
-2026-03-27 01:16:34,021 INFO: Cleaned up old file: merged_8c0c5d1e854845a693f347da0999b21b.pdf [in G:\AI_Converter_App\app.py:177]
+2026-03-27 01:30:53,230 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 01:30:53,244 ERROR: Exception on /register [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_limiter\_limits.py", line 326, in __inner
+    return cast(R, flask.current_app.ensure_sync(obj)(*a, **k))
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "G:\AI_Converter_App\app.py", line 1018, in register
+    return render_template('register.html')
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\AI_Converter_App\templates\register.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\AI_Converter_App\templates\base.html", line 125, in template
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^
+jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
+2026-03-27 01:30:53,246 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 01:32:30,815 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 01:32:30,862 ERROR: Exception on / [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "G:\AI_Converter_App\app.py", line 939, in index
+    return render_template(
+        'index.html',
+        total_conversions=total_conversions,
+        recent_count=recent_count
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "G:\AI_Converter_App\templates\index.html", line 453, in template
+    {% block content %}
+jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
+2026-03-27 01:32:30,880 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 01:33:48,159 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
