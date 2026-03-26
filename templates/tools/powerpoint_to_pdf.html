@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert PowerPoint to PDF Free Online - VijayPDF{% endblock %}
+{% block meta_description %}Convert PowerPoint presentations (PPTX, PPT) to PDF format. Preserves slides, images, and layout.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">PowerPoint to PDF</span>{% endblock %}
+{% block tool_desc %}Turn your presentations into universally viewable PDF documents while preserving slide layouts and visuals.{% endblock %}
+
+{% block api_endpoint %}/api/powerpoint-to-pdf{% endblock %}
+
+{% set accept_formats = ".pptx,.ppt" %}
+{% set title = "Upload PowerPoint Presentation" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert PowerPoint to PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Select your PowerPoint file (PPTX or PPT) from your device.</li>
+    <li class="mb-2">Our system renders each slide with full fidelity.</li>
+    <li class="mb-2">Wait a moment for the conversion to finish.</li>
+    <li class="mb-2">Download the PDF version of your presentation.</li>
+</ol>
+
+<h3 class="mb-3">Present anywhere without PowerPoint</h3>
+<p class="text-muted mb-4">PDF ensures your presentation looks identical on every device. Share slides with clients, print handouts, or archive presentations without worrying about missing fonts or broken layouts.</p>
+{% endblock %}

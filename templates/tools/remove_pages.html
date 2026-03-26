@@ -1,0 +1,38 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Remove Pages from PDF Online - VijayPDF{% endblock %}
+{% block meta_description %}Delete specific pages from your PDF document online. Fast, free, and secure page removal.{% endblock %}
+
+{% block tool_h1 %}Remove <span class="text-gradient">PDF Pages</span>{% endblock %}
+{% block tool_desc %}Delete unwanted pages from your PDF document by specifying page numbers.{% endblock %}
+
+{% block api_endpoint %}/api/remove-pages{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload PDF File" %}
+{% set multiple = false %}
+
+{% block extra_js_logic %}
+const pagesInput = document.getElementById('pages-input');
+if (pagesInput) {
+    formData.append('pages', pagesInput.value);
+}
+{% endblock %}
+
+{% block seo_content %}
+<div class="mb-4 p-4" style="background:var(--bg-main); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+    <label for="pages-input" style="font-weight:600; display:block; margin-bottom:0.5rem;">Pages to remove (e.g. 1,3,5)</label>
+    <input type="text" id="pages-input" class="form-control" placeholder="1,3,5" style="width:100%; padding:0.75rem 1rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+</div>
+
+<h2 class="mb-3">How to remove pages from a PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the PDF document you want to modify.</li>
+    <li class="mb-2">Enter the page numbers you want to remove (comma-separated).</li>
+    <li class="mb-2">Click upload and wait for the processing.</li>
+    <li class="mb-2">Download the modified PDF without the deleted pages.</li>
+</ol>
+
+<h3 class="mb-3">Clean up large documents</h3>
+<p class="text-muted mb-4">Remove cover pages, blank pages, or irrelevant appendices from a PDF without needing premium software. Simply specify which pages to delete and download the cleaned-up version instantly.</p>
+{% endblock %}

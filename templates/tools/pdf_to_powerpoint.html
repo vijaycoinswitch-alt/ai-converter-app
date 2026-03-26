@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert PDF to PowerPoint Free Online - VijayPDF{% endblock %}
+{% block meta_description %}Turn PDF documents into editable PowerPoint presentations. Extract content and create slides automatically.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">PDF to PowerPoint</span>{% endblock %}
+{% block tool_desc %}Transform your PDF documents into editable PowerPoint presentations automatically.{% endblock %}
+
+{% block api_endpoint %}/api/pdf-to-powerpoint{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert PDF to PowerPoint?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the PDF you want to turn into a presentation.</li>
+    <li class="mb-2">Our system extracts content from each page into individual slides.</li>
+    <li class="mb-2">Wait for the conversion process to complete.</li>
+    <li class="mb-2">Download the PPTX file and edit it in PowerPoint or Google Slides.</li>
+</ol>
+
+<h3 class="mb-3">Repurpose documents into presentations</h3>
+<p class="text-muted mb-4">Quickly convert report PDFs into presentation slides for meetings. Each page becomes a slide with its content extracted, saving you hours of manual copy-and-paste work.</p>
+{% endblock %}

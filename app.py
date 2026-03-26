@@ -346,17 +346,33 @@ def word_to_pdf_func(in_path, out_path):
     docx2pdf_convert(os.path.abspath(in_path), os.path.abspath(out_path))
 
 def powerpoint_to_pdf_func(in_path, out_path):
-    # Requires comtypes (Windows only + MS Office installed)
+    """Cross-platform PPTX to PDF using python-pptx + reportlab."""
+    from reportlab.lib.units import inch
+    from reportlab.pdfgen import canvas
     try:
-        import comtypes.client
-        powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
-        powerpoint.Visible = 1
-        deck = powerpoint.Presentations.Open(os.path.abspath(in_path))
-        deck.SaveAs(os.path.abspath(out_path), 32) # formatType = 32 for pdf
-        deck.Close()
-        powerpoint.Quit()
+        prs = Presentation(in_path)
+        slide_width = prs.slide_width.inches
+        slide_height = prs.slide_height.inches
+        c = canvas.Canvas(out_path, pagesize=(slide_width * inch, slide_height * inch))
+        for slide in prs.slides:
+            texts = []
+            for shape in slide.shapes:
+                if shape.has_text_frame:
+                    for para in shape.text_frame.paragraphs:
+                        text = para.text.strip()
+                        if text:
+                            texts.append(text)
+            y = slide_height * inch - 50
+            for t in texts:
+                if y < 50:
+                    c.showPage()
+                    y = slide_height * inch - 50
+                c.drawString(50, y, t[:120])
+                y -= 18
+            c.showPage()
+        c.save()
     except Exception as e:
-        raise Exception("PowerPoint to PDF failed. Ensure MS PowerPoint is installed on this Windows server. " + str(e))
+        raise Exception(f"PowerPoint to PDF conversion failed: {e}")
 
 def excel_to_pdf_func(in_path, out_path):
     df = pd.read_excel(in_path)
@@ -393,17 +409,31 @@ def pdf_to_word_func(in_path, out_path):
     cv.close()
 
 def pdf_to_powerpoint_func(in_path, out_path):
-    # Convert PDF pages to images then embed in PPTX
-    POPPLER_PATH = os.getenv("POPPLER_PATH", None)
-    imgs = convert_from_path(in_path, poppler_path=POPPLER_PATH)
+    """Convert PDF to PPTX. Uses Poppler images when available, falls back to text extraction."""
     prs = Presentation()
-    for img in imgs:
-        tmp = out_path.replace('.pptx', '_tmp.jpg')
-        img.save(tmp)
-        blank_slide_layout = prs.slide_layouts[6]
-        slide = prs.slides.add_slide(blank_slide_layout)
-        slide.shapes.add_picture(tmp, 0, 0, width=prs.slide_width, height=prs.slide_height)
-        os.remove(tmp)
+    try:
+        POPPLER_PATH = os.getenv("POPPLER_PATH", None)
+        imgs = convert_from_path(in_path, poppler_path=POPPLER_PATH)
+        for img in imgs:
+            tmp = out_path.replace('.pptx', '_tmp.jpg')
+            img.save(tmp)
+            blank_slide_layout = prs.slide_layouts[6]
+            slide = prs.slides.add_slide(blank_slide_layout)
+            slide.shapes.add_picture(tmp, 0, 0, width=prs.slide_width, height=prs.slide_height)
+            os.remove(tmp)
+    except Exception:
+        # Fallback: extract text via PyMuPDF and place on slides
+        doc = fitz.open(in_path)
+        for page in doc:
+            blank_slide_layout = prs.slide_layouts[6]
+            slide = prs.slides.add_slide(blank_slide_layout)
+            from pptx.util import Pt, Emu
+            txBox = slide.shapes.add_textbox(Inches(0.5), Inches(0.5),
+                                             prs.slide_width - Inches(1), prs.slide_height - Inches(1))
+            tf = txBox.text_frame
+            tf.word_wrap = True
+            text = page.get_text().strip()
+            tf.text = text[:3000] if text else "(No text content on this page)"
     prs.save(out_path)
 
 def pdf_to_excel_func(in_path, out_path):

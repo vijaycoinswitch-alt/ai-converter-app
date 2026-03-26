@@ -1,0 +1,38 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Unlock PDF - Remove Password Online - VijayPDF{% endblock %}
+{% block meta_description %}Remove password protection from your PDF files. Enter the current password and download an unlocked copy.{% endblock %}
+
+{% block tool_h1 %}Unlock <span class="text-gradient">PDF File</span>{% endblock %}
+{% block tool_desc %}Remove password protection from your PDF by providing the current password.{% endblock %}
+
+{% block api_endpoint %}/api/unlock{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload Locked PDF" %}
+{% set multiple = false %}
+
+{% block extra_js_logic %}
+const passwordInput = document.getElementById('password-input');
+if (passwordInput) {
+    formData.append('password', passwordInput.value);
+}
+{% endblock %}
+
+{% block seo_content %}
+<div class="mb-4 p-4" style="background:var(--bg-main); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+    <label for="password-input" style="font-weight:600; display:block; margin-bottom:0.5rem;">Current PDF Password</label>
+    <input type="password" id="password-input" class="form-control" placeholder="Enter the PDF password" style="width:100%; padding:0.75rem 1rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+</div>
+
+<h2 class="mb-3">How to unlock a PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the password-protected PDF file.</li>
+    <li class="mb-2">Enter the current password for the document.</li>
+    <li class="mb-2">Click upload and wait for the decryption.</li>
+    <li class="mb-2">Download the unlocked PDF without restrictions.</li>
+</ol>
+
+<h3 class="mb-3">Regain access to your documents</h3>
+<p class="text-muted mb-4">If you know the password but want a copy without the restriction, this tool creates a clean, unlocked duplicate. You must provide the correct password — we cannot bypass encryption.</p>
+{% endblock %}

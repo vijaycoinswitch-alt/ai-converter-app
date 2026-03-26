@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert PDF to Excel Free Online - VijayPDF{% endblock %}
+{% block meta_description %}Extract tables from PDF files into editable Excel spreadsheets. Fast, accurate, and secure conversion.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">PDF to Excel</span>{% endblock %}
+{% block tool_desc %}Pull data straight from your PDF tables into editable Excel spreadsheets with precision.{% endblock %}
+
+{% block api_endpoint %}/api/pdf-to-excel{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert PDF to Excel?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload a PDF that contains tables or structured data.</li>
+    <li class="mb-2">Our engine scans and extracts all table data automatically.</li>
+    <li class="mb-2">Wait a few seconds for the extraction to complete.</li>
+    <li class="mb-2">Download the resulting XLSX file ready for editing in Excel.</li>
+</ol>
+
+<h3 class="mb-3">Unlock data trapped in PDFs</h3>
+<p class="text-muted mb-4">Stop manually retyping numbers from PDF reports. Our smart table extraction identifies rows, columns, and headers to create a clean Excel file you can immediately sort, filter, and analyze.</p>
+{% endblock %}

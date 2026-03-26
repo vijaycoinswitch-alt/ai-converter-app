@@ -1,0 +1,38 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Protect PDF with Password Online - VijayPDF{% endblock %}
+{% block meta_description %}Encrypt your PDF with a password to protect sensitive information. Secure, fast, and free online tool.{% endblock %}
+
+{% block tool_h1 %}Protect <span class="text-gradient">PDF File</span>{% endblock %}
+{% block tool_desc %}Add password protection to your PDF to keep sensitive documents confidential and secure.{% endblock %}
+
+{% block api_endpoint %}/api/protect{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Upload PDF to Protect" %}
+{% set multiple = false %}
+
+{% block extra_js_logic %}
+const passwordInput = document.getElementById('password-input');
+if (passwordInput) {
+    formData.append('password', passwordInput.value);
+}
+{% endblock %}
+
+{% block seo_content %}
+<div class="mb-4 p-4" style="background:var(--bg-main); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+    <label for="password-input" style="font-weight:600; display:block; margin-bottom:0.5rem;">Set Password</label>
+    <input type="password" id="password-input" class="form-control" placeholder="Enter a strong password" style="width:100%; padding:0.75rem 1rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+</div>
+
+<h2 class="mb-3">How to protect a PDF with a password?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the PDF document you want to encrypt.</li>
+    <li class="mb-2">Enter a strong password in the field above.</li>
+    <li class="mb-2">Click upload and wait for the encryption process.</li>
+    <li class="mb-2">Download the password-protected PDF file.</li>
+</ol>
+
+<h3 class="mb-3">Bank-grade encryption</h3>
+<p class="text-muted mb-4">We use AES-256 encryption to protect your PDF. The recipient will need the password you set to open the document. Perfect for contracts, financial documents, and confidential reports.</p>
+{% endblock %}

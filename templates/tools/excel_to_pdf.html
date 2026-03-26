@@ -1,0 +1,26 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert Excel to PDF Free Online - VijayPDF{% endblock %}
+{% block meta_description %}Convert Excel spreadsheets (XLSX, XLS) to PDF documents. Preserves tables, formatting, and data perfectly.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">Excel to PDF</span>{% endblock %}
+{% block tool_desc %}Make your spreadsheets easy to read and share by converting them to universally compatible PDF documents.{% endblock %}
+
+{% block api_endpoint %}/api/excel-to-pdf{% endblock %}
+
+{% set accept_formats = ".xlsx,.xls" %}
+{% set title = "Upload Excel Spreadsheet" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to convert Excel to PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Select your Excel file (XLSX or XLS) from your device.</li>
+    <li class="mb-2">Our system reads and renders all tables, columns, and data.</li>
+    <li class="mb-2">Wait a few seconds for the conversion to complete.</li>
+    <li class="mb-2">Download your professionally formatted PDF document.</li>
+</ol>
+
+<h3 class="mb-3">Share spreadsheets with anyone</h3>
+<p class="text-muted mb-4">Not everyone has Excel installed. Converting your spreadsheets to PDF ensures anyone can view your data with perfect formatting, regardless of their device or software. Ideal for financial reports, invoices, and data summaries.</p>
+{% endblock %}
