@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'layouts/base.html' %}
 {% block title %}Contact Support - VijayPDF{% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
             <div class="card p-4 text-center">
                 <i class="fa-solid fa-envelope fa-2xl text-primary mb-3"></i>
                 <h3 class="mb-2">Email Us</h3>
-                <p class="text-muted">support@vijaypdf.com</p>
+                <p>Email: <a href="mailto:support@vijaypdf.com">support@vijaypdf.com</a></p>
             </div>
             <div class="card p-4 text-center">
                 <i class="fa-solid fa-clock fa-2xl text-primary mb-3"></i>
@@ -22,7 +22,7 @@
         
         <div class="card p-5 shadow-sm border-0">
             <h3 class="mb-4">Send us a message</h3>
-            <form action="{{ url_for('contact') }}" method="POST">
+            <form action="{{ url_for('contact_support') }}" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="form-group mb-3">
                     <label class="form-label">Name</label>

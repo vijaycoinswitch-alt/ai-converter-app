@@ -567,8 +567,8 @@ def compress_pdf():
 def about():
     return render_template("about.html")
 
-@app.route("/contact", methods=['GET', 'POST'])
-def contact():
+@app.route("/contact-support", methods=['GET', 'POST'])
+def contact_support():
     if request.method == 'POST':
         name = request.form.get('name')
         email = request.form.get('email')
