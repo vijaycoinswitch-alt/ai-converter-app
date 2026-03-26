@@ -79,8 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         try {
             progressBar.style.width = '60%';
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const response = await fetch(apiEndpoint, {
                 method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
                 body: formData
             });
             

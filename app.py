@@ -161,6 +161,27 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info('VijayPDF secure startup')
 
+# --- Background Task: Cleanup old files ---
+def cleanup_old_files():
+    """Delete files in uploads and outputs older than 2 hours."""
+    import time
+    while True:
+        try:
+            now = time.time()
+            for folder in [app.config['UPLOAD_FOLDER'], app.config['OUTPUT_FOLDER']]:
+                for f in os.listdir(folder):
+                    fp = os.path.join(folder, f)
+                    if os.path.isfile(fp):
+                        if os.stat(fp).st_mtime < now - (2 * 3600):
+                            os.remove(fp)
+                            app.logger.info(f"Cleaned up old file: {f}")
+        except Exception as e:
+            app.logger.error(f"Cleanup error: {e}")
+        time.sleep(3600) # Run every hour
+
+cleanup_thread = Thread(target=cleanup_old_files, daemon=True)
+cleanup_thread.start()
+
 @app.errorhandler(500)
 def internal_error(error):
     db.session.rollback()
@@ -307,7 +328,8 @@ def repair_pdf_func(in_path, out_path):
     doc.save(out_path, clean=True)
 
 def ocr_pdf_func(in_path, out_txt):
-    imgs = convert_from_path(in_path, poppler_path=r"C:\poppler\Library\bin")
+    POPPLER_PATH = os.getenv("POPPLER_PATH", None)
+    imgs = convert_from_path(in_path, poppler_path=POPPLER_PATH)
     text = "\n".join([pytesseract.image_to_string(i) for i in imgs])
     with open(out_txt, 'w', encoding='utf-8') as f:
         f.write(text)
@@ -356,7 +378,8 @@ def html_to_pdf_func(in_path, out_path):
 # 4. CONVERT FROM PDF FUNCTIONS
 # ======================================================================
 def pdf_to_jpg_func(in_path, out_zip):
-   imgs = convert_from_path(in_path, poppler_path=r"C:\poppler\Library\bin")
+   POPPLER_PATH = os.getenv("POPPLER_PATH", None)
+   imgs = convert_from_path(in_path, poppler_path=POPPLER_PATH)
    with zipfile.ZipFile(out_zip, 'w') as zf:
         for idx, img in enumerate(imgs):
             tmp = out_zip.replace('.zip', f'_{idx}.jpg')
@@ -371,7 +394,8 @@ def pdf_to_word_func(in_path, out_path):
 
 def pdf_to_powerpoint_func(in_path, out_path):
     # Convert PDF pages to images then embed in PPTX
-    imgs = convert_from_path(in_path, poppler_path=r"C:\poppler\Library\bin")
+    POPPLER_PATH = os.getenv("POPPLER_PATH", None)
+    imgs = convert_from_path(in_path, poppler_path=POPPLER_PATH)
     prs = Presentation()
     for img in imgs:
         tmp = out_path.replace('.pptx', '_tmp.jpg')
@@ -517,6 +541,14 @@ def process_wrapper(func, ext=".pdf", multi=False, is_text=False):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, 'static'),
+        'favicon.ico',
+        mimetype='image/vnd.microsoft.icon'
+    )
+
 # API Routes
 
 # Display Web Routes
@@ -562,6 +594,98 @@ def split_pdf():
 def compress_pdf():
     return render_template("tools/compress_pdf.html")
 
+@app.route("/pdf-preview")
+def pdf_preview():
+    return render_template("tools/pdf_preview.html")
+
+@app.route("/unlock-pdf")
+def unlock_pdf():
+    return render_template("tools/unlock_pdf.html")
+
+@app.route("/protect-pdf")
+def protect_pdf():
+    return render_template("tools/protect_pdf.html")
+
+@app.route("/remove-pages")
+def remove_pages():
+    return render_template("tools/remove_pages.html")
+
+@app.route("/extract-pages")
+def extract_pages():
+    return render_template("tools/extract_pages.html")
+
+@app.route("/organize-pdf")
+def organize_pdf():
+    return render_template("tools/organize_pdf.html")
+
+@app.route("/scan-to-pdf")
+def scan_to_pdf():
+    return render_template("tools/scan_to_pdf.html")
+
+@app.route("/ocr-pdf")
+def ocr_pdf():
+    return render_template("tools/ocr_pdf.html")
+
+@app.route("/pdf-to-excel")
+def pdf_to_excel():
+    return render_template("tools/pdf_to_excel.html")
+
+@app.route("/excel-to-pdf")
+def excel_to_pdf():
+    return render_template("tools/excel_to_pdf.html")
+
+@app.route("/pdf-to-powerpoint")
+def pdf_to_powerpoint():
+    return render_template("tools/pdf_to_powerpoint.html")
+
+@app.route("/powerpoint-to-pdf")
+def powerpoint_to_pdf():
+    return render_template("tools/powerpoint_to_pdf.html")
+
+@app.route("/pdf-to-pdfa")
+def pdf_to_pdfa():
+    return render_template("tools/pdf_to_pdfa.html")
+
+@app.route("/rotate-pdf")
+def rotate_pdf():
+    return render_template("tools/rotate_pdf.html")
+
+@app.route("/add-page-numbers")
+def add_page_numbers():
+    return render_template("tools/add_page_numbers.html")
+
+@app.route("/add-watermark")
+def add_watermark():
+    return render_template("tools/add_watermark.html")
+
+@app.route("/crop-pdf")
+def crop_pdf():
+    return render_template("tools/crop_pdf.html")
+
+@app.route("/edit-pdf")
+def edit_pdf():
+    return render_template("tools/edit_pdf.html")
+
+@app.route("/redact-pdf")
+def redact_pdf():
+    return render_template("tools/redact_pdf.html")
+
+@app.route("/compare-pdf")
+def compare_pdf():
+    return render_template("tools/compare_pdf.html")
+
+@app.route("/summarize-pdf")
+def summarize_pdf():
+    return render_template("tools/summarize_pdf.html")
+
+@app.route("/translate-pdf")
+def translate_pdf():
+    return render_template("tools/translate_pdf.html")
+
+@app.route("/chat-pdf")
+def chat_pdf():
+    return render_template("tools/chat_pdf.html")
+
 # Info Pages
 @app.route("/about")
 def about():
@@ -600,119 +724,90 @@ def terms():
     return render_template("terms.html")
 
 @app.route('/api/merge', methods=['POST'])
-@csrf.exempt
 def route_merge(): return process_wrapper(lambda in_paths, out_path: merge_pdf_func(in_paths, out_path), multi=True)
 
 @app.route('/api/split', methods=['POST'])
-@csrf.exempt
 def route_split(): return process_wrapper(lambda inp, out: split_pdf_func(inp, out), ext="_split.zip")
 
 @app.route('/api/remove-pages', methods=['POST'])
-@csrf.exempt
 def route_rem(): return process_wrapper(lambda inp, out: remove_pages_func(inp, out, request.form.get('pages', '')))
 
 @app.route('/api/extract-pages', methods=['POST'])
-@csrf.exempt
 def route_ext(): return process_wrapper(lambda inp, out: extract_pages_func(inp, out, request.form.get('pages', '')))
 
 @app.route('/api/organize', methods=['POST'])
-@csrf.exempt
 def route_org(): return process_wrapper(lambda inp, out: organize_pdf_func(inp, out, request.form.get('pages', '')))
 
 @app.route('/api/scan-to-pdf', methods=['POST'])
-@csrf.exempt
 def route_scan(): return process_wrapper(lambda inp, out: scan_to_pdf_func(inp, out), multi=True)
 
 @app.route('/api/compress', methods=['POST'])
-@csrf.exempt
 def route_comp(): return process_wrapper(lambda inp, out: compress_pdf_func(inp, out))
 
 @app.route('/api/repair', methods=['POST'])
-@csrf.exempt
 def route_rep(): return process_wrapper(lambda inp, out: repair_pdf_func(inp, out))
 
 @app.route('/api/ocr', methods=['POST'])
-@csrf.exempt
 def route_ocr(): return process_wrapper(lambda inp, out: ocr_pdf_func(inp, out), ext=".txt")
 
 @app.route('/api/jpg-to-pdf', methods=['POST'])
-@csrf.exempt
 def route_j2p(): return process_wrapper(lambda inp, out: jpg_to_pdf_func(inp, out), multi=True)
 
 @app.route('/api/word-to-pdf', methods=['POST'])
-@csrf.exempt
 def route_w2p(): return process_wrapper(lambda inp, out: word_to_pdf_func(inp, out))
 
 @app.route('/api/powerpoint-to-pdf', methods=['POST'])
-@csrf.exempt
 def route_p2p(): return process_wrapper(lambda inp, out: powerpoint_to_pdf_func(inp, out))
 
 @app.route('/api/excel-to-pdf', methods=['POST'])
-@csrf.exempt
 def route_e2p(): return process_wrapper(lambda inp, out: excel_to_pdf_func(inp, out))
 
 @app.route('/api/html-to-pdf', methods=['POST'])
-@csrf.exempt
 def route_h2p(): return process_wrapper(lambda inp, out: html_to_pdf_func(inp, out))
 
 @app.route('/api/pdf-to-jpg', methods=['POST'])
-@csrf.exempt
 def route_p2j(): return process_wrapper(lambda inp, out: pdf_to_jpg_func(inp, out), ext=".zip")
 
 @app.route('/api/pdf-to-word', methods=['POST'])
-@csrf.exempt
 def route_p2w(): return process_wrapper(lambda inp, out: pdf_to_word_func(inp, out), ext=".docx")
 
 @app.route('/api/pdf-to-powerpoint', methods=['POST'])
-@csrf.exempt
 def route_p2pptx(): return process_wrapper(lambda inp, out: pdf_to_powerpoint_func(inp, out), ext=".pptx")
 
 @app.route('/api/pdf-to-excel', methods=['POST'])
-@csrf.exempt
 def route_p2x(): return process_wrapper(lambda inp, out: pdf_to_excel_func(inp, out), ext=".xlsx")
 
 @app.route('/api/pdf-to-pdfa', methods=['POST'])
-@csrf.exempt
 def route_p2a(): return process_wrapper(lambda inp, out: pdf_to_pdfa_func(inp, out))
 
 @app.route('/api/rotate', methods=['POST'])
-@csrf.exempt
 def route_rot(): return process_wrapper(lambda inp, out: rotate_pdf_func(inp, out, request.form.get('angle', '90')))
 
 @app.route('/api/add-page-numbers', methods=['POST'])
-@csrf.exempt
 def route_pn(): return process_wrapper(lambda inp, out: add_page_numbers_func(inp, out))
 
 @app.route('/api/add-watermark', methods=['POST'])
-@csrf.exempt
 def route_wm(): return process_wrapper(lambda inp, out: add_watermark_func(inp, out, request.form.get('text', 'WATERMARK')))
 
 @app.route('/api/crop', methods=['POST'])
-@csrf.exempt
 def route_crop(): return process_wrapper(lambda inp, out: crop_pdf_func(inp, out))
 
 @app.route('/api/edit-pdf', methods=['POST'])
-@csrf.exempt
 def route_edit(): return process_wrapper(lambda inp, out: edit_pdf_func(inp, out, request.form.get('text', '')))
 
 @app.route('/api/unlock', methods=['POST'])
-@csrf.exempt
 def route_unl(): return process_wrapper(lambda inp, out: unlock_pdf_func(inp, out, request.form.get('password', '')))
 
 @app.route('/api/protect', methods=['POST'])
-@csrf.exempt
 def route_prot(): return process_wrapper(lambda inp, out: protect_pdf_func(inp, out, request.form.get('password', '')))
 
 @app.route('/api/sign', methods=['POST'])
-@csrf.exempt
 def route_sign(): return process_wrapper(lambda inp, out: sign_pdf_func(inp, out, request.form.get('pfx'), request.form.get('password', '')))
 
 @app.route('/api/redact', methods=['POST'])
-@csrf.exempt
 def route_redact(): return process_wrapper(lambda inp, out: redact_pdf_func(inp, out, request.form.get('text', '')))
 
 @app.route('/api/compare', methods=['POST'])
-@csrf.exempt
 def route_comp_pdf(): 
     f = save_uploaded_files(request.files.getlist('files[]'))
     if len(f)<2: return jsonify({'error': 'Needs 2 files'}), 400
@@ -721,11 +816,9 @@ def route_comp_pdf():
     return jsonify({'success':True, 'download_url': url_for('download_file', filename=out_name)})
 
 @app.route('/api/summarize', methods=['POST'])
-@csrf.exempt
 def route_sum(): return process_wrapper(lambda inp: ai_summarize_func(inp), is_text=True)
 
 @app.route('/api/translate', methods=['POST'])
-@csrf.exempt
 def route_trans(): return process_wrapper(lambda inp: translate_pdf_func(inp, request.form.get('language', 'Spanish')), is_text=True)
 
 @app.route('/api/chat', methods=['POST'])
@@ -892,21 +985,29 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/history')
+@login_required
 def history():
     user_history = ConversionHistory.query.filter_by(user_id=current_user.id).order_by(ConversionHistory.id.desc()).all()
     return render_template('history.html', history=user_history)
 @app.route('/download/<filename>')
+@login_required
 def download_file(filename):
     safe_filename = secure_filename(filename)
-    file_path = os.path.join(app.config['OUTPUT_FOLDER'], safe_filename)
+    
+    # Ownership/History check
+    history_entry = ConversionHistory.query.filter_by(user_id=current_user.id, converted_filename=safe_filename).first()
+    if not history_entry:
+        return abort(403) # Forbidden
 
+    file_path = os.path.join(app.config['OUTPUT_FOLDER'], safe_filename)
     if not os.path.exists(file_path):
         return jsonify({"error": "File not found"}), 404
 
     return send_from_directory(app.config['OUTPUT_FOLDER'], safe_filename, as_attachment=True)
 if __name__ == '__main__':
     with app.app_context(): db.create_all()
-    app.run(debug=True, port=5000)
+    debug_mode = os.getenv("FLASK_ENV", "development").lower() == "development"
+    app.run(debug=debug_mode, port=5000)
 
     # if __name__ == "__main__":
     #     app.run(debug=True)
