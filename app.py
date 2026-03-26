@@ -580,6 +580,7 @@ def favicon():
     )
 
 @app.route('/sitemap.xml')
+@limiter.exempt
 def sitemap():
     """Serve a dynamically generated sitemap.xml for SEO."""
 
@@ -648,7 +649,25 @@ def sitemap():
         '</urlset>\n'
     )
 
-    return Response(xml, mimetype="application/xml")
+    return Response(xml, mimetype="application/xml", headers={
+        "Cache-Control": "public, max-age=3600",
+        "X-Robots-Tag": "noindex"
+    })
+
+@app.route('/robots.txt')
+@limiter.exempt
+def robots_txt():
+    """Serve robots.txt for search engine crawlers."""
+    txt = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        "Sitemap: https://www.vijaypdf.com/sitemap.xml\n"
+        "Sitemap: https://vijaypdf.com/sitemap.xml\n"
+    )
+    return Response(txt, mimetype="text/plain", headers={
+        "Cache-Control": "public, max-age=86400"
+    })
 
 # API Routes
 
