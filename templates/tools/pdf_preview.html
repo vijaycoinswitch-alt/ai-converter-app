@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}PDF Preview Online - VijayPDF{% endblock %}
+{% block meta_description %}Preview your PDF files online before converting. Quick and secure PDF viewer.{% endblock %}
+
+{% block tool_h1 %}Preview <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Quickly preview your PDF document online before performing any operations.{% endblock %}
+
+{% block api_endpoint %}/api/compress{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF to Preview" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Preview your PDF files</h2>
+<p class="text-muted mb-4">Upload any PDF file to quickly preview its contents in your browser. Check the document before converting, merging, or editing.</p>
+{% endblock %}

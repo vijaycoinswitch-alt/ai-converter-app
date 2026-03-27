@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}AI PDF Translator - VijayPDF{% endblock %}
+{% block meta_description %}Translate PDF documents to any language using AI. Fast and accurate multilingual document translation.{% endblock %}
+
+{% block tool_h1 %}AI <span class="text-gradient">PDF Translator</span>{% endblock %}
+{% block tool_desc %}Translate the contents of your PDF into any language using AI.{% endblock %}
+
+{% block api_endpoint %}/api/translate{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Translate documents with AI</h2>
+<p class="text-muted mb-4">Upload your PDF and select a target language. Our AI engine will extract the text and translate it accurately, preserving the meaning and context of the original document.</p>
+{% endblock %}

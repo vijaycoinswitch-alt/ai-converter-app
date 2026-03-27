@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Compare PDF Files Online - VijayPDF{% endblock %}
+{% block meta_description %}Compare two PDF files side by side and find differences. Spot changes between document versions.{% endblock %}
+
+{% block tool_h1 %}Compare <span class="text-gradient">PDF Files</span>{% endblock %}
+{% block tool_desc %}Upload two PDFs to find textual differences between them.{% endblock %}
+
+{% block api_endpoint %}/api/compare{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select Two PDF Files" %}
+{% set multiple = true %}
+
+{% block seo_content %}
+<h2 class="mb-3">Find differences between PDFs</h2>
+<p class="text-muted mb-4">Upload two versions of a document and let our tool compare the text content. Useful for reviewing contracts, legal documents, and academic papers for changes.</p>
+{% endblock %}

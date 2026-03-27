@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Add Watermark to PDF Online - VijayPDF{% endblock %}
+{% block meta_description %}Add custom text watermarks to your PDF documents. Protect your content with visible watermarks.{% endblock %}
+
+{% block tool_h1 %}Add <span class="text-gradient">Watermark</span>{% endblock %}
+{% block tool_desc %}Overlay custom text watermarks on every page of your PDF.{% endblock %}
+
+{% block api_endpoint %}/api/add-watermark{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Protect your PDFs with watermarks</h2>
+<p class="text-muted mb-4">Adding watermarks to your PDF is a great way to mark documents as confidential, draft, or proprietary. Simply upload your file, enter your watermark text, and download the result.</p>
+{% endblock %}

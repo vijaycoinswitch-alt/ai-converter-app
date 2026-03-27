@@ -1,0 +1,22 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Scan to PDF Online - VijayPDF{% endblock %}
+{% block meta_description %}Convert scanned images into a single PDF document. Upload JPG or PNG images and combine them into one PDF.{% endblock %}
+
+{% block tool_h1 %}Scan to <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Convert multiple scanned images into a single polished PDF document.{% endblock %}
+
+{% block api_endpoint %}/api/scan-to-pdf{% endblock %}
+
+{% set accept_formats = ".jpg,.jpeg,.png" %}
+{% set title = "Select Scanned Images" %}
+{% set multiple = true %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to create a PDF from scanned images?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload your scanned images (JPG or PNG).</li>
+    <li class="mb-2">Our system combines them into a single PDF.</li>
+    <li class="mb-2">Download your new PDF document.</li>
+</ol>
+{% endblock %}

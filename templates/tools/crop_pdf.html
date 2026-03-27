@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Crop PDF Pages Online - VijayPDF{% endblock %}
+{% block meta_description %}Crop and trim PDF page margins. Remove unwanted whitespace and borders from your documents.{% endblock %}
+
+{% block tool_h1 %}Crop <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Trim the margins and edges of your PDF pages for a cleaner look.{% endblock %}
+
+{% block api_endpoint %}/api/crop{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Remove excess margins</h2>
+<p class="text-muted mb-4">Crop your PDF pages to remove unnecessary whitespace, borders, or margins. Ideal for preparing documents for print or presentation.</p>
+{% endblock %}

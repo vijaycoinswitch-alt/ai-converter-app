@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (themeBtn) {
         const isDark = localStorage.getItem('theme') === 'dark';
+        
         if (isDark) {
             root.setAttribute('data-theme', 'dark');
             themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
@@ -30,31 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // -----------------------------------------
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.querySelector('.sidebar');
-    if (menuToggle && sidebar) {
+    if(menuToggle) {
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
         });
     }
 
     // -----------------------------------------
-    // Guard: Only run homepage-specific logic
-    // if the dashboard elements actually exist
+    // Guard: Only run SPA logic on homepage
     // -----------------------------------------
     const dashboard = document.getElementById('module-dashboard');
     const workspace = document.getElementById('processing-workspace');
+    const uploadZone = document.getElementById('upload-zone');
+    const fileInput = document.getElementById('file-input');
 
-    if (!dashboard || !workspace) {
-        // Not on the homepage — stop here to avoid
-        // null reference errors and unwanted scrollTo calls
-        return;
+    if (!dashboard || !workspace || !uploadZone || !fileInput) {
+        return; // Not on the homepage — skip SPA logic safely
     }
 
     // -----------------------------------------
-    // Sidebar Navigation Click (homepage only)
+    // Sidebar Navigation Click
     // -----------------------------------------
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', (e) => {
-            e.preventDefault();
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
             
@@ -64,19 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target === 'dashboard') {
                 workspace.style.display = 'none';
                 dashboard.style.display = 'block';
-                if (pageTitle) pageTitle.textContent = "Dashboard";
+                pageTitle.textContent = "Dashboard";
                 window.scrollTo({top: 0, behavior: 'smooth'});
             } else {
                 workspace.style.display = 'none';
                 dashboard.style.display = 'block';
-                if (pageTitle) pageTitle.textContent = "Dashboard";
+                pageTitle.textContent = "Dashboard";
                 const catHeader = document.getElementById('cat-' + target);
                 if (catHeader) {
                     const y = catHeader.getBoundingClientRect().top + window.scrollY - 80;
                     window.scrollTo({top: y, behavior: 'smooth'});
                 }
             }
-            if (sidebar && window.innerWidth <= 900) {
+            if (window.innerWidth <= 900) {
                 sidebar.classList.remove('open');
             }
         });
@@ -90,43 +89,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Clicking a Tool Card
     document.querySelectorAll('.tool-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            // Don't interfere with links inside tool cards
-            if (e.target.closest('a')) return;
-            // Don't interfere with favorite buttons
-            if (e.target.closest('.fav-btn')) return;
-
+        card.addEventListener('click', () => {
             currentModule = card.dataset.module;
             currentAction = card.dataset.action;
-            const titleEl = card.querySelector('h4');
-            if (titleEl) {
-                openWorkspace(titleEl.textContent, currentAction);
-            }
+            const toolName = card.querySelector('h4').textContent;
+            openWorkspace(toolName, currentAction);
         });
     });
 
     // Back button
-    const backBtn = document.getElementById('back-to-dash');
-    if (backBtn) {
-        backBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            workspace.style.display = 'none';
-            dashboard.style.display = 'block';
-            const pageTitle = document.getElementById('page-title');
-            if (pageTitle) pageTitle.textContent = "Dashboard";
-        });
-    }
+    document.getElementById('back-to-dash').addEventListener('click', () => {
+        workspace.style.display = 'none';
+        dashboard.style.display = 'block';
+        document.getElementById('page-title').textContent = "Dashboard";
+    });
 
     // -----------------------------------------
     // File Upload & Progress Logic
     // -----------------------------------------
-    const uploadZone = document.getElementById('upload-zone');
-    const fileInput = document.getElementById('file-input');
     const progressArea = document.getElementById('progress-area');
     const resultArea = document.getElementById('result-area');
     const toolParams = document.getElementById('tool-parameters');
-
-    if (!uploadZone || !fileInput) return;
     
     // Set Workspace Title & Prepare Params
     function openWorkspace(toolName, action) {
@@ -139,41 +122,38 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Reset areas
         uploadZone.style.display = 'block';
-        if (progressArea) progressArea.style.display = 'none';
-        if (resultArea) resultArea.style.display = 'none';
-        const textBox = document.getElementById('text-result-box');
-        if (textBox) textBox.style.display = 'none';
+        progressArea.style.display = 'none';
+        resultArea.style.display = 'none';
+        document.getElementById('text-result-box').style.display = 'none';
         
         // Build Params based on specific actions
-        if (toolParams) {
-            toolParams.style.display = 'none';
-            toolParams.innerHTML = '';
+        toolParams.style.display = 'none';
+        toolParams.innerHTML = '';
         
-            if (action === 'protect' || action === 'unlock') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Password</label><br><input type="password" id="param-password" class="param-input" placeholder="Enter password..." style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'split' || action === 'remove-pages' || action === 'extract-pages') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Pages (e.g. 1, 3, 5)</label><br><input type="text" id="param-pages" class="param-input" placeholder="1, 3, 5" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'organize') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Page Order (e.g. 2, 1, 3)</label><br><input type="text" id="param-pages" class="param-input" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'rotate') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Angle (e.g. 90, 180, 270)</label><br><input type="number" id="param-angle" class="param-input" value="90" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'add-watermark' || action === 'redact' || action === 'edit-pdf') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Text Content</label><br><input type="text" id="param-text" class="param-input" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'translate') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Target Language</label><br><input type="text" id="param-language" class="param-input" value="Spanish" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'chat') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Question</label><br><input type="text" id="param-question" class="param-input" placeholder="What is this document about?" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            } else if (action === 'sign') {
-                toolParams.style.display = 'block';
-                toolParams.innerHTML = `<label>Password for PFX</label><br><input type="password" id="param-password" class="param-input" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
-            }
+        if (action === 'protect' || action === 'unlock') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Password</label><br><input type="password" id="param-password" class="param-input" placeholder="Enter password..." style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'split' || action === 'remove-pages' || action === 'extract-pages') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Pages (e.g. 1, 3, 5)</label><br><input type="text" id="param-pages" class="param-input" placeholder="1, 3, 5" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'organize') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Page Order (e.g. 2, 1, 3)</label><br><input type="text" id="param-pages" class="param-input" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'rotate') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Angle (e.g. 90, 180, 270)</label><br><input type="number" id="param-angle" class="param-input" value="90" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'add-watermark' || action === 'redact' || action === 'edit-pdf') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Text Content</label><br><input type="text" id="param-text" class="param-input" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'translate') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Target Language</label><br><input type="text" id="param-language" class="param-input" value="Spanish" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'chat') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Question</label><br><input type="text" id="param-question" class="param-input" placeholder="What is this document about?" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
+        } else if (action === 'sign') {
+            toolParams.style.display = 'block';
+            toolParams.innerHTML = `<label>Password for PFX</label><br><input type="password" id="param-password" class="param-input" style="width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc;">`;
         }
     }
 
@@ -198,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showError(msg) {
-        alert(msg);
+        alert(msg); // Fallback standard alert
     }
 
     function handleFiles(files) {
@@ -241,35 +221,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }).join('');
 
-        let progressMessage = document.getElementById('progress-message');
-        if (!progressMessage && progressArea) {
+        const progressMessage = document.getElementById('progress-message');
+        if (!progressMessage) {
             const h4 = progressArea.querySelector('h4');
-            if (h4) {
-                const previewDiv = document.createElement('div');
-                previewDiv.id = "progress-message";
-                previewDiv.style.margin = "1rem 0";
-                previewDiv.style.textAlign = "left";
-                previewDiv.style.background = "var(--bg-color)";
-                previewDiv.style.padding = "1rem";
-                previewDiv.style.borderRadius = "8px";
-                h4.insertAdjacentElement('afterend', previewDiv);
-                progressMessage = previewDiv;
-            }
+            const previewDiv = document.createElement('div');
+            previewDiv.id = "progress-message";
+            previewDiv.style.margin = "1rem 0";
+            previewDiv.style.textAlign = "left";
+            previewDiv.style.background = "var(--bg-color)";
+            previewDiv.style.padding = "1rem";
+            previewDiv.style.borderRadius = "8px";
+            h4.insertAdjacentElement('afterend', previewDiv);
         }
-        if (progressMessage) progressMessage.innerHTML = fileNamesHTML;
+        document.getElementById('progress-message').innerHTML = fileNamesHTML;
 
         uploadAndProcess(formData, currentAction);
     }
 
     function uploadAndProcess(formData, action) {
         uploadZone.style.display = 'none';
-        if (toolParams && toolParams.innerHTML) toolParams.style.display = 'none';
-        if (progressArea) progressArea.style.display = 'block';
+        if(toolParams.innerHTML) toolParams.style.display = 'none';
+        progressArea.style.display = 'block';
 
         const dynamicEndpoint = '/api/' + action;
 
-        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-        const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         fetch(dynamicEndpoint, {
             method: 'POST',
@@ -280,41 +256,37 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
-            if (progressArea) progressArea.style.display = 'none';
+            progressArea.style.display = 'none';
             if (data.error) {
                 showError(data.error);
                 uploadZone.style.display = 'block';
-                if (toolParams && toolParams.innerHTML) toolParams.style.display = 'block';
+                if(toolParams.innerHTML) toolParams.style.display = 'block';
             } else if (data.success) {
-                if (resultArea) resultArea.style.display = 'block';
+                resultArea.style.display = 'block';
                 
                 // Show text box if AI / OCR result
                 if (data.text_result) {
                     const txtBox = document.getElementById('text-result-box');
-                    if (txtBox) {
-                        txtBox.style.display = 'block';
-                        txtBox.innerHTML = '<pre style="white-space: pre-wrap; word-wrap: break-word;">' + data.text_result + '</pre>';
-                    }
+                    txtBox.style.display = 'block';
+                    txtBox.innerHTML = '<pre style="white-space: pre-wrap; word-wrap: break-word;">' + data.text_result + '</pre>';
                 }
                 
                 // Show Download if available
                 const dbtn = document.getElementById('download-btn');
-                if (dbtn) {
-                    if (data.download_url) {
-                        dbtn.style.display = 'inline-block';
-                        dbtn.href = data.download_url;
-                    } else {
-                        dbtn.style.display = 'none';
-                    }
+                if (data.download_url) {
+                    dbtn.style.display = 'inline-block';
+                    dbtn.href = data.download_url;
+                } else {
+                    dbtn.style.display = 'none';
                 }
             }
         })
         .catch(err => {
-            if (progressArea) progressArea.style.display = 'none';
+            progressArea.style.display = 'none';
             showError('An error occurred during communication with the server.');
             console.error(err);
             uploadZone.style.display = 'block';
-            if (toolParams && toolParams.innerHTML) toolParams.style.display = 'block';
+            if(toolParams.innerHTML) toolParams.style.display = 'block';
         });
     }
 

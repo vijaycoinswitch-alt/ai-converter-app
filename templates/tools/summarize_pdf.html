@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}AI PDF Summarizer - VijayPDF{% endblock %}
+{% block meta_description %}Summarize PDF documents instantly using AI. Get a concise overview of any document in seconds.{% endblock %}
+
+{% block tool_h1 %}AI <span class="text-gradient">PDF Summarizer</span>{% endblock %}
+{% block tool_desc %}Get an AI-generated summary of your document in seconds.{% endblock %}
+
+{% block api_endpoint %}/api/summarize{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Instant AI summaries</h2>
+<p class="text-muted mb-4">Upload a lengthy PDF and our AI engine will analyze the content and generate a clear, concise summary. Perfect for research papers, reports, and lengthy contracts.</p>
+{% endblock %}

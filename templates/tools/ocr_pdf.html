@@ -1,0 +1,22 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}OCR PDF - Extract Text from Scans - VijayPDF{% endblock %}
+{% block meta_description %}Extract searchable text from scanned PDF documents using OCR technology. Fast and accurate text recognition.{% endblock %}
+
+{% block tool_h1 %}OCR <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Extract searchable text from scanned documents using optical character recognition.{% endblock %}
+
+{% block api_endpoint %}/api/ocr{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select Scanned PDF" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How does OCR work on PDFs?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload a scanned or image-based PDF.</li>
+    <li class="mb-2">Our OCR engine recognizes and extracts all text.</li>
+    <li class="mb-2">Download the extracted text file.</li>
+</ol>
+{% endblock %}

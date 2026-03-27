@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Chat with PDF - AI Assistant - VijayPDF{% endblock %}
+{% block meta_description %}Ask questions about your PDF documents and get AI-powered answers. Interactive document Q&A.{% endblock %}
+
+{% block tool_h1 %}Chat with <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Ask AI any question about the contents of your document.{% endblock %}
+
+{% block api_endpoint %}/api/chat{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">AI-powered document Q&A</h2>
+<p class="text-muted mb-4">Upload a PDF and ask questions about its content. Our AI will read the document and provide accurate answers based on the text, saving you hours of manual reading.</p>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Edit PDF Online - VijayPDF{% endblock %}
+{% block meta_description %}Edit your PDF documents online. Add text, annotations, and modifications to any PDF file.{% endblock %}
+
+{% block tool_h1 %}Edit <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Append custom text annotations directly onto your PDF pages.{% endblock %}
+
+{% block api_endpoint %}/api/edit-pdf{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Quick PDF editing</h2>
+<p class="text-muted mb-4">Add text to your PDF documents without needing desktop software. Upload your file, type your text, and download the modified document instantly.</p>
+{% endblock %}

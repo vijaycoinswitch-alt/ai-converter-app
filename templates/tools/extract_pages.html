@@ -1,0 +1,22 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Extract PDF Pages Online - VijayPDF{% endblock %}
+{% block meta_description %}Extract specific pages from a PDF file. Select the pages you need and download them as a new PDF.{% endblock %}
+
+{% block tool_h1 %}Extract <span class="text-gradient">PDF Pages</span>{% endblock %}
+{% block tool_desc %}Pull selected pages from your PDF into a brand new document.{% endblock %}
+
+{% block api_endpoint %}/api/extract-pages{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to extract pages from a PDF?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload the PDF containing the pages you want.</li>
+    <li class="mb-2">Enter the page numbers to extract (e.g. 1, 3, 5).</li>
+    <li class="mb-2">Download your new PDF with only the selected pages.</li>
+</ol>
+{% endblock %}

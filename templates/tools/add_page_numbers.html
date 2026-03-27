@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Add Page Numbers to PDF - VijayPDF{% endblock %}
+{% block meta_description %}Automatically add page numbers to your PDF documents. Professional-looking numbered pages in seconds.{% endblock %}
+
+{% block tool_h1 %}Add <span class="text-gradient">Page Numbers</span>{% endblock %}
+{% block tool_desc %}Stamp professional page numbers on every page of your document.{% endblock %}
+
+{% block api_endpoint %}/api/add-page-numbers{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Why add page numbers?</h2>
+<p class="text-muted mb-4">Page numbers help readers navigate your document and are essential for professional reports, books, and legal documents. Our tool adds them automatically to every page.</p>
+{% endblock %}

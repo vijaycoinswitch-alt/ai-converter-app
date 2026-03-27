@@ -1,0 +1,22 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Organize PDF Pages Online - VijayPDF{% endblock %}
+{% block meta_description %}Rearrange and reorder PDF pages easily. Drag, drop and reorganize your document pages.{% endblock %}
+
+{% block tool_h1 %}Organize <span class="text-gradient">PDF Pages</span>{% endblock %}
+{% block tool_desc %}Rearrange PDF page order by specifying your desired sequence.{% endblock %}
+
+{% block api_endpoint %}/api/organize{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to reorder PDF pages?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload your PDF document.</li>
+    <li class="mb-2">Enter your desired page order (e.g. 3, 1, 2).</li>
+    <li class="mb-2">Download your reorganized PDF.</li>
+</ol>
+{% endblock %}

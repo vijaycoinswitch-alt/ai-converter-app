@@ -1,19 +1,46 @@
-{% extends "base.html" %}
-
-{% block title %}About PDF Converter Free Online | Convertify{% endblock %}
-{% block meta_description %}Convert Word to PDF online for free. Secure, fast and simple document conversion with Convertify.{% endblock %}
+{% extends 'layouts/base.html' %}
+{% block title %}About VijayPDF - Premium Online PDF Toolkit{% endblock %}
+{% block meta_description %}Learn about VijayPDF.com — a fast, secure, and premium online platform for all your PDF conversion, editing, and optimization needs.{% endblock %}
 
 {% block content %}
-<section class="tool-page">
-    <h1>About    PDF Converter</h1>
-    <p>Convert DOC or DOCX files into PDF format instantly.</p>
+<section class="section">
+    <div class="container" style="max-width:800px;">
+        <h1 class="mb-2 text-center">About <span class="text-gradient">VijayPDF</span></h1>
+        <p class="text-muted text-center mb-5" style="max-width:600px; margin-inline:auto;">The premium online platform for all your PDF and file conversion needs. Fast, secure, and powerfully simple.</p>
 
-    <div class="tool-box">
-        <input type="file">
-        <button>Convert Now</button>
+        <div class="card p-5 mb-4">
+            <h3 class="mb-3"><i class="fa-solid fa-bullseye text-primary"></i> Our Mission</h3>
+            <p class="text-muted">VijayPDF was built with one goal: to give everyone access to professional-grade PDF tools without complex software or expensive subscriptions. Whether you need to convert, merge, split, compress, or secure your documents — we've got you covered.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="card p-4 text-center">
+                <i class="fa-solid fa-bolt fa-2xl text-primary mb-3"></i>
+                <h3 class="mb-2">Lightning Fast</h3>
+                <p class="text-muted">Process files in seconds with our optimized backend engine.</p>
+            </div>
+            <div class="card p-4 text-center">
+                <i class="fa-solid fa-shield-halved fa-2xl text-primary mb-3"></i>
+                <h3 class="mb-2">Secure & Private</h3>
+                <p class="text-muted">Your files are encrypted and automatically deleted after processing.</p>
+            </div>
+            <div class="card p-4 text-center">
+                <i class="fa-solid fa-layer-group fa-2xl text-primary mb-3"></i>
+                <h3 class="mb-2">25+ Tools</h3>
+                <p class="text-muted">From basic conversions to AI-powered summaries and translations.</p>
+            </div>
+            <div class="card p-4 text-center">
+                <i class="fa-solid fa-globe fa-2xl text-primary mb-3"></i>
+                <h3 class="mb-2">100% Online</h3>
+                <p class="text-muted">No downloads or installations required. Works on any device.</p>
+            </div>
+        </div>
+
+        <div class="card p-5 text-center">
+            <h3 class="mb-3">Ready to get started?</h3>
+            <p class="text-muted mb-4">Explore our full suite of tools and see why thousands trust VijayPDF for their document needs.</p>
+            <a href="/tools" class="btn btn-primary btn-lg"><i class="fa-solid fa-arrow-right"></i> Explore All Tools</a>
+        </div>
     </div>
-
-    <h2>How to Convert Word to PDF</h2>
-    <p>Select your Word file, click convert, and download your PDF.</p>
 </section>
 {% endblock %}

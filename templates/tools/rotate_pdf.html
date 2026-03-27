@@ -1,0 +1,22 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Rotate PDF Pages Online - VijayPDF{% endblock %}
+{% block meta_description %}Rotate PDF pages by 90, 180, or 270 degrees. Fix scanned documents and correct page orientation instantly.{% endblock %}
+
+{% block tool_h1 %}Rotate <span class="text-gradient">PDF Pages</span>{% endblock %}
+{% block tool_desc %}Fix page orientation by rotating all pages to the desired angle.{% endblock %}
+
+{% block api_endpoint %}/api/rotate{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">How to rotate PDF pages?</h2>
+<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
+    <li class="mb-2">Upload your PDF document.</li>
+    <li class="mb-2">Choose the rotation angle (90°, 180°, or 270°).</li>
+    <li class="mb-2">Download your correctly oriented PDF.</li>
+</ol>
+{% endblock %}

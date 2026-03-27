@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Convert PDF to PDF/A Online - VijayPDF{% endblock %}
+{% block meta_description %}Convert PDF files to PDF/A archival format. Ensure long-term preservation of your documents.{% endblock %}
+
+{% block tool_h1 %}Convert to <span class="text-gradient">PDF/A</span>{% endblock %}
+{% block tool_desc %}Convert your PDF to archival PDF/A format for long-term preservation and compliance.{% endblock %}
+
+{% block api_endpoint %}/api/pdf-to-pdfa{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">What is PDF/A?</h2>
+<p class="text-muted mb-4">PDF/A is an ISO-standardized version of PDF designed for long-term archiving. It embeds all fonts and metadata, ensuring your documents look the same decades from now.</p>
+{% endblock %}

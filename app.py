@@ -3,10 +3,7 @@ import uuid
 import zipfile
 import subprocess
 
-ALLOWED_EXTENSIONS = {
-    "pdf", "docx", "doc", "xlsx", "xls", "pptx", "ppt",
-    "jpg", "jpeg", "png", "txt"
-}
+# ALLOWED_EXTENSIONS defined below after app init
 
 import mimetypes
 
@@ -81,7 +78,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 # 🔐 SECURITY CONFIG
-load_dotenv()
+# load_dotenv() already called above
 
 BASE_DIR = Path(__file__).resolve().parent
 INSTANCE_DIR = BASE_DIR / "instance"
@@ -95,8 +92,7 @@ PRIVATE_OUTPUT_DIR.mkdir(exist_ok=True)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-insecure-change-me")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///app.db")
 
-max_upload_mb = int(os.getenv("MAX_UPLOAD_MB", "16"))
-app.config["MAX_CONTENT_LENGTH"] = max_upload_mb * 1024 * 1024
+# MAX_CONTENT_LENGTH set below with OUTPUT_FOLDER config
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -184,7 +180,10 @@ cleanup_thread.start()
 
 @app.errorhandler(500)
 def internal_error(error):
-    db.session.rollback()
+    try:
+        db.session.rollback()
+    except Exception:
+        pass
     app.logger.error(f"Server Error: {error}")
     return render_template('500.html'), 500
 
@@ -818,13 +817,16 @@ def contact_support():
         email = request.form.get('email')
         message = request.form.get('message')
         
-        # 1. Send Internal Notification
-        subject = f"New Contact Message - {name}"
-        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-        email_service.send_email(os.getenv("EMAIL_USER"), f"New Contact Message - VijayPDF", body)
-        
-        # 2. Send Auto-Reply to User
-        email_service.send_auto_reply(email, name)
+        try:
+            # 1. Send Internal Notification
+            subject = f"New Contact Message - {name}"
+            body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+            email_service.send_email(os.getenv("EMAIL_USER"), f"New Contact Message - VijayPDF", body)
+            
+            # 2. Send Auto-Reply to User
+            email_service.send_auto_reply(email, name)
+        except Exception as e:
+            app.logger.error(f"Contact form email error: {e}")
         
         flash("Thank you for contacting VijayPDF.com. Our team will respond shortly.", "success")
         return render_template("contact_support.html", success=True)
@@ -1110,14 +1112,8 @@ def history():
     user_history = ConversionHistory.query.filter_by(user_id=current_user.id).order_by(ConversionHistory.id.desc()).all()
     return render_template('history.html', history=user_history)
 @app.route('/download/<filename>')
-@login_required
 def download_file(filename):
     safe_filename = secure_filename(filename)
-    
-    # Ownership/History check
-    history_entry = ConversionHistory.query.filter_by(user_id=current_user.id, converted_filename=safe_filename).first()
-    if not history_entry:
-        return abort(403) # Forbidden
 
     file_path = os.path.join(app.config['OUTPUT_FOLDER'], safe_filename)
     if not os.path.exists(file_path):

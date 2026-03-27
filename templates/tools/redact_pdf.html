@@ -1,0 +1,18 @@
+{% extends 'tools/tool_layout.html' %}
+
+{% block title %}Redact PDF Content Online - VijayPDF{% endblock %}
+{% block meta_description %}Permanently redact and hide sensitive information in your PDF documents. Secure content removal.{% endblock %}
+
+{% block tool_h1 %}Redact <span class="text-gradient">PDF</span>{% endblock %}
+{% block tool_desc %}Permanently censor and hide sensitive words or content in your PDF.{% endblock %}
+
+{% block api_endpoint %}/api/redact{% endblock %}
+
+{% set accept_formats = ".pdf" %}
+{% set title = "Select PDF File" %}
+{% set multiple = false %}
+
+{% block seo_content %}
+<h2 class="mb-3">Secure document redaction</h2>
+<p class="text-muted mb-4">Permanently remove sensitive text from your PDF documents. Enter the words you want redacted and our tool will black them out irreversibly, ensuring confidential information stays protected.</p>
+{% endblock %}

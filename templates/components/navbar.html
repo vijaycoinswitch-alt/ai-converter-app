@@ -6,7 +6,7 @@
         
         <nav class="nav-links" id="nav-links">
             <a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a>
-            <a href="/tools" class="nav-link {% if 'tool' in request.endpoint or request.endpoint == 'tools' %}active{% endif %}">All Tools</a> 
+            <a href="/tools" class="nav-link {% if request.endpoint and ('tool' in request.endpoint or request.endpoint == 'tools') %}active{% endif %}">All Tools</a> 
             <a href="/pricing" class="nav-link {% if request.endpoint == 'pricing' %}active{% endif %}">Pricing</a>
             <a href="/faq" class="nav-link {% if request.endpoint == 'faq' %}active{% endif %}">FAQ</a>
             
