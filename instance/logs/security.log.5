@@ -1,4 +1,4 @@
-2026-03-27 02:37:38,996 ERROR: Exception on /extract-pages [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+2026-03-27 02:37:39,031 ERROR: Exception on /add-page-numbers [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -9,8 +9,8 @@ Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "G:\AI_Converter_App\app.py", line 735, in extract_pages
-    return render_template("tools/extract_pages.html")
+  File "G:\AI_Converter_App\app.py", line 775, in add_page_numbers
+    return render_template("tools/add_page_numbers.html")
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
@@ -29,9 +29,9 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 100, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: tools/extract_pages.html
-2026-03-27 02:37:38,999 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
-2026-03-27 02:37:39,001 ERROR: Exception on /organize-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+jinja2.exceptions.TemplateNotFound: tools/add_page_numbers.html
+2026-03-27 02:37:39,033 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 02:37:39,034 ERROR: Exception on /add-watermark [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -42,8 +42,8 @@ Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "G:\AI_Converter_App\app.py", line 739, in organize_pdf
-    return render_template("tools/organize_pdf.html")
+  File "G:\AI_Converter_App\app.py", line 779, in add_watermark
+    return render_template("tools/add_watermark.html")
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
@@ -62,9 +62,9 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 100, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: tools/organize_pdf.html
-2026-03-27 02:37:39,003 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
-2026-03-27 02:37:39,005 ERROR: Exception on /scan-to-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+jinja2.exceptions.TemplateNotFound: tools/add_watermark.html
+2026-03-27 02:37:39,036 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 02:37:39,037 ERROR: Exception on /crop-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -75,8 +75,8 @@ Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "G:\AI_Converter_App\app.py", line 743, in scan_to_pdf
-    return render_template("tools/scan_to_pdf.html")
+  File "G:\AI_Converter_App\app.py", line 783, in crop_pdf
+    return render_template("tools/crop_pdf.html")
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
@@ -95,5 +95,5 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 100, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: tools/scan_to_pdf.html
-2026-03-27 02:37:39,007 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+jinja2.exceptions.TemplateNotFound: tools/crop_pdf.html
+2026-03-27 02:37:39,038 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]

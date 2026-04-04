@@ -1,0 +1,174 @@
+{% extends 'layouts/base.html' %}
+{% block title %}{{ post.title }} - VijayPDF Blog{% endblock %}
+{% block meta_description %}{{ post.meta_description }}{% endblock %}
+
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.meta_description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block twitter_title %}{{ post.title }}{% endblock %}
+{% block twitter_description %}{{ post.meta_description }}{% endblock %}
+
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ post.title }}",
+  "description": "{{ post.meta_description }}",
+  "datePublished": "{{ post.date }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "VijayPDF",
+    "url": "https://www.vijaypdf.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.vijaypdf.com/static/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.vijaypdf.com/blog/{{ post.slug }}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+    <div class="container">
+        <ol class="breadcrumb-list">
+            <li><a href="/">Home</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i></li>
+            <li class="active">{{ post.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<!-- Blog Post -->
+<section class="section pt-4">
+    <div class="container blog-post-layout">
+
+        <!-- Main Article -->
+        <article class="blog-article">
+            <!-- Post Header -->
+            <header class="blog-post-header">
+                <div class="blog-post-meta-top">
+                    <span class="blog-preview-category">{{ post.category }}</span>
+                    <span class="blog-post-date"><i class="fa-solid fa-calendar-days"></i> {{ post.date }}</span>
+                    <span class="blog-post-time"><i class="fa-solid fa-clock"></i> {{ post.read_time }}</span>
+                </div>
+                <h1 class="blog-post-title">{{ post.title }}</h1>
+                <p class="blog-post-excerpt">{{ post.excerpt }}</p>
+                <div class="blog-post-share">
+                    <span class="text-muted" style="font-size:0.9rem;">Share:</span>
+                    <a href="https://twitter.com/intent/tweet?text={{ post.title | urlencode }}&url=https://www.vijaypdf.com/blog/{{ post.slug }}" target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on Twitter">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.vijaypdf.com/blog/{{ post.slug }}" target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.vijaypdf.com/blog/{{ post.slug }}&title={{ post.title | urlencode }}" target="_blank" rel="noopener" class="share-btn linkedin" aria-label="Share on LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Post Content -->
+            <div class="blog-post-content">
+                {{ post.content | safe }}
+            </div>
+
+            <!-- Post Footer -->
+            <footer class="blog-post-footer">
+                <div class="blog-post-tags">
+                    <span class="text-muted">Category:</span>
+                    <span class="blog-preview-category">{{ post.category }}</span>
+                </div>
+                <div class="blog-post-share mt-3">
+                    <span class="text-muted" style="font-size:0.9rem;">Found this helpful? Share it:</span>
+                    <a href="https://twitter.com/intent/tweet?text={{ post.title | urlencode }}&url=https://www.vijaypdf.com/blog/{{ post.slug }}" target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on Twitter">
+                        <i class="fa-brands fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.vijaypdf.com/blog/{{ post.slug }}" target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook">
+                        <i class="fa-brands fa-facebook"></i> Facebook
+                    </a>
+                </div>
+            </footer>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+            <!-- Tool CTA Card -->
+            <div class="card p-4 mb-4" style="background:var(--gradient-hero);">
+                <h4 class="mb-2" style="font-size:1rem; font-weight:700;">
+                    <i class="fa-solid fa-rocket text-primary"></i> Try the Tools
+                </h4>
+                <p class="text-muted mb-3" style="font-size:0.875rem;">Everything you read about — free and ready now.</p>
+                <a href="/tools" class="btn btn-primary btn-sm w-full">View All 25+ Tools</a>
+            </div>
+
+            <!-- Popular Tools -->
+            <div class="card p-4 mb-4">
+                <h4 class="mb-3" style="font-size:1rem; font-weight:700;">
+                    <i class="fa-solid fa-fire text-danger"></i> Popular Tools
+                </h4>
+                <ul class="popular-tools-list">
+                    <li><a href="/pdf-to-word"><i class="fa-solid fa-file-word text-primary"></i> PDF to Word</a></li>
+                    <li><a href="/merge-pdf"><i class="fa-solid fa-object-group text-success"></i> Merge PDF</a></li>
+                    <li><a href="/compress-pdf"><i class="fa-solid fa-compress text-info"></i> Compress PDF</a></li>
+                    <li><a href="/jpg-to-pdf"><i class="fa-solid fa-image text-purple"></i> JPG to PDF</a></li>
+                    <li><a href="/split-pdf"><i class="fa-solid fa-scissors text-warning"></i> Split PDF</a></li>
+                    <li><a href="/protect-pdf"><i class="fa-solid fa-shield text-danger"></i> Protect PDF</a></li>
+                </ul>
+            </div>
+
+            <!-- Related Posts -->
+            {% if related %}
+            <div class="card p-4">
+                <h4 class="mb-3" style="font-size:1rem; font-weight:700;">
+                    <i class="fa-solid fa-newspaper text-muted"></i> Related Articles
+                </h4>
+                <div class="related-posts-list">
+                    {% for rel in related %}
+                    <a href="/blog/{{ rel.slug }}" class="related-post-item">
+                        <span class="blog-preview-category" style="font-size:0.7rem;">{{ rel.category }}</span>
+                        <h5>{{ rel.title }}</h5>
+                        <span class="text-muted" style="font-size:0.8rem;"><i class="fa-solid fa-clock"></i> {{ rel.read_time }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+    </div>
+</section>
+
+<!-- More Articles -->
+<section class="section" style="background:var(--bg-surface);">
+    <div class="container">
+        <h2 class="mb-4 text-center">More Articles You Might Like</h2>
+        <div class="blog-grid blog-grid-3">
+            {% for rel in related %}
+            <a href="/blog/{{ rel.slug }}" class="blog-card">
+                <div class="blog-card-header">
+                    <span class="blog-preview-category">{{ rel.category }}</span>
+                </div>
+                <h3 class="blog-card-title">{{ rel.title }}</h3>
+                <p class="blog-card-excerpt">{{ rel.excerpt }}</p>
+                <div class="blog-card-footer">
+                    <span class="blog-card-date"><i class="fa-solid fa-calendar-days"></i> {{ rel.date }}</span>
+                    <span class="blog-read-more">Read <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="/blog" class="btn btn-outline btn-lg">← Back to All Articles</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

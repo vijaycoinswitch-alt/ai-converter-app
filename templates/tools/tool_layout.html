@@ -5,27 +5,27 @@
     <div class="container text-center">
         <h1 class="mb-2" style="font-size:2.5rem;">{% block tool_h1 %}{% endblock %}</h1>
         <p class="text-muted mb-5" style="max-width:650px; margin-inline:auto; font-size:1.125rem;">{% block tool_desc %}{% endblock %}</p>
-        
+
         <div class="mx-auto" style="max-width:750px; position:relative; z-index:10;">
             <!-- Specific upload configurations passed via set in the child template -->
             {% include 'components/upload_area.html' %}
-            
+
             <!-- Result Area -->
             <div id="result-area" class="mt-4 p-5 card" style="display:none; background:var(--bg-surface); animation:scaleUp 0.3s ease;">
                 <i class="fa-solid fa-circle-check text-success mb-3" style="font-size:4rem;"></i>
                 <h3 class="mb-2">Success! Your file is ready.</h3>
-                <p class="text-muted mb-4">Your file has been processed securely.</p>
+                <p class="text-muted mb-4">Your file has been processed securely. Download it below.</p>
                 <div class="d-flex justify-center gap-2">
                     <a id="download-btn" href="javascript:void(0)" class="btn btn-primary btn-lg"><i class="fa-solid fa-download"></i> Download File</a>
                     <button id="reset-btn" class="btn btn-secondary btn-lg"><i class="fa-solid fa-rotate-right"></i> Convert Another</button>
                 </div>
-                
+
                 <div id="ai-result-container" class="mt-4 text-left p-4" style="display:none; background:var(--bg-main); border-radius:var(--radius-md); border:1px solid var(--border-color);">
                     <h4 class="mb-2"><i class="fa-solid fa-robot text-primary"></i> AI Result</h4>
                     <pre id="ai-text-result" style="white-space:pre-wrap; font-family:var(--font-sans); margin:0;"></pre>
                 </div>
             </div>
-            
+
             <!-- Error Area -->
             <div id="error-area" class="mt-4 p-5 card" style="display:none; border-color:var(--danger); animation:shake 0.4s ease;">
                 <i class="fa-solid fa-circle-xmark text-danger mb-3" style="font-size:4rem;"></i>
@@ -34,17 +34,73 @@
                 <button id="retry-btn" class="btn btn-outline btn-lg w-full">Try Again</button>
             </div>
         </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges-strip mt-5">
+            <div class="trust-badge">
+                <i class="fa-solid fa-lock"></i>
+                <span>100% Secure & Private</span>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-trash-can"></i>
+                <span>Files Deleted After 2 Hours</span>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Lightning Fast Processing</span>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-gift"></i>
+                <span>100% Free to Use</span>
+            </div>
+            <div class="trust-badge">
+                <i class="fa-solid fa-globe"></i>
+                <span>Works on Any Device</span>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- SEO Content Block -->
 <section class="section" style="background:var(--bg-surface);">
-    <div class="container" style="max-width:800px;">
-        <div class="card p-5 border-0 shadow-none bg-transparent">
-            {% block seo_content %}{% endblock %}
+    <div class="container seo-content-grid">
+        <div class="seo-main-col">
+            <div class="card p-5 border-0 shadow-none bg-transparent">
+                {% block seo_content %}{% endblock %}
+            </div>
         </div>
+        <aside class="seo-sidebar-col">
+            <!-- Popular Tools Sidebar -->
+            <div class="card p-4 mb-4 sticky-sidebar">
+                <h4 class="mb-3" style="font-size:1rem; font-weight:700; color:var(--text-primary);">
+                    <i class="fa-solid fa-fire text-danger me-1"></i> Popular Tools
+                </h4>
+                <ul class="popular-tools-list">
+                    <li><a href="/pdf-to-word"><i class="fa-solid fa-file-word text-primary"></i> PDF to Word</a></li>
+                    <li><a href="/word-to-pdf"><i class="fa-solid fa-file-pdf text-danger"></i> Word to PDF</a></li>
+                    <li><a href="/merge-pdf"><i class="fa-solid fa-object-group text-success"></i> Merge PDF</a></li>
+                    <li><a href="/split-pdf"><i class="fa-solid fa-scissors text-warning"></i> Split PDF</a></li>
+                    <li><a href="/compress-pdf"><i class="fa-solid fa-compress text-info"></i> Compress PDF</a></li>
+                    <li><a href="/jpg-to-pdf"><i class="fa-solid fa-image text-purple"></i> JPG to PDF</a></li>
+                    <li><a href="/pdf-to-excel"><i class="fa-solid fa-table text-success"></i> PDF to Excel</a></li>
+                    <li><a href="/unlock-pdf"><i class="fa-solid fa-lock-open text-warning"></i> Unlock PDF</a></li>
+                    <li><a href="/protect-pdf"><i class="fa-solid fa-shield text-danger"></i> Protect PDF</a></li>
+                    <li><a href="/rotate-pdf"><i class="fa-solid fa-rotate text-info"></i> Rotate PDF</a></li>
+                </ul>
+                <a href="/tools" class="btn btn-outline btn-sm w-full mt-3">View All 25+ Tools →</a>
+            </div>
+
+            <!-- Blog CTA -->
+            <div class="card p-4" style="background: var(--gradient-hero); border:1px solid var(--border-color);">
+                <h4 class="mb-2" style="font-size:0.95rem; font-weight:700;">📖 Learn PDF Tips</h4>
+                <p class="text-muted mb-3" style="font-size:0.85rem;">Read our expert guides on PDF conversion, compression, and more.</p>
+                <a href="/blog" class="btn btn-primary btn-sm w-full">Read the Blog</a>
+            </div>
+        </aside>
     </div>
 </section>
+
+{% block related_tools %}{% endblock %}
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -56,11 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressContainer = document.querySelector('.progress-bar-container');
     const downloadBtn = document.getElementById('download-btn');
     const uploadTitle = document.querySelector('.upload-title');
-    
+
     document.addEventListener('files-selected', async (e) => {
         const files = e.detail.files;
         if (!files || files.length === 0) return;
-        
+
         // Show progress UI immediately
         progressContainer.style.display = 'block';
         progressBar.style.width = '30%';
@@ -68,15 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
         dropArea.classList.remove('highlight');
         uploadTitle.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-primary"></i> Processing...`;
         errorArea.style.display = 'none';
-        
+
         const formData = new FormData();
         Array.from(files).forEach(file => {
             formData.append('files[]', file);
         });
-        
+
         // Let child templates inject form data fields directly into JS via a block
         {% block extra_js_logic %}{% endblock %}
-        
+
         try {
             progressBar.style.width = '60%';
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -87,10 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: formData
             });
-            
+
             const result = await response.json();
             progressBar.style.width = '100%';
-            
+
             setTimeout(() => {
                 dropArea.style.display = 'none';
                 if (result.success) {
@@ -109,36 +165,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 resetProgress();
             }, 500);
-            
+
         } catch (err) {
             showError("Network connection failed. Please check your internet and try again.");
             resetProgress();
         }
     });
-    
+
     function showError(msg) {
         dropArea.style.display = 'none';
         errorArea.style.display = 'block';
         document.getElementById('error-message').textContent = msg;
     }
-    
+
     function resetProgress() {
         progressBar.style.width = '0%';
         progressContainer.style.display = 'none';
         dropArea.style.pointerEvents = 'auto';
         dropArea.style.opacity = '1';
     }
-    
+
     document.getElementById('reset-btn').addEventListener('click', () => {
         resultArea.style.display = 'none';
         dropArea.style.display = 'block';
         uploadTitle.textContent = "{{ title|default('Choose files or drag & drop them here') }}";
     });
-    
+
     document.getElementById('retry-btn').addEventListener('click', () => {
         errorArea.style.display = 'none';
         dropArea.style.display = 'block';
         uploadTitle.textContent = "{{ title|default('Choose files or drag & drop them here') }}";
+    });
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        });
     });
 });
 </script>

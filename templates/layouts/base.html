@@ -9,21 +9,43 @@
      crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{% block title %}VijayPDF - Advanced PDF Toolkit{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}A premium online file conversion and PDF tools platform. Edit, merge, split, and convert PDFs seamlessly.{% endblock %}">
-    
+    <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
+
+    <title>{% block title %}VijayPDF - Free Online PDF Tools | Merge, Split, Compress & Convert{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}VijayPDF offers 25+ free online PDF tools. Merge, split, compress, convert PDFs to Word, Excel, JPG and more. Fast, secure, no installation needed.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}pdf tools, pdf to word, merge pdf, split pdf, compress pdf, jpg to pdf, free pdf converter{% endblock %}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical %}https://www.vijaypdf.com{{ request.path }}{% endblock %}">
+
     <!-- Open Graph Meta -->
-    <meta property="og:title" content="{% block og_title %}VijayPDF - Advanced PDF Toolkit{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}A premium online file conversion and PDF tools platform.{% endblock %}">
-    <meta property="og:type" content="website">
-    
+    <meta property="og:title" content="{% block og_title %}VijayPDF - Free Online PDF Tools{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}25+ free online PDF tools. Merge, split, compress, and convert PDFs instantly. 100% secure — files deleted after processing.{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="https://www.vijaypdf.com{{ request.path }}">
+    <meta property="og:image" content="{% block og_image %}https://www.vijaypdf.com/static/og-image.png{% endblock %}">
+    <meta property="og:site_name" content="VijayPDF">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}VijayPDF - Free Online PDF Tools{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}25+ free PDF tools online. Convert, merge, split, compress PDFs instantly and securely.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}https://www.vijaypdf.com/static/og-image.png{% endblock %}">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/seo_enhancements.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    
+
     <style>
         .alert {
             padding: 1rem 1.5rem;
@@ -39,10 +61,42 @@
         .alert-info { border-color: var(--info); color: var(--info); }
     </style>
     {% block extra_css %}{% endblock %}
+
+    <!-- Schema.org Structured Data -->
+    {% block schema_json %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "VijayPDF",
+      "url": "https://www.vijaypdf.com",
+      "description": "Free online PDF tools – merge, split, compress, convert PDFs to Word, Excel, JPG and more.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.vijaypdf.com/tools?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "VijayPDF",
+      "url": "https://www.vijaypdf.com",
+      "logo": "https://www.vijaypdf.com/static/favicon.ico",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "url": "https://www.vijaypdf.com/contact-support"
+      }
+    }
+    </script>
+    {% endblock %}
 </head>
 <body>
     {% include 'components/navbar.html' %}
-    
+
     <main style="flex: 1;">
         <!-- Flash messages -->
         <div class="container mt-4">
@@ -54,12 +108,12 @@
               {% endif %}
             {% endwith %}
         </div>
-        
+
         {% block content %}{% endblock %}
     </main>
 
     {% include 'components/footer.html' %}
-    
+
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block extra_js %}{% endblock %}

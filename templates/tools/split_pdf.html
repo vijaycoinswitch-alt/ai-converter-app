@@ -1,25 +1,118 @@
 {% extends 'tools/tool_layout.html' %}
 
-{% block title %}Split PDF files online - VijayPDF{% endblock %}
-{% block meta_description %}Separate your PDF document into multiple PDFs instantly. Secure, fast, and free online tool.{% endblock %}
+{% block title %}Split PDF Free Online - VijayPDF | Extract & Separate PDF Pages{% endblock %}
+{% block meta_description %}Split a PDF into individual pages free online. Extract specific pages or split every page instantly. No signup, no watermarks. Download a ZIP of all pages.{% endblock %}
+{% block meta_keywords %}split pdf, separate pdf pages, extract pdf pages, split pdf online free, divide pdf{% endblock %}
 
-{% block tool_h1 %}Split <span class="text-gradient">PDF file</span>{% endblock %}
-{% block tool_desc %}Separate one page or an entire set into independent PDF files.{% endblock %}
+{% block og_title %}Split PDF Files Free Online - VijayPDF{% endblock %}
+{% block og_description %}Split any PDF into individual pages or extract specific pages instantly. Free, secure, no watermarks, no installation needed.{% endblock %}
+
+{% block tool_h1 %}Split <span class="text-gradient">PDF Files</span> Online{% endblock %}
+{% block tool_desc %}Divide your PDF into individual pages or extract specific sections. Get a ZIP archive of all extracted pages, ready to use independently.{% endblock %}
 
 {% block api_endpoint %}/api/split{% endblock %}
 
 {% set accept_formats = ".pdf" %}
-{% set title = "Select PDF to Split" %}
+{% set title = "Upload PDF File to Split" %}
 {% set multiple = false %}
 
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Split a PDF Online Free",
+  "step": [
+    {"@type": "HowToStep", "name": "Upload PDF", "text": "Upload the PDF file you want to split."},
+    {"@type": "HowToStep", "name": "Auto Split", "text": "VijayPDF automatically splits the PDF into individual single-page files."},
+    {"@type": "HowToStep", "name": "Download ZIP", "text": "Download a ZIP archive containing all separated PDF pages."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What does splitting a PDF do?", "acceptedAnswer": {"@type": "Answer", "text": "Splitting separates each page of a PDF into its own individual PDF file, all packaged in a ZIP archive."}},
+    {"@type": "Question", "name": "Can I extract specific pages instead of splitting all?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, use our Extract Pages tool to pick specific page numbers."}},
+    {"@type": "Question", "name": "Is quality preserved when splitting?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, splitting is completely lossless. Each page file retains full original quality."}},
+    {"@type": "Question", "name": "How large a PDF can I split?", "acceptedAnswer": {"@type": "Answer", "text": "PDF files up to 50 MB are supported."}},
+    {"@type": "Question", "name": "Is it free to split PDFs?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, completely free. No account required, no watermarks."}}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block seo_content %}
-<h2 class="mb-3">How to split a PDF file?</h2>
-<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
-    <li class="mb-2">Upload the PDF document you want to split.</li>
-    <li class="mb-2">Wait while our engine extracts each individual page.</li>
-    <li class="mb-2">Download a ZIP file containing all the newly separated PDF pages.</li>
+<h2 class="mb-3">How to Split a PDF Online (Free)</h2>
+<ol class="step-list mb-5">
+    <li><strong>Upload your PDF</strong> — Click "Select Files" or drag your PDF into the upload area above.</li>
+    <li><strong>Automatic splitting</strong> — our tool separates every page into its own PDF file.</li>
+    <li><strong>Download ZIP archive</strong> — get a ZIP file containing all individual page PDFs, labelled page_1.pdf, page_2.pdf, etc.</li>
 </ol>
 
-<h3 class="mb-3">Organize documents easily</h3>
-<p class="text-muted mb-4">When you have a massive hundred-page PDF but you only need to send the first chapter to your colleague, use the PDF splitter to break the document apart instantly without needing expensive premium software.</p>
+<h2 class="mb-3">Why Would You Split a PDF?</h2>
+<p class="text-muted mb-4">Large PDFs are often cumbersome to share, especially when you only need to send certain sections to specific people. Splitting a PDF gives you granular control: extract just the contract signature page, pull out a single chart from a report, or separate all pages so you can rearrange and re-merge them in a new order.</p>
+
+<p class="text-muted mb-4">Splitting is also useful when dealing with file size limits. Email attachments have size caps — splitting a large PDF into smaller pieces makes it easy to send within those constraints. VijayPDF splits your PDF instantly, with zero quality degradation to images, fonts, or any embedded content on each page.</p>
+
+<h2 class="mb-3">Common Uses for PDF Splitting</h2>
+<ul class="feature-list mb-5">
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Share only relevant sections</strong> — send specific chapters or pages without exposing the full document</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Email size limits</strong> — break large reports into smaller attachments</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Page re-ordering</strong> — split then re-merge in new order using <a href="/merge-pdf">Merge PDF</a></li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Extract single pages</strong> — save one key page as a stand-alone PDF</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Scanning workflows</strong> — separate a multi-page scanned document into individual files</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Legal submissions</strong> — submit each exhibit as a separate file</li>
+</ul>
+
+<h2 class="mb-3">Need to Extract Specific Pages?</h2>
+<p class="text-muted mb-4">If you don't need to split every page but just want pages 3, 7, and 15, use our <a href="/extract-pages">Extract Pages tool</a>. Enter the page numbers you want and get a new PDF containing only those pages. For removing specific pages, try our <a href="/remove-pages">Remove Pages tool</a>.</p>
+
+<h2 class="mb-4">Frequently Asked Questions</h2>
+<div class="faq-list mb-5">
+    <div class="faq-item">
+        <button class="faq-question">What exactly happens when I split a PDF?</button>
+        <div class="faq-answer"><p>Each page of your PDF becomes its own individual PDF file. All resulting files are bundled into a ZIP archive for easy downloading. So a 10-page PDF becomes 10 separate PDF files.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Can I choose which specific pages to extract?</button>
+        <div class="faq-answer"><p>This tool splits all pages. For selective extraction, use our dedicated <a href="/extract-pages">Extract Pages tool</a> where you can specify individual page numbers.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Does splitting a PDF affect image or text quality?</button>
+        <div class="faq-answer"><p>No. Splitting is a completely lossless operation. Each resulting page PDF retains its full original resolution, fonts, and image quality.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">How large a PDF can I split?</button>
+        <div class="faq-answer"><p>We support PDF files up to 50 MB. For very large documents, you may want to consider using our <a href="/compress-pdf">Compress PDF</a> tool first.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Is this split PDF tool completely free?</button>
+        <div class="faq-answer"><p>Yes, 100% free. No account, no watermarks, no usage limits on the number of files you can split.</p></div>
+    </div>
+</div>
+
+<div class="related-tools-section">
+    <h3 class="mb-3">Related Tools You Might Need</h3>
+    <div class="related-tools-grid">
+        <a href="/merge-pdf" class="related-tool-card">
+            <i class="fa-solid fa-object-group text-success"></i>
+            <span>Merge PDF</span>
+        </a>
+        <a href="/extract-pages" class="related-tool-card">
+            <i class="fa-solid fa-file-export text-primary"></i>
+            <span>Extract Pages</span>
+        </a>
+        <a href="/remove-pages" class="related-tool-card">
+            <i class="fa-solid fa-trash text-danger"></i>
+            <span>Remove Pages</span>
+        </a>
+        <a href="/compress-pdf" class="related-tool-card">
+            <i class="fa-solid fa-compress text-info"></i>
+            <span>Compress PDF</span>
+        </a>
+    </div>
+</div>
 {% endblock %}

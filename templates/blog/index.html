@@ -1,0 +1,109 @@
+{% extends 'layouts/base.html' %}
+{% block title %}VijayPDF Blog — PDF Tips, Guides & Tutorials{% endblock %}
+{% block meta_description %}Read expert guides on PDF conversion, compression, editing, and security. Free tips from VijayPDF — your trusted online PDF toolkit.{% endblock %}
+{% block meta_keywords %}pdf tips, pdf guides, pdf tutorials, pdf blog, pdf help, how to convert pdf{% endblock %}
+
+{% block og_title %}VijayPDF Blog — PDF Tips, Guides & Tutorials{% endblock %}
+{% block og_description %}Expert articles on PDF tools, conversion tips, compression guides, and document security. All free — no signup needed.{% endblock %}
+
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "VijayPDF Blog",
+  "url": "https://www.vijaypdf.com/blog",
+  "description": "Expert PDF tips, tutorials, and guides from VijayPDF.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "VijayPDF",
+    "url": "https://www.vijaypdf.com"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Blog Hero -->
+<section class="blog-hero-section">
+    <div class="container text-center">
+        <div class="hero-badge mb-3">
+            <i class="fa-solid fa-book-open text-primary"></i>
+            <span>PDF Knowledge Base</span>
+        </div>
+        <h1 class="mb-3">VijayPDF <span class="text-gradient">Blog</span></h1>
+        <p class="text-muted" style="max-width:580px; margin-inline:auto; font-size:1.1rem;">
+            Expert guides, tutorials, and tips to help you work smarter with PDFs.
+            From beginner basics to advanced techniques — all free.
+        </p>
+    </div>
+</section>
+
+<!-- Blog Grid -->
+<section class="section">
+    <div class="container">
+        <!-- Category Pills (static for now) -->
+        <div class="blog-categories mb-5">
+            <span class="blog-cat-pill active">All Articles</span>
+            <span class="blog-cat-pill">Tutorial</span>
+            <span class="blog-cat-pill">Guide</span>
+            <span class="blog-cat-pill">Tips</span>
+            <span class="blog-cat-pill">Security</span>
+            <span class="blog-cat-pill">Business</span>
+            <span class="blog-cat-pill">AI Tools</span>
+        </div>
+
+        <!-- Featured Post (first post) -->
+        {% if posts %}
+        {% set featured = posts[0] %}
+        <a href="/blog/{{ featured.slug }}" class="blog-featured-card mb-6" id="blog-featured-post">
+            <div class="blog-featured-content">
+                <div class="blog-preview-category">{{ featured.category }}</div>
+                <h2 class="blog-featured-title">{{ featured.title }}</h2>
+                <p class="blog-featured-excerpt">{{ featured.excerpt }}</p>
+                <div class="blog-featured-meta">
+                    <span><i class="fa-solid fa-calendar-days"></i> {{ featured.date }}</span>
+                    <span><i class="fa-solid fa-clock"></i> {{ featured.read_time }}</span>
+                </div>
+                <span class="btn btn-primary mt-3">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            <div class="blog-featured-visual">
+                <i class="fa-solid fa-file-pdf" style="font-size:5rem; color:var(--primary-light); opacity:0.3;"></i>
+            </div>
+        </a>
+        {% endif %}
+
+        <!-- Blog Posts Grid -->
+        <div class="blog-grid">
+            {% for post in posts[1:] %}
+            <a href="/blog/{{ post.slug }}" class="blog-card" id="blog-post-{{ loop.index }}">
+                <div class="blog-card-header">
+                    <span class="blog-preview-category">{{ post.category }}</span>
+                </div>
+                <h3 class="blog-card-title">{{ post.title }}</h3>
+                <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+                <div class="blog-card-footer">
+                    <div class="blog-card-meta">
+                        <span class="blog-card-date"><i class="fa-solid fa-calendar-days"></i> {{ post.date }}</span>
+                        <span class="blog-card-time"><i class="fa-solid fa-clock"></i> {{ post.read_time }}</span>
+                    </div>
+                    <span class="blog-read-more">Read More <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Blog CTA -->
+<section class="section final-cta-section">
+    <div class="container text-center">
+        <div class="final-cta-card">
+            <i class="fa-solid fa-rocket final-cta-icon"></i>
+            <h2 class="mb-3">Ready to Start Using These Tools?</h2>
+            <p class="text-muted mb-4">Everything you've read about — all 25+ tools — free and ready to use right now.</p>
+            <a href="/tools" class="btn btn-primary btn-xl" id="blog-cta-tools-btn">Explore All Free Tools</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

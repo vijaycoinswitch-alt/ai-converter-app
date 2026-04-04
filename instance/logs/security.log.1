@@ -1,4 +1,4 @@
-2026-03-27 02:37:39,039 ERROR: Exception on /edit-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+2026-03-27 02:37:39,049 ERROR: Exception on /summarize-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -9,8 +9,8 @@ Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "G:\AI_Converter_App\app.py", line 787, in edit_pdf
-    return render_template("tools/edit_pdf.html")
+  File "G:\AI_Converter_App\app.py", line 799, in summarize_pdf
+    return render_template("tools/summarize_pdf.html")
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
@@ -29,9 +29,9 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 100, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: tools/edit_pdf.html
-2026-03-27 02:37:39,044 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
-2026-03-27 02:37:39,045 ERROR: Exception on /redact-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+jinja2.exceptions.TemplateNotFound: tools/summarize_pdf.html
+2026-03-27 02:37:39,052 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 02:37:39,052 ERROR: Exception on /translate-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -42,8 +42,8 @@ Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "G:\AI_Converter_App\app.py", line 791, in redact_pdf
-    return render_template("tools/redact_pdf.html")
+  File "G:\AI_Converter_App\app.py", line 803, in translate_pdf
+    return render_template("tools/translate_pdf.html")
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
@@ -62,9 +62,9 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 100, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: tools/redact_pdf.html
-2026-03-27 02:37:39,046 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
-2026-03-27 02:37:39,047 ERROR: Exception on /compare-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
+jinja2.exceptions.TemplateNotFound: tools/translate_pdf.html
+2026-03-27 02:37:39,054 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 02:37:39,054 ERROR: Exception on /chat-pdf [GET] [in C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -75,8 +75,8 @@ Traceback (most recent call last):
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "G:\AI_Converter_App\app.py", line 795, in compare_pdf
-    return render_template("tools/compare_pdf.html")
+  File "G:\AI_Converter_App\app.py", line 807, in chat_pdf
+    return render_template("tools/chat_pdf.html")
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
@@ -95,5 +95,17 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 100, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: tools/compare_pdf.html
-2026-03-27 02:37:39,048 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+jinja2.exceptions.TemplateNotFound: tools/chat_pdf.html
+2026-03-27 02:37:39,056 ERROR: Server Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in G:\AI_Converter_App\app.py:188]
+2026-03-27 02:39:45,071 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 02:41:17,702 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 02:41:19,762 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 02:48:01,414 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 02:49:19,409 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 02:49:21,452 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:162]
+2026-03-27 12:36:29,458 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:158]
+2026-03-27 12:36:31,346 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:158]
+2026-03-27 12:43:52,217 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:158]
+2026-03-27 12:43:54,071 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:158]
+2026-03-27 13:02:50,805 INFO: VijayPDF secure startup [in G:\AI_Converter_App\app.py:158]
+2026-03-27 15:36:29,463 INFO: Cleaned up old file: 6915f9eb011c40a2af4d57a6c3518594_Screenshot_2026-03-27_125649.png [in G:\AI_Converter_App\app.py:173]

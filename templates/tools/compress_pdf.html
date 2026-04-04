@@ -1,25 +1,123 @@
 {% extends 'tools/tool_layout.html' %}
 
-{% block title %}Compress PDF files online - VijayPDF{% endblock %}
-{% block meta_description %}Reduce PDF file size drastically while maintaining maximum quality. Perfect for emailing large documents.{% endblock %}
+{% block title %}Compress PDF Free Online - VijayPDF | Reduce PDF File Size{% endblock %}
+{% block meta_description %}Compress PDF files online for free. Reduce PDF size without losing quality. Shrink large PDFs for email, web upload, or storage. Fast, free, no signup.{% endblock %}
+{% block meta_keywords %}compress pdf, reduce pdf size, shrink pdf, pdf compressor, compress pdf online free, make pdf smaller{% endblock %}
 
-{% block tool_h1 %}Compress <span class="text-gradient">PDF file</span>{% endblock %}
-{% block tool_desc %}Reduce the file size of your PDF without losing visual quality. Ideal for passing email attachment limits.{% endblock %}
+{% block og_title %}Compress PDF Free Online - Reduce PDF File Size{% endblock %}
+{% block og_description %}Reduce your PDF file size by up to 80% without losing quality. Free online PDF compressor — no signup, no watermarks, instant download.{% endblock %}
+
+{% block tool_h1 %}Compress <span class="text-gradient">PDF Files</span> Online{% endblock %}
+{% block tool_desc %}Reduce your PDF file size dramatically without sacrificing quality. Perfect for email attachments, web uploads, and cloud storage optimization.{% endblock %}
 
 {% block api_endpoint %}/api/compress{% endblock %}
 
 {% set accept_formats = ".pdf" %}
-{% set title = "Upload Large PDF" %}
+{% set title = "Upload PDF File to Compress" %}
 {% set multiple = false %}
 
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Compress a PDF Online Free",
+  "step": [
+    {"@type": "HowToStep", "name": "Upload PDF", "text": "Upload the large PDF file you want to compress."},
+    {"@type": "HowToStep", "name": "Auto Compress", "text": "VijayPDF optimizes internal PDF structures, compresses images, and removes redundant data."},
+    {"@type": "HowToStep", "name": "Download", "text": "Download your smaller compressed PDF file instantly."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How much can PDF compression reduce file size?", "acceptedAnswer": {"@type": "Answer", "text": "Typically 30–70% size reduction depending on content. Image-heavy PDFs compress most dramatically."}},
+    {"@type": "Question", "name": "Will compression reduce the quality of my PDF?", "acceptedAnswer": {"@type": "Answer", "text": "VijayPDF uses intelligent optimization that minimizes visible quality loss while achieving maximum compression."}},
+    {"@type": "Question", "name": "Is PDF compression free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, completely free with no limits or watermarks."}},
+    {"@type": "Question", "name": "What types of PDFs compress the most?", "acceptedAnswer": {"@type": "Answer", "text": "Image-heavy, scanned, or photo-rich PDFs achieve the greatest size reduction."}},
+    {"@type": "Question", "name": "Is my PDF safe to upload?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Files are encrypted during transfer and deleted from our servers after 2 hours."}}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block seo_content %}
-<h2 class="mb-3">How to compress a PDF?</h2>
-<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
-    <li class="mb-2">Upload the bulky PDF file you want to shrink.</li>
-    <li class="mb-2">Our system automatically identifies the best compression ratio while maintaining readability.</li>
-    <li class="mb-2">Download the optimized PDF file.</li>
+<h2 class="mb-3">How to Compress a PDF Online (Free)</h2>
+<ol class="step-list mb-5">
+    <li><strong>Upload your PDF</strong> — Select or drag your large PDF file into the upload area above.</li>
+    <li><strong>Automatic compression</strong> — VijayPDF analyzes the PDF structure and optimizes images, streams, and metadata to minimize file size.</li>
+    <li><strong>Download compressed PDF</strong> — Get your smaller PDF file instantly, ready to email or upload.</li>
 </ol>
 
-<h3 class="mb-3">Smart PDF Compression</h3>
-<p class="text-muted mb-4">We use advanced optimization techniques (garbage collection, stream deflation, and image downsampling) to drastically shrink your PDFs without making text blurry or images unrecognizable.</p>
+<h2 class="mb-3">Why Compress a PDF?</h2>
+<p class="text-muted mb-4">Modern PDFs — especially those with embedded images, scans, or complex graphics — can easily reach 50MB or more. This creates real problems: email providers often limit attachments to 10–25MB, cloud storage fills up fast, websites load slowly when PDFs are large, and mobile users struggle with slow downloads over cellular connections.</p>
+
+<p class="text-muted mb-4">PDF compression solves all of this. VijayPDF's compression engine targets the largest contributors to file size — embedded JPEG images, uncompressed streams, duplicate resources, and embedded font subsets — and applies aggressive but smart optimization. The result is a dramatically smaller PDF that still looks crisp and professional at typical viewing and print resolutions.</p>
+
+<h2 class="mb-3">How VijayPDF Compresses Your PDF</h2>
+<ul class="feature-list mb-5">
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Image optimization</strong> — resamples and re-compresses embedded images to optimal quality</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Redundant object removal</strong> — eliminates duplicate embedded resources and unused objects</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Stream compression</strong> — compresses uncompressed content streams using deflate/zlib</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Metadata cleanup</strong> — removes hidden metadata that bloats file size</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Cross-reference optimization</strong> — rebuilds the PDF's internal table of contents for efficiency</li>
+</ul>
+
+<h2 class="mb-3">How Much Size Can You Expect to Save?</h2>
+<p class="text-muted mb-3">Results vary depending on your PDF's content:</p>
+<ul class="text-muted mb-5" style="padding-left:1.5rem;">
+    <li class="mb-2"><strong>Scanned documents</strong> — often 50–80% reduction (largest gains)</li>
+    <li class="mb-2"><strong>Photo-heavy PDFs</strong> — typically 40–70% reduction</li>
+    <li class="mb-2"><strong>Office documents converted to PDF</strong> — usually 20–40% reduction</li>
+    <li class="mb-2"><strong>Text-only PDFs</strong> — 10–20% reduction (already quite efficient)</li>
+</ul>
+
+<h2 class="mb-4">Frequently Asked Questions</h2>
+<div class="faq-list mb-5">
+    <div class="faq-item">
+        <button class="faq-question">How much will my PDF be compressed?</button>
+        <div class="faq-answer"><p>Typically 30–70% size reduction. Image-heavy and scanned PDFs achieve the most dramatic compression. Text-only PDFs achieve less but are already small.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Will visible quality be reduced after compression?</button>
+        <div class="faq-answer"><p>Our compression targets structural inefficiencies and image resampling while keeping visual quality high. At normal screen viewing size, compressed PDFs look virtually identical to the originals.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Is PDF compression free on VijayPDF?</button>
+        <div class="faq-answer"><p>Yes, completely free. No limits on how many files you compress, no watermarks, and no account required.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">What types of PDFs get the most compression?</button>
+        <div class="faq-answer"><p>Scanned PDFs and photo-heavy documents achieve the best results because we can significantly reduce embedded image size. Already-optimized minimal text documents will see smaller gains.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Is my PDF secure when I upload it?</button>
+        <div class="faq-answer"><p>Yes. All uploads are protected by SSL encryption and your files are automatically and permanently deleted from our servers after 2 hours.</p></div>
+    </div>
+</div>
+
+<div class="related-tools-section">
+    <h3 class="mb-3">Related Tools You Might Need</h3>
+    <div class="related-tools-grid">
+        <a href="/merge-pdf" class="related-tool-card">
+            <i class="fa-solid fa-object-group text-success"></i>
+            <span>Merge PDF</span>
+        </a>
+        <a href="/split-pdf" class="related-tool-card">
+            <i class="fa-solid fa-scissors text-warning"></i>
+            <span>Split PDF</span>
+        </a>
+        <a href="/pdf-to-word" class="related-tool-card">
+            <i class="fa-solid fa-file-word text-primary"></i>
+            <span>PDF to Word</span>
+        </a>
+        <a href="/repair-pdf" class="related-tool-card">
+            <i class="fa-solid fa-wrench text-info"></i>
+            <span>Repair PDF</span>
+        </a>
+    </div>
+</div>
 {% endblock %}

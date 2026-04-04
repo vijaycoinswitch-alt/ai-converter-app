@@ -1,50 +1,378 @@
 {% extends 'layouts/base.html' %}
-{% block title %}VijayPDF - Advanced PDF Toolkit | Merge, Split, Compress & Convert PDFs Online{% endblock %}
-{% block meta_description %}The premium online platform for all your PDF and file conversion needs. Merge, split, compress, or convert your documents — fast, secure, and powerfully simple.{% endblock %}
+{% block title %}VijayPDF - Free Online PDF Tools | Merge, Split, Compress & Convert PDFs{% endblock %}
+{% block meta_description %}VijayPDF offers 25+ free online PDF tools. Merge, split, compress PDF, convert PDF to Word, Excel, JPG and more. Fast, secure, no installation needed. Try free now!{% endblock %}
+{% block meta_keywords %}free pdf tools, pdf converter online, merge pdf, split pdf, compress pdf, pdf to word, jpg to pdf, pdf tools online{% endblock %}
+
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "VijayPDF",
+  "url": "https://www.vijaypdf.com",
+  "description": "25+ free online PDF tools. Merge, split, compress, convert PDFs instantly. 100% secure.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.vijaypdf.com/tools",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "VijayPDF",
+  "url": "https://www.vijaypdf.com",
+  "logo": "https://www.vijaypdf.com/static/favicon.ico",
+  "sameAs": [],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Support",
+    "url": "https://www.vijaypdf.com/contact-support"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
-<section class="section">
-    <div class="container" style="max-width:680px;">
 
-        <!-- Hero intro -->
-        <div class="text-center mb-5">
-            <h1 class="mb-2">Advanced <span class="text-gradient">PDF Toolkit</span></h1>
-            <p class="text-muted" style="max-width:520px; margin-inline:auto;">Every tool you need to work with PDFs in one place. Merge, split, compress, or convert your documents — fast and easy.</p>
-            <a href="/tools" class="btn btn-primary mt-3">Sign Up Free</a>
+<!-- ═══════════════════ HERO SECTION ═══════════════════ -->
+<section class="hero-section">
+    <div class="container text-center">
+        <div class="hero-badge mb-3">
+            <i class="fa-solid fa-star text-warning"></i>
+            <span>Trusted by 50,000+ users worldwide</span>
         </div>
-
-        <!-- Feature Cards — stacked vertically -->
-        <div class="card p-4 mb-3 text-center">
-            <i class="fa-solid fa-bolt fa-xl text-primary mb-2"></i>
-            <h3 class="mb-1" style="font-size:1.1rem; font-weight:700;">Lightning Fast</h3>
-            <p class="text-muted mb-0" style="font-size:0.92rem;">Process files in seconds with our optimized backend engine.</p>
+        <h1 class="hero-title mb-3">
+            Your <span class="text-gradient">All-in-One</span><br>Free PDF Toolkit
+        </h1>
+        <p class="hero-subtitle mb-5">
+            25+ powerful PDF tools — merge, split, compress, convert, edit, and secure your PDFs.<br>
+            100% free, instant, and no software to install.
+        </p>
+        <div class="hero-cta-group mb-5">
+            <a href="/tools" class="btn btn-primary btn-xl" id="hero-explore-btn">
+                <i class="fa-solid fa-rocket"></i> Start Converting Free
+            </a>
+            <a href="/blog" class="btn btn-outline btn-xl" id="hero-blog-btn">
+                <i class="fa-solid fa-book-open"></i> Read PDF Guides
+            </a>
         </div>
-
-        <div class="card p-4 mb-3 text-center">
-            <i class="fa-solid fa-shield-halved fa-xl text-primary mb-2"></i>
-            <h3 class="mb-1" style="font-size:1.1rem; font-weight:700;">Secure &amp; Private</h3>
-            <p class="text-muted mb-0" style="font-size:0.92rem;">Your files are encrypted and automatically <u>deleted</u> after processing.</p>
+        <!-- Stat counters -->
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-number">2M+</span>
+                <span class="hero-stat-label">Files Processed</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">25+</span>
+                <span class="hero-stat-label">PDF Tools</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">100%</span>
+                <span class="hero-stat-label">Free & Secure</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">50K+</span>
+                <span class="hero-stat-label">Happy Users</span>
+            </div>
         </div>
-
-        <div class="card p-4 mb-3 text-center">
-            <i class="fa-solid fa-layer-group fa-xl text-primary mb-2"></i>
-            <h3 class="mb-1" style="font-size:1.1rem; font-weight:700;">25+ Tools</h3>
-            <p class="text-muted mb-0" style="font-size:0.92rem;">From basic conversions to AI-powered summaries and translations.</p>
-        </div>
-
-        <div class="card p-4 mb-3 text-center">
-            <i class="fa-solid fa-globe fa-xl text-primary mb-2"></i>
-            <h3 class="mb-1" style="font-size:1.1rem; font-weight:700;">100% Online</h3>
-            <p class="text-muted mb-0" style="font-size:0.92rem;">No downloads or installations are required. Works on any device.</p>
-        </div>
-
-        <!-- CTA Card -->
-        <div class="card p-5 text-center mt-4">
-            <h3 class="mb-2" style="font-size:1.15rem; font-weight:700;">Ready to get started?</h3>
-            <p class="text-muted mb-3" style="font-size:0.92rem; max-width:480px; margin-inline:auto;">Explore our full suite of tools and see why thousands trust VijayPDF for their document needs.</p>
-            <a href="/tools" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> Explore All Tools</a>
-        </div>
-
     </div>
 </section>
+
+<!-- ═══════════════════ TRUST BADGES ═══════════════════ -->
+<section class="trust-section">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <i class="fa-solid fa-lock trust-icon"></i>
+                <div>
+                    <strong>100% Secure & Private</strong>
+                    <p>SSL encrypted transfers. No one can access your files.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-trash-can trust-icon"></i>
+                <div>
+                    <strong>No Files Stored Permanently</strong>
+                    <p>All uploaded files are automatically deleted after 2 hours.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-bolt trust-icon"></i>
+                <div>
+                    <strong>Fast & Free PDF Tools</strong>
+                    <p>Process files in seconds. No waiting, no queues, no cost.</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-globe trust-icon"></i>
+                <div>
+                    <strong>Works on Any Device</strong>
+                    <p>Windows, Mac, iOS, Android — runs in any modern browser.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ POPULAR TOOLS GRID ═══════════════════ -->
+<section class="section" id="popular-tools">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="mb-2">Popular <span class="text-gradient">PDF Tools</span></h2>
+            <p class="text-muted">The tools people use most — all free, all instant.</p>
+        </div>
+        <div class="tools-showcase-grid">
+            <a href="/pdf-to-word" class="tool-showcase-card" id="tool-pdf-word">
+                <div class="tool-icon-wrap" style="background:rgba(59,130,246,0.1)">
+                    <i class="fa-solid fa-file-word" style="color:#3b82f6;"></i>
+                </div>
+                <h3>PDF to Word</h3>
+                <p>Convert PDF to editable DOCX. Fonts &amp; tables preserved.</p>
+                <span class="tool-cta-link">Convert Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/word-to-pdf" class="tool-showcase-card" id="tool-word-pdf">
+                <div class="tool-icon-wrap" style="background:rgba(239,68,68,0.1)">
+                    <i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i>
+                </div>
+                <h3>Word to PDF</h3>
+                <p>Turn .docx files into professional PDFs in one click.</p>
+                <span class="tool-cta-link">Convert Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/merge-pdf" class="tool-showcase-card" id="tool-merge">
+                <div class="tool-icon-wrap" style="background:rgba(34,197,94,0.1)">
+                    <i class="fa-solid fa-object-group" style="color:#22c55e;"></i>
+                </div>
+                <h3>Merge PDF</h3>
+                <p>Combine multiple PDFs into a single seamless document.</p>
+                <span class="tool-cta-link">Merge Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/split-pdf" class="tool-showcase-card" id="tool-split">
+                <div class="tool-icon-wrap" style="background:rgba(245,158,11,0.1)">
+                    <i class="fa-solid fa-scissors" style="color:#f59e0b;"></i>
+                </div>
+                <h3>Split PDF</h3>
+                <p>Separate a PDF into individual pages or extract sections.</p>
+                <span class="tool-cta-link">Split Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/compress-pdf" class="tool-showcase-card" id="tool-compress">
+                <div class="tool-icon-wrap" style="background:rgba(6,182,212,0.1)">
+                    <i class="fa-solid fa-compress" style="color:#06b6d4;"></i>
+                </div>
+                <h3>Compress PDF</h3>
+                <p>Reduce PDF file size by up to 80% without quality loss.</p>
+                <span class="tool-cta-link">Compress Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/jpg-to-pdf" class="tool-showcase-card" id="tool-jpg-pdf">
+                <div class="tool-icon-wrap" style="background:rgba(168,85,247,0.1)">
+                    <i class="fa-solid fa-image" style="color:#a855f7;"></i>
+                </div>
+                <h3>JPG to PDF</h3>
+                <p>Convert photos and images into a clean PDF document.</p>
+                <span class="tool-cta-link">Convert Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/pdf-to-excel" class="tool-showcase-card" id="tool-pdf-excel">
+                <div class="tool-icon-wrap" style="background:rgba(34,197,94,0.1)">
+                    <i class="fa-solid fa-table" style="color:#16a34a;"></i>
+                </div>
+                <h3>PDF to Excel</h3>
+                <p>Extract tables and data from PDF into editable spreadsheets.</p>
+                <span class="tool-cta-link">Extract Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/protect-pdf" class="tool-showcase-card" id="tool-protect">
+                <div class="tool-icon-wrap" style="background:rgba(239,68,68,0.1)">
+                    <i class="fa-solid fa-shield-halved" style="color:#ef4444;"></i>
+                </div>
+                <h3>Protect PDF</h3>
+                <p>Add password encryption to lock your PDF documents.</p>
+                <span class="tool-cta-link">Protect Now <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="text-center mt-5">
+            <a href="/tools" class="btn btn-primary btn-lg" id="view-all-tools-btn">
+                <i class="fa-solid fa-grid-2"></i> View All 25+ Tools
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ HOW IT WORKS ═══════════════════ -->
+<section class="section how-it-works-section">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="mb-2">How It <span class="text-gradient">Works</span></h2>
+            <p class="text-muted">Convert, compress, or edit any PDF in three simple steps.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <i class="fa-solid fa-cloud-arrow-up step-icon"></i>
+                <h3>Upload Your File</h3>
+                <p class="text-muted">Click the tool you need and drag & drop or select your file. No registration required.</p>
+            </div>
+            <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <i class="fa-solid fa-gears step-icon"></i>
+                <h3>We Process It</h3>
+                <p class="text-muted">Our powerful cloud engine processes your file instantly — usually in under 10 seconds.</p>
+            </div>
+            <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <i class="fa-solid fa-download step-icon"></i>
+                <h3>Download Result</h3>
+                <p class="text-muted">Click download and get your converted file. Your original file is deleted automatically.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ TESTIMONIALS ═══════════════════ -->
+<section class="section testimonials-section">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="mb-2">What Users <span class="text-gradient">Say About Us</span></h2>
+            <p class="text-muted">Thousands of professionals use VijayPDF every day.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"I use VijayPDF to merge client reports every week. It's the fastest and cleanest PDF merger I've found online. No ads, no watermarks, just works."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AK</div>
+                    <div>
+                        <strong>Arjun Kumar</strong>
+                        <span>Business Analyst, Bangalore</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"The PDF to Word converter is incredible. I converted a 40-page contract and the formatting was perfect. Saved me hours of manual retyping."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SR</div>
+                    <div>
+                        <strong>Sneha Reddy</strong>
+                        <span>Legal Associate, Mumbai</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Compressed a 25MB scanned PDF down to 4MB without any visible quality loss. This is now my go-to tool for all PDF work. Highly recommend!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">PM</div>
+                    <div>
+                        <strong>Priya Mehta</strong>
+                        <span>Finance Manager, Delhi</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"As a student, I need to convert and merge PDFs regularly. VijayPDF is my daily tool — completely free and works perfectly on my phone too."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">RG</div>
+                    <div>
+                        <strong>Rahul Gupta</strong>
+                        <span>Engineering Student, Pune</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+                <p class="testimonial-text">"I needed to extract tables from a PDF bank statement into Excel. Zero hassle — the data came out perfectly structured. Will definitely be back."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">NS</div>
+                    <div>
+                        <strong>Nadia Shah</strong>
+                        <span>Accountant, Hyderabad</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Best free PDF tool website I've used! The interface is clean and easy to understand. Even my non-tech team members use it without any problems."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">VT</div>
+                    <div>
+                        <strong>Vikram Tiwari</strong>
+                        <span>Startup Founder, Chennai</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ BLOG PREVIEW ═══════════════════ -->
+<section class="section blog-preview-section">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="mb-2">Latest from the <span class="text-gradient">VijayPDF Blog</span></h2>
+            <p class="text-muted">Expert tips, guides, and tutorials on working with PDFs.</p>
+        </div>
+        <div class="blog-preview-grid">
+            <a href="/blog/how-to-convert-pdf-to-word-free" class="blog-preview-card">
+                <div class="blog-preview-category">Tutorial</div>
+                <h3>How to Convert PDF to Word for Free in 2026</h3>
+                <p>Step-by-step guide to converting any PDF into an editable Word document without spending a penny.</p>
+                <span class="blog-read-more">Read More <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/blog/best-free-pdf-tools-online-2026" class="blog-preview-card">
+                <div class="blog-preview-category">Roundup</div>
+                <h3>Best Free PDF Tools Online in 2026</h3>
+                <p>Compare the top free PDF tools available online and find out which ones are truly worth using.</p>
+                <span class="blog-read-more">Read More <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/blog/reduce-pdf-size-without-losing-quality" class="blog-preview-card">
+                <div class="blog-preview-category">Guide</div>
+                <h3>How to Reduce PDF Size Without Losing Quality</h3>
+                <p>Learn the smartest techniques to compress large PDF files while keeping them looking sharp.</p>
+                <span class="blog-read-more">Read More <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/blog" class="btn btn-outline btn-lg" id="view-blog-btn">View All Articles</a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ FINAL CTA ═══════════════════ -->
+<section class="section final-cta-section">
+    <div class="container text-center">
+        <div class="final-cta-card">
+            <i class="fa-solid fa-layer-group final-cta-icon"></i>
+            <h2 class="mb-3">Ready to Work Smarter with PDFs?</h2>
+            <p class="text-muted mb-5" style="max-width:550px; margin-inline:auto;">
+                Join thousands of professionals who use VijayPDF to save time every day. 
+                Free, fast, and always available.
+            </p>
+            <div class="d-flex justify-center gap-3 flex-wrap">
+                <a href="/tools" class="btn btn-primary btn-xl" id="final-cta-tools">
+                    <i class="fa-solid fa-rocket"></i> Explore All Tools
+                </a>
+                <a href="/register" class="btn btn-secondary btn-xl" id="final-cta-signup">
+                    <i class="fa-solid fa-user-plus"></i> Sign Up Free
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

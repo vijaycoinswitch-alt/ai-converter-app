@@ -1,26 +1,125 @@
 {% extends 'tools/tool_layout.html' %}
 
-{% block title %}Convert JPG to PDF online - VijayPDF{% endblock %}
-{% block meta_description %}Easily combine your JPG and PNG images into a single PDF document. Free, easy, and secure.{% endblock %}
+{% block title %}JPG to PDF Free Online - VijayPDF | Convert Images to PDF Instantly{% endblock %}
+{% block meta_description %}Convert JPG, PNG, and other images to PDF free online. Combine multiple photos into one PDF. No signup, no watermarks, fast and high quality. Try free now.{% endblock %}
+{% block meta_keywords %}jpg to pdf, image to pdf, convert jpg to pdf, png to pdf, photos to pdf, pictures to pdf online free{% endblock %}
 
-{% block tool_h1 %}Convert <span class="text-gradient">JPG to PDF</span>{% endblock %}
-{% block tool_desc %}Convert JPG images to PDF in seconds. Combine multiple photos into one document.{% endblock %}
+{% block og_title %}JPG to PDF Free Online - VijayPDF{% endblock %}
+{% block og_description %}Convert any JPG, PNG, or image file to PDF instantly. Combine multiple photos into one PDF. Free, no watermarks, no signup required.{% endblock %}
+
+{% block tool_h1 %}Convert <span class="text-gradient">JPG to PDF</span> Online{% endblock %}
+{% block tool_desc %}Turn any photo or image into a professional PDF. Upload one or multiple JPG, PNG, or image files and get a perfect PDF in seconds.{% endblock %}
 
 {% block api_endpoint %}/api/jpg-to-pdf{% endblock %}
 
-{% set accept_formats = "image/*" %}
-{% set title = "Select JPG/PNG images" %}
+{% set accept_formats = ".jpg,.jpeg,.png,.bmp,.gif,.tiff,.webp" %}
+{% set title = "Upload Images to Convert to PDF" %}
 {% set multiple = true %}
 
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Convert JPG to PDF Online Free",
+  "step": [
+    {"@type": "HowToStep", "name": "Upload Images", "text": "Upload one or more JPG, PNG, or image files."},
+    {"@type": "HowToStep", "name": "Auto Convert", "text": "VijayPDF converts all images into a single PDF document."},
+    {"@type": "HowToStep", "name": "Download", "text": "Download your PDF with all images included as pages."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Can I convert multiple JPG images to one PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! Upload multiple images and they will all be combined into a single PDF, one image per page."}},
+    {"@type": "Question", "name": "What image formats are supported?", "acceptedAnswer": {"@type": "Answer", "text": "JPG, JPEG, PNG, BMP, GIF, TIFF, and WebP are all supported."}},
+    {"@type": "Question", "name": "Will image quality be reduced in the PDF?", "acceptedAnswer": {"@type": "Answer", "text": "No. Images are embedded at their original resolution in the PDF."}},
+    {"@type": "Question", "name": "Is this tool free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, completely free. No account or credit card required."}},
+    {"@type": "Question", "name": "Can I convert PNG to PDF too?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, PNG, BMP, TIFF, GIF, and WebP are all supported in addition to JPG."}}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block seo_content %}
-<h2 class="mb-3">How to convert images to PDF?</h2>
-<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
-    <li class="mb-2">Select as many JPG, PNG, or formats as you need from your computer.</li>
-    <li class="mb-2">Drag and drop them into the upload box.</li>
-    <li class="mb-2">Our servers will combine these photos into a continuous PDF file.</li>
-    <li class="mb-2">Download your new photo album or presentation.</li>
+<h2 class="mb-3">How to Convert JPG to PDF Online (Free)</h2>
+<ol class="step-list mb-5">
+    <li><strong>Upload your images</strong> — Select one or multiple JPG, PNG, or image files. All images will become pages in your PDF.</li>
+    <li><strong>Automatic conversion</strong> — Each image is embedded as a full page in a professional PDF document.</li>
+    <li><strong>Download your PDF</strong> — Get your image-based PDF instantly, perfect for sharing or archiving.</li>
 </ol>
 
-<h3 class="mb-3">Preserve Image Quality</h3>
-<p class="text-muted mb-4">We ensure that your photos remain crisp and clear even after conversion. The PDF format is universally accepted, making it much easier to share collections of photographs via email or professional messaging apps.</p>
+<h2 class="mb-3">Why Convert Images to PDF?</h2>
+<p class="text-muted mb-4">Images are great for capturing moments, but terrible for professional document sharing. PDF is the universal standard for documents — universally viewable, printable, and structured. Converting your photos and screenshots to PDF makes them easy to include in reports, send as attachments, upload to portals, or archive professionally.</p>
+
+<p class="text-muted mb-4">Whether you're scanning ID documents, creating a photo album PDF, submitting images as part of a form, or consolidating product photos into a catalog — VijayPDF makes the process instant. Upload multiple images and they'll each become individual pages in a single clean PDF document.</p>
+
+<h2 class="mb-3">Supported Image Formats</h2>
+<ul class="feature-list mb-5">
+    <li><i class="fa-solid fa-check text-success"></i> <strong>JPG / JPEG</strong> — most common photo format from cameras and phones</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>PNG</strong> — ideal for screenshots, UI designs, transparent images</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>BMP</strong> — Windows bitmap images</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>GIF</strong> — graphics interchange format</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>TIFF</strong> — professional scanner output often used in publishing</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>WebP</strong> — modern web image format from Google</li>
+</ul>
+
+<h2 class="mb-3">Common Uses for JPG to PDF Conversion</h2>
+<ul class="text-muted mb-5" style="padding-left:1.5rem;">
+    <li class="mb-2"><strong>Document scanning</strong> — photograph a physical document and convert the photo to a clean PDF</li>
+    <li class="mb-2"><strong>ID and passport scans</strong> — create a PDF of your identification for online submissions</li>
+    <li class="mb-2"><strong>Photo albums</strong> — combine family photos into a shareable PDF album</li>
+    <li class="mb-2"><strong>Product catalogs</strong> — compile product images into a PDF catalog for clients</li>
+    <li class="mb-2"><strong>Screenshots</strong> — bundle bug report screenshots or UI designs into one PDF</li>
+    <li class="mb-2"><strong>Invoice photos</strong> — convert receipt photos to PDF for expense reporting</li>
+</ul>
+
+<h2 class="mb-4">Frequently Asked Questions</h2>
+<div class="faq-list mb-5">
+    <div class="faq-item">
+        <button class="faq-question">Can I combine multiple JPG images into one PDF file?</button>
+        <div class="faq-answer"><p>Yes! Upload multiple images at once and VijayPDF will place each image as a separate page in a single PDF. The PDF pages will be in the same order as you uploaded the images.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">What image formats are supported besides JPG?</button>
+        <div class="faq-answer"><p>We support JPG, JPEG, PNG, BMP, GIF, TIFF, and WebP. If you have another format, try converting it to PNG or JPG first using your device's built-in tools.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Will the image quality be reduced in the PDF?</button>
+        <div class="faq-answer"><p>No. Images are embedded at their original full resolution. If your original photo is high-resolution, your PDF will be too.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Is the JPG to PDF converter free?</button>
+        <div class="faq-answer"><p>Yes, completely free. No account, no watermarks, no usage limits. Convert as many images as you like.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Can I go the other way — convert PDF to JPG?</button>
+        <div class="faq-answer"><p>Absolutely! Use our <a href="/pdf-to-jpg">PDF to JPG converter</a> to extract pages from a PDF as individual image files.</p></div>
+    </div>
+</div>
+
+<div class="related-tools-section">
+    <h3 class="mb-3">Related Tools You Might Need</h3>
+    <div class="related-tools-grid">
+        <a href="/pdf-to-jpg" class="related-tool-card">
+            <i class="fa-solid fa-image text-warning"></i>
+            <span>PDF to JPG</span>
+        </a>
+        <a href="/merge-pdf" class="related-tool-card">
+            <i class="fa-solid fa-object-group text-success"></i>
+            <span>Merge PDF</span>
+        </a>
+        <a href="/compress-pdf" class="related-tool-card">
+            <i class="fa-solid fa-compress text-info"></i>
+            <span>Compress PDF</span>
+        </a>
+        <a href="/scan-to-pdf" class="related-tool-card">
+            <i class="fa-solid fa-scanner text-purple"></i>
+            <span>Scan to PDF</span>
+        </a>
+    </div>
+</div>
 {% endblock %}

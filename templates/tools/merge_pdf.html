@@ -1,25 +1,118 @@
 {% extends 'tools/tool_layout.html' %}
 
-{% block title %}Merge PDF Files Online - VijayPDF{% endblock %}
-{% block meta_description %}Combine multiple PDFs into one unified document with our fast, free, and secure online PDF merger tool.{% endblock %}
+{% block title %}Merge PDF Files Free Online - VijayPDF | Combine PDFs Instantly{% endblock %}
+{% block meta_description %}Merge multiple PDF files into one document free online. Reorder pages, combine up to 20 PDFs at once. No watermarks, no signup. Fast and secure.{% endblock %}
+{% block meta_keywords %}merge pdf, combine pdf, join pdf files, merge pdf online free, combine multiple pdfs into one{% endblock %}
 
-{% block tool_h1 %}Merge <span class="text-gradient">PDF files</span>{% endblock %}
-{% block tool_desc %}Combine multiple PDFs into a single, unified document in seconds. Simple, fast, and completely secure.{% endblock %}
+{% block og_title %}Merge PDF Files Free Online - VijayPDF{% endblock %}
+{% block og_description %}Combine multiple PDF files into a single document in seconds. Free, secure, no watermarks. Merge up to 20 PDFs at once.{% endblock %}
+
+{% block tool_h1 %}Merge <span class="text-gradient">PDF Files</span> Online{% endblock %}
+{% block tool_desc %}Combine two or more PDF documents into one seamless file. Perfect for reports, portfolios, and contracts. Drag-and-drop simple.{% endblock %}
 
 {% block api_endpoint %}/api/merge{% endblock %}
 
 {% set accept_formats = ".pdf" %}
-{% set title = "Select Multiple PDFs" %}
+{% set title = "Upload PDF Files to Merge" %}
 {% set multiple = true %}
 
+{% block schema_json %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Merge PDF Files Online Free",
+  "step": [
+    {"@type": "HowToStep", "name": "Upload PDFs", "text": "Click 'Select Files' or drag multiple PDF files into the upload box."},
+    {"@type": "HowToStep", "name": "Arrange Order", "text": "Files are merged in the order you upload them."},
+    {"@type": "HowToStep", "name": "Download", "text": "Download your combined PDF file with a single click."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How many PDFs can I merge at once?", "acceptedAnswer": {"@type": "Answer", "text": "You can merge up to 20 PDF files in one operation, up to 50 MB total."}},
+    {"@type": "Question", "name": "Will the quality of my PDFs be reduced?", "acceptedAnswer": {"@type": "Answer", "text": "No. Merging PDFs does not reduce quality, compression, or image resolution."}},
+    {"@type": "Question", "name": "Can I reorder pages before merging?", "acceptedAnswer": {"@type": "Answer", "text": "Files are merged in upload order. Upload them in the sequence you want the pages to appear."}},
+    {"@type": "Question", "name": "Is my data safe?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Files are encrypted and deleted after 2 hours. We never store or share your documents."}},
+    {"@type": "Question", "name": "Do I need to create an account?", "acceptedAnswer": {"@type": "Answer", "text": "No account needed. Just upload and merge — completely free."}}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block seo_content %}
-<h2 class="mb-3">How to merge PDF files?</h2>
-<ol class="mb-5" style="padding-left:1.5rem; color:var(--text-secondary);">
-    <li class="mb-2">Highlight multiple PDF files on your computer and drag them into the upload box.</li>
-    <li class="mb-2">Files are automatically processed and combined in the order you selected them.</li>
-    <li class="mb-2">Click download to grab your new, merged document.</li>
+<h2 class="mb-3">How to Merge PDF Files Online (Free)</h2>
+<ol class="step-list mb-5">
+    <li><strong>Select your PDF files</strong> — Click "Select Files" to upload two or more PDFs, or drag them into the box. Files merge in upload order.</li>
+    <li><strong>Automatic merging</strong> — VijayPDF combines all pages from each PDF into one continuous document.</li>
+    <li><strong>Download merged PDF</strong> — Get your single combined PDF file ready to share, print, or email.</li>
 </ol>
 
-<h3 class="mb-3">Secure PDF Merging</h3>
-<p class="text-muted mb-4">You don't need to install any software to merge PDFs. All uploads are processed via secure 256-bit encrypted connections and deleted permanently from our servers within 2 hours, ensuring your business documents stay private.</p>
+<h2 class="mb-3">Why Merge PDF Files?</h2>
+<p class="text-muted mb-4">Managing dozens of separate PDF files is inefficient. Whether you're compiling a project proposal from multiple chapters, attaching supporting documents to an application, or creating a single archive of invoices — merging PDFs into one file makes everything easier to share, navigate, and manage.</p>
+
+<p class="text-muted mb-4">VijayPDF's merge tool uses a high-performance PDF library that handles all PDF versions from 1.0 to 1.7, including password-protected PDFs (unlock them with our <a href="/unlock-pdf">Unlock PDF tool</a> first). Every page from every file is perfectly stitched together in the order you choose — no loss of quality, bookmarks, or embedded fonts.</p>
+
+<h2 class="mb-3">What You Can Combine</h2>
+<ul class="feature-list mb-5">
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Multiple reports</strong> — quarterly reports into one annual document</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Scanned pages</strong> — combine individual scanned pages into one file</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Application packages</strong> — cover letter, resume, certificates in one PDF</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Book chapters</strong> — compile separate chapter files into a complete eBook</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Invoice archives</strong> — consolidate monthly invoices for accounting</li>
+    <li><i class="fa-solid fa-check text-success"></i> <strong>Legal bundles</strong> — evidence, affidavits, and supporting documents in one file</li>
+</ul>
+
+<h2 class="mb-3">Professional PDF Merging — No Quality Loss</h2>
+<p class="text-muted mb-4">Unlike some online tools that re-compress or rasterize your content during merging, VijayPDF performs a lossless merge. Your existing text is still selectable, images retain their full original resolution, and all internal PDF structure is maintained. The result is a clean, efficient combined PDF that's ready for professional use.</p>
+
+<h2 class="mb-4">Frequently Asked Questions</h2>
+<div class="faq-list mb-5">
+    <div class="faq-item">
+        <button class="faq-question">How many PDF files can I merge at once?</button>
+        <div class="faq-answer"><p>You can merge up to 20 PDF files in a single operation. The total size of all files combined should be under 50 MB.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Will the quality of my PDFs be reduced after merging?</button>
+        <div class="faq-answer"><p>No. Our merge operation is completely lossless. Image quality, text selectability, and embedded fonts are all preserved exactly as they were in the original files.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Can I control the order pages appear in the merged PDF?</button>
+        <div class="faq-answer"><p>Yes. Files are merged in the order you upload them. Upload the files in the sequence you want the final document to follow. You can also use our <a href="/organize-pdf">Organize PDF tool</a> to reorder pages after merging.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Is my data safe when using this merge tool?</button>
+        <div class="faq-answer"><p>Absolutely. All file transfers use SSL encryption. Your PDFs are processed on our secure servers and automatically deleted after 2 hours. We never read or retain your documents.</p></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Can I merge password-protected PDFs?</button>
+        <div class="faq-answer"><p>First remove the password using our <a href="/unlock-pdf">Unlock PDF tool</a>, then merge the unlocked files freely.</p></div>
+    </div>
+</div>
+
+<div class="related-tools-section">
+    <h3 class="mb-3">Related Tools You Might Need</h3>
+    <div class="related-tools-grid">
+        <a href="/split-pdf" class="related-tool-card">
+            <i class="fa-solid fa-scissors text-warning"></i>
+            <span>Split PDF</span>
+        </a>
+        <a href="/compress-pdf" class="related-tool-card">
+            <i class="fa-solid fa-compress text-info"></i>
+            <span>Compress PDF</span>
+        </a>
+        <a href="/organize-pdf" class="related-tool-card">
+            <i class="fa-solid fa-sort text-purple"></i>
+            <span>Organize PDF</span>
+        </a>
+        <a href="/remove-pages" class="related-tool-card">
+            <i class="fa-solid fa-trash text-danger"></i>
+            <span>Remove Pages</span>
+        </a>
+    </div>
+</div>
 {% endblock %}
